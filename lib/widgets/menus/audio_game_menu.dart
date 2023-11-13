@@ -1,8 +1,8 @@
 import 'package:backstreets_widgets/screens/simple_scaffold.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
 
+import '../music_builder/music_builder.dart';
 import 'audio_game_menu_item.dart';
 import 'audio_game_menu_item_list_tile.dart';
 
