@@ -9,4 +9,7 @@ export 'widgets/music_builder/music_builder.dart';
 export 'widgets/play_sound_semantics.dart';
 export 'widgets/ticking_builder/inherited_ticking_builder.dart';
 export 'widgets/ticking_builder/ticking_builder.dart';
+export 'widgets/ticking_task_builder/ticking_task.dart';
+export 'widgets/ticking_task_builder/ticking_task_builder.dart';
+export 'widgets/ticking_task_builder/ticking_task_context.dart';
 export 'widgets/timed_builders.dart';
