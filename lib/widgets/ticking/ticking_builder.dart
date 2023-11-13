@@ -49,7 +49,7 @@ class TickingBuilderState extends State<TickingBuilder> {
   void initState() {
     super.initState();
     paused = false;
-    timer = Timer.periodic(widget.duration, (final timer) {
+    timer = Timer.periodic(widget.duration, (final _) {
       if (!paused) {
         widget.onTick();
       }
