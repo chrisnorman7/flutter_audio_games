@@ -12,11 +12,11 @@ class AudioGameMenu extends StatelessWidget {
   const AudioGameMenu({
     required this.title,
     required this.menuItems,
-    required this.musicAssetPath,
-    required this.selectItemSoundAssetPath,
-    required this.activateItemSoundAssetPath,
     required this.interfaceSoundsSource,
     required this.musicSource,
+    this.musicAssetPath,
+    this.selectItemSoundAssetPath,
+    this.activateItemSoundAssetPath,
     this.musicGain = 0.7,
     this.selectSoundGame = 0.7,
     this.selectItemSoundLooping = false,
@@ -33,13 +33,13 @@ class AudioGameMenu extends StatelessWidget {
   final List<AudioGameMenuItem> menuItems;
 
   /// The asset path for music.
-  final String musicAssetPath;
+  final String? musicAssetPath;
 
   /// The gain for music.
   final double musicGain;
 
   /// The asset path for the sound to use when selecting an item in this menu.
-  final String selectItemSoundAssetPath;
+  final String? selectItemSoundAssetPath;
 
   /// The gain for the select sound.
   final double selectSoundGame;
@@ -48,7 +48,7 @@ class AudioGameMenu extends StatelessWidget {
   final bool selectItemSoundLooping;
 
   /// The asset path for the sound to use when activating an item in this menu.
-  final String activateItemSoundAssetPath;
+  final String? activateItemSoundAssetPath;
 
   /// The gain for the activate sound.
   final double activateSoundGain;
@@ -67,29 +67,37 @@ class AudioGameMenu extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => SimpleScaffold(
-        title: title,
-        body: MusicBuilder(
-          assetPath: musicAssetPath,
-          source: musicSource,
-          fadeInLength: musicFadeIn,
-          fadeOutLength: musicFadeOut,
-          gain: musicGain,
-          builder: (final innerContext) => ListView(
-            children: [
-              for (var i = 0; i < menuItems.length; i++)
-                AudioGameMenuItemListTile(
-                  menuItem: menuItems[i],
-                  selectSoundAssetPath: selectItemSoundAssetPath,
-                  activateSoundAssetPath: activateItemSoundAssetPath,
-                  source: interfaceSoundsSource,
-                  autofocus: i == 0,
-                  activateSoundGain: activateSoundGain,
-                  looping: selectItemSoundLooping,
-                  selectSoundGame: selectSoundGame,
-                ),
-            ],
-          ),
-        ),
+  Widget build(final BuildContext context) {
+    final music = musicAssetPath;
+    return SimpleScaffold(
+      title: title,
+      body: music == null
+          ? Builder(builder: builder)
+          : MusicBuilder(
+              assetPath: music,
+              source: musicSource,
+              fadeInLength: musicFadeIn,
+              fadeOutLength: musicFadeOut,
+              gain: musicGain,
+              builder: builder,
+            ),
+    );
+  }
+
+  /// Build the widget.
+  Widget builder(final BuildContext innerContext) => ListView(
+        children: [
+          for (var i = 0; i < menuItems.length; i++)
+            AudioGameMenuItemListTile(
+              menuItem: menuItems[i],
+              selectSoundAssetPath: selectItemSoundAssetPath,
+              activateSoundAssetPath: activateItemSoundAssetPath,
+              source: interfaceSoundsSource,
+              autofocus: i == 0,
+              activateSoundGain: activateSoundGain,
+              looping: selectItemSoundLooping,
+              selectSoundGame: selectSoundGame,
+            ),
+        ],
       );
 }

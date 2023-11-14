@@ -11,9 +11,9 @@ class AudioGameMenuItemListTile extends StatelessWidget {
   /// Create an instance.
   const AudioGameMenuItemListTile({
     required this.menuItem,
-    required this.selectSoundAssetPath,
-    required this.activateSoundAssetPath,
     required this.source,
+    this.selectSoundAssetPath,
+    this.activateSoundAssetPath,
     this.selectSoundGame = 0.7,
     this.activateSoundGain = 0.7,
     this.autofocus = false,
@@ -25,13 +25,13 @@ class AudioGameMenuItemListTile extends StatelessWidget {
   final AudioGameMenuItem menuItem;
 
   /// The asset path for the select sound.
-  final String selectSoundAssetPath;
+  final String? selectSoundAssetPath;
 
   /// The gain for the select sound.
   final double selectSoundGame;
 
   /// The asset path for the activate sound.
-  final String activateSoundAssetPath;
+  final String? activateSoundAssetPath;
 
   /// The gain for the activate sound.
   final double activateSoundGain;
@@ -47,22 +47,32 @@ class AudioGameMenuItemListTile extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => PlaySoundSemantics(
-        soundAssetPath: selectSoundAssetPath,
-        source: source,
-        gain: selectSoundGame,
-        looping: looping,
-        child: ListTile(
-          autofocus: autofocus,
-          title: Text(menuItem.title),
-          onTap: () {
-            context.playSound(
-              assetPath: activateSoundAssetPath,
-              source: source,
-              gain: activateSoundGain,
-            );
-            menuItem.onActivate(context);
-          },
-        ),
-      );
+  Widget build(final BuildContext context) {
+    final listTile = ListTile(
+      autofocus: autofocus,
+      title: Text(menuItem.title),
+      onTap: () {
+        final activateSound = activateSoundAssetPath;
+        if (activateSound != null) {
+          context.playSound(
+            assetPath: activateSound,
+            source: source,
+            gain: activateSoundGain,
+          );
+        }
+        menuItem.onActivate(context);
+      },
+    );
+    final selectSound = selectSoundAssetPath;
+    if (selectSound == null) {
+      return listTile;
+    }
+    return PlaySoundSemantics(
+      soundAssetPath: selectSound,
+      source: source,
+      gain: selectSoundGame,
+      looping: looping,
+      child: listTile,
+    );
+  }
 }
