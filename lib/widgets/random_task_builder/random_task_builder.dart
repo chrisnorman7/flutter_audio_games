@@ -14,6 +14,14 @@ class RandomTaskBuilder extends StatefulWidget {
     super.key,
   });
 
+  /// Possibly provide an instance.
+  static InheritedRandomTaskBuilder? maybeOf(final BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<InheritedRandomTaskBuilder>();
+
+  /// Provide an instance.
+  static InheritedRandomTaskBuilder of(final BuildContext context) =>
+      maybeOf(context)!;
+
   /// The tasks to use.
   final List<RandomTask> tasks;
 
