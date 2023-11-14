@@ -1,6 +1,10 @@
 library flutter_audio_games;
 
 export 'src/extensions.dart';
+export 'src/moving_direction.dart';
+export 'src/turning_direction.dart';
+export 'widgets/game_shortcuts/game_shortcut.dart';
+export 'widgets/game_shortcuts/game_shortcuts.dart';
 export 'widgets/menus/audio_game_menu.dart';
 export 'widgets/menus/audio_game_menu_item.dart';
 export 'widgets/menus/audio_game_menu_item_list_tile.dart';
