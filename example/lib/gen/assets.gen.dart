@@ -13,6 +13,7 @@ class $SoundsGen {
   const $SoundsGen();
 
   $SoundsAmbiancesGen get ambiances => const $SoundsAmbiancesGen();
+  $SoundsCombatGen get combat => const $SoundsCombatGen();
   $SoundsFootstepsGen get footsteps => const $SoundsFootstepsGen();
   $SoundsMenusGen get menus => const $SoundsMenusGen();
   $SoundsMusicGen get music => const $SoundsMusicGen();
@@ -27,6 +28,16 @@ class $SoundsAmbiancesGen {
 
   /// List of all assets
   List<String> get values => [mainLevel];
+}
+
+class $SoundsCombatGen {
+  const $SoundsCombatGen();
+
+  /// File path: sounds/combat/gun.mp3
+  String get gun => 'sounds/combat/gun.mp3';
+
+  /// List of all assets
+  List<String> get values => [gun];
 }
 
 class $SoundsFootstepsGen {
@@ -98,6 +109,8 @@ class $SoundsZombiesGen {
 
   $SoundsZombiesBreathingGen get breathing =>
       const $SoundsZombiesBreathingGen();
+  $SoundsZombiesDeathGen get death => const $SoundsZombiesDeathGen();
+  $SoundsZombiesHitsGen get hits => const $SoundsZombiesHitsGen();
   $SoundsZombiesSayingsGen get sayings => const $SoundsZombiesSayingsGen();
 }
 
@@ -127,6 +140,32 @@ class $SoundsZombiesBreathingGen {
         zombieVoiceBreathingSlow005,
         zombieVoiceBreathingSlow006
       ];
+}
+
+class $SoundsZombiesDeathGen {
+  const $SoundsZombiesDeathGen();
+
+  /// File path: sounds/zombies/death/death1.wav
+  String get death1 => 'sounds/zombies/death/death1.wav';
+
+  /// List of all assets
+  List<String> get values => [death1];
+}
+
+class $SoundsZombiesHitsGen {
+  const $SoundsZombiesHitsGen();
+
+  /// File path: sounds/zombies/hits/hit1.wav
+  String get hit1 => 'sounds/zombies/hits/hit1.wav';
+
+  /// File path: sounds/zombies/hits/hit2.wav
+  String get hit2 => 'sounds/zombies/hits/hit2.wav';
+
+  /// File path: sounds/zombies/hits/hit3.wav
+  String get hit3 => 'sounds/zombies/hits/hit3.wav';
+
+  /// List of all assets
+  List<String> get values => [hit1, hit2, hit3];
 }
 
 class $SoundsZombiesSayingsGen {

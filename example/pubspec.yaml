@@ -28,8 +28,11 @@ flutter:
   uses-material-design: true
   assets:
     - sounds/ambiances/
+    - sounds/combat/
     - sounds/footsteps/
     - sounds/menus/
     - sounds/music/
     - sounds/zombies/breathing/
+    - sounds/zombies/death/
     - sounds/zombies/sayings/
+    - sounds/zombies/hits/

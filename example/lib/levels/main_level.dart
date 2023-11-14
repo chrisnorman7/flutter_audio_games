@@ -35,6 +35,9 @@ class MainLevelState extends ConsumerState<MainLevel> {
   /// The zombies that are loaded.
   late final List<Zombie> zombies;
 
+  /// Whether or not the player is shooting.
+  late bool firing;
+
   /// Initialise state.
   @override
   void initState() {
@@ -47,6 +50,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
       ref.read(sourceProvider(synthizerContext)),
       reverb,
     );
+    firing = false;
   }
 
   /// Dispose of the widget.
@@ -110,7 +114,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
               );
             }
           },
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
         ),
         TickingTask(
           onTick: () {
@@ -131,11 +135,15 @@ class MainLevelState extends ConsumerState<MainLevel> {
             }
           },
         ),
+        TickingTask(
+          onTick: () => fireWeapon(source),
+          duration: const Duration(milliseconds: 200),
+        ),
       ],
       builder: (final context) => RandomTaskBuilder(
         tasks: [
           RandomTask(
-            getDuration: () => Duration(seconds: random.nextInt(5) + 2),
+            getDuration: () => Duration(seconds: random.nextInt(5) + 5),
             onTick: () {
               if (zombies.length < 10) {
                 addZombie();
@@ -174,51 +182,64 @@ class MainLevelState extends ConsumerState<MainLevel> {
             },
           ),
         ],
-        builder: (final context) => GameShortcuts(
-          shortcuts: [
-            GameShortcut(
-              title: 'Walk forwards',
-              key: LogicalKeyboardKey.keyW,
-              onStart: () => player.movingDirection = MovingDirection.forwards,
-              onStop: stopPlayerMoving,
-            ),
-            GameShortcut(
-              title: 'Move backwards',
-              key: LogicalKeyboardKey.keyS,
-              onStart: () => player.movingDirection = MovingDirection.backwards,
-              onStop: stopPlayerMoving,
-            ),
-            GameShortcut(
-              title: 'Sidestep left',
-              key: LogicalKeyboardKey.keyA,
-              onStart: () => player.movingDirection = MovingDirection.left,
-              onStop: stopPlayerMoving,
-            ),
-            GameShortcut(
-              title: 'Sidestep right',
-              key: LogicalKeyboardKey.keyD,
-              onStart: () => player.movingDirection = MovingDirection.right,
-              onStop: stopPlayerMoving,
-            ),
-            GameShortcut(
-              title: 'Turn left',
-              key: LogicalKeyboardKey.arrowLeft,
-              onStart: () => player.turningDirection = TurningDirection.left,
-              onStop: stopPlayerTurning,
-            ),
-            GameShortcut(
-              title: 'Turn right',
-              key: LogicalKeyboardKey.arrowRight,
-              onStart: () => player.turningDirection = TurningDirection.right,
-              onStop: stopPlayerTurning,
-            ),
-          ],
-          child: MusicBuilder(
-            assetPath: Assets.sounds.ambiances.mainLevel,
-            source: source,
-            fadeOutLength: 3.0,
-            builder: (final context) => Scaffold(
-              appBar: AppBar(title: const Text('Main Level')),
+        builder: (final context) => MusicBuilder(
+          assetPath: Assets.sounds.ambiances.mainLevel,
+          source: source,
+          fadeOutLength: 3.0,
+          builder: (final context) => Scaffold(
+            appBar: AppBar(title: const Text('Main Level')),
+            body: GameShortcuts(
+              shortcuts: [
+                GameShortcut(
+                  title: 'Walk forwards',
+                  key: LogicalKeyboardKey.keyW,
+                  onStart: () =>
+                      player.movingDirection = MovingDirection.forwards,
+                  onStop: stopPlayerMoving,
+                ),
+                GameShortcut(
+                  title: 'Move backwards',
+                  key: LogicalKeyboardKey.keyS,
+                  onStart: () =>
+                      player.movingDirection = MovingDirection.backwards,
+                  onStop: stopPlayerMoving,
+                ),
+                GameShortcut(
+                  title: 'Sidestep left',
+                  key: LogicalKeyboardKey.keyA,
+                  onStart: () => player.movingDirection = MovingDirection.left,
+                  onStop: stopPlayerMoving,
+                ),
+                GameShortcut(
+                  title: 'Sidestep right',
+                  key: LogicalKeyboardKey.keyD,
+                  onStart: () => player.movingDirection = MovingDirection.right,
+                  onStop: stopPlayerMoving,
+                ),
+                GameShortcut(
+                  title: 'Turn left',
+                  key: LogicalKeyboardKey.arrowLeft,
+                  onStart: () =>
+                      player.turningDirection = TurningDirection.left,
+                  onStop: stopPlayerTurning,
+                ),
+                GameShortcut(
+                  title: 'Turn right',
+                  key: LogicalKeyboardKey.arrowRight,
+                  onStart: () =>
+                      player.turningDirection = TurningDirection.right,
+                  onStop: stopPlayerTurning,
+                ),
+                GameShortcut(
+                  title: 'Fire weapon',
+                  key: LogicalKeyboardKey.space,
+                  onStart: () => firing = true,
+                  onStop: () => firing = false,
+                ),
+              ],
+              child: const Center(
+                child: Text('Keyboard area'),
+              ),
             ),
           ),
         ),
@@ -240,7 +261,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final source = synthizerContext.createSource3D(
       x: coordinates.x,
       y: coordinates.y,
-    );
+    )..configDeleteBehavior(linger: true);
     synthizerContext.configRoute(source, reverb);
     final generator = synthizerContext.createBufferGenerator()
       ..looping.value = true;
@@ -270,4 +291,44 @@ class MainLevelState extends ConsumerState<MainLevel> {
 
   /// Stop the player turning.
   void stopPlayerTurning() => player.turningDirection = null;
+
+  /// Fire the player's weapon.
+  Future<void> fireWeapon(final Source source) async {
+    final random = ref.read(randomProvider);
+    if (firing) {
+      await context.playSound(
+        assetPath: Assets.sounds.combat.gun,
+        source: source,
+      );
+      final coordinates = player.coordinates;
+      final bearing = player.heading;
+      for (final zombie in zombies) {
+        final angle = normaliseAngle(
+          bearing - coordinates.angleBetween(zombie.coordinates),
+        );
+        if (angle >= 355 || angle <= 5) {
+          if (mounted) {
+            await context.playSound(
+              assetPath:
+                  Assets.sounds.zombies.hits.values.randomElement(random),
+              source: zombie.source,
+            );
+            zombie.hitPoints -= random.nextInt(5);
+            if (zombie.hitPoints <= 0) {
+              if (mounted) {
+                await context.playSound(
+                  assetPath:
+                      Assets.sounds.zombies.death.values.randomElement(random),
+                  source: zombie.source,
+                );
+              }
+              zombie.destroy();
+              zombies.remove(zombie);
+            }
+          }
+          break;
+        }
+      }
+    }
+  }
 }
