@@ -56,6 +56,13 @@ class TickingBuilderState extends State<TickingBuilder> {
     });
   }
 
+  /// Dispose of the widget.
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+  }
+
   /// Build a widget.
   @override
   Widget build(final BuildContext context) => InheritedTickingBuilder(
