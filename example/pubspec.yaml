@@ -9,17 +9,27 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
+  dart_synthizer: ^0.11.2
   flutter:
     sdk: flutter
   flutter_audio_games:
     path: ..
+  flutter_riverpod: ^2.4.6
   flutter_synthizer:
     path: ../../flutter_synthizer
+  url_launcher: ^6.2.1
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 
 flutter:
   uses-material-design: true
+  assets:
+    - sounds/ambiances/
+    - sounds/footsteps/
+    - sounds/menus/
+    - sounds/music/
+    - sounds/zombies/breathing/
+    - sounds/zombies/sayings/

@@ -3,9 +3,13 @@
     "analyzer",
     "Behavior",
     "bools",
+    "chrisnorman",
     "Colors",
+    "Fdn",
     "formals",
+    "hrtf",
     "pubspec",
+    "riverpod",
     "synthizer",
     "todos",
     "unawaited"
