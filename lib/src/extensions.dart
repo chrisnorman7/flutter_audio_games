@@ -74,3 +74,9 @@ extension FlutterAudioGamesPointIntExtension on Point<int> {
   /// Return a version of this point with the points converted to doubles.
   Point<double> toDouble() => Point<double>(x.toDouble(), y.toDouble());
 }
+
+/// Useful extensions for lists.
+extension FlutterAudioGamesListExtension<E> on List<E> {
+  /// Return a random element.
+  E randomElement(final Random random) => elementAt(random.nextInt(length));
+}
