@@ -1,6 +1,7 @@
 library flutter_audio_games;
 
 export 'src/extensions.dart';
+export 'src/maths.dart';
 export 'src/moving_direction.dart';
 export 'src/turning_direction.dart';
 export 'widgets/game_shortcuts/game_shortcut.dart';
