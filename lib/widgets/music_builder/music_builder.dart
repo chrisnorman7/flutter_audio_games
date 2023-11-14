@@ -78,19 +78,21 @@ class MusicBuilderState extends State<MusicBuilder> {
   /// ]]
   /// Load the music.
   Future<void> loadMusic() async {
+    final g = context.synthizerContext.createBufferGenerator()
+      ..looping.value = true
+      ..configDeleteBehavior(linger: true)
+      ..gain.value = 0.0;
+    widget.source.addGenerator(g);
     final buffer = await context.bufferCache.getBuffer(
       context,
       widget.assetPath,
     );
+    g.buffer.value = buffer;
     if (mounted) {
-      final g = context.synthizerContext.createBufferGenerator(
-        buffer: buffer,
-      )
-        ..looping.value = true
-        ..configDeleteBehavior(linger: true);
-      widget.source.addGenerator(g);
       generator = g;
       fadeIn();
+    } else {
+      g.destroy();
     }
   }
 
