@@ -1,3 +1,4 @@
+/// This package provides useful widgets for creating audio games.
 library flutter_audio_games;
 
 export 'src/extensions.dart';

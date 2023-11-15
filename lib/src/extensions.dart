@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../widgets/menus/audio_game_menu.dart';
 import '../widgets/music_builder/music_builder.dart';
 import '../widgets/random_task_builder/random_task_builder.dart';
 import '../widgets/ticking_builder/ticking_builder.dart';
@@ -10,6 +11,8 @@ import 'maths.dart';
 /// Useful extensions on build contexts.
 extension FlutterAudioGamesBuildContextExtensions on BuildContext {
   /// Pause and resume a [TickingBuilder] while pushing a widget [builder].
+  ///
+  /// This method is useful when implementing a pause menu for example.
   Future<void> pauseTickingBuilderAndPushWidget(
     final WidgetBuilder builder,
   ) async {
@@ -19,6 +22,8 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
   }
 
   /// Pause and resume a [RandomTaskBuilder] while pushing a widget [builder].
+  ///
+  /// This method is useful when implementing a pause menu for example.
   Future<void> pauseRandomTaskBuilderAndPushWidget(
     final WidgetBuilder builder,
   ) async {
@@ -28,6 +33,9 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
   }
 
   /// Push a widget [builder], fading any [MusicBuilder] out and back in again.
+  ///
+  /// This method is useful when pushing a widget over a [AudioGameMenu] for
+  /// example.
   Future<void> fadeMusicAndPushWidget(final WidgetBuilder builder) async {
     MusicBuilder.maybeOf(this)?.fadeOut();
     await Navigator.push(
@@ -41,6 +49,8 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
 }
 
 /// Useful methods for points.
+///
+/// This extension is mostly copied from [Ziggurat](https://pub.dev/packages/ziggurat).
 extension FlutterAudioGamesPointDoubleExtension on Point<double> {
   /// Return a floored version of this point.
   Point<int> floor() => Point<int>(x.floor(), y.floor());
@@ -67,9 +77,20 @@ extension FlutterAudioGamesPointDoubleExtension on Point<double> {
     // Ensure the angle is between 0 and 360.
     return normaliseAngle(degrees);
   }
+
+  /// Return the coordinates that lie [distance] at [bearing] °.
+  Point<double> pointInDirection(
+    final double bearing,
+    final double distance,
+  ) {
+    final rad = angleToRad(bearing);
+    return Point<double>(x + (distance * sin(rad)), y + (distance * cos(rad)));
+  }
 }
 
 /// Useful methods for points.
+///
+/// This extension is mostly copied from [Ziggurat](https://pub.dev/packages/ziggurat).
 extension FlutterAudioGamesPointIntExtension on Point<int> {
   /// Return a version of this point with the points converted to doubles.
   Point<double> toDouble() => Point<double>(x.toDouble(), y.toDouble());

@@ -97,8 +97,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                   bearing = normaliseAngle(player.heading + 90);
                   break;
               }
-              final coordinates = coordinatesInDirection(
-                player.coordinates,
+              final coordinates = player.coordinates.pointInDirection(
                 bearing,
                 distance,
               );
@@ -167,8 +166,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                 final angle =
                     zombie.coordinates.angleBetween(player.coordinates);
                 zombie.move(
-                  coordinatesInDirection(
-                    zombie.coordinates,
+                  zombie.coordinates.pointInDirection(
                     angle,
                     max(0.5, zombie.coordinates.distanceTo(player.coordinates)),
                   ),
@@ -252,8 +250,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final random = ref.read(randomProvider);
     final angle = random.nextDouble() * 360;
     final distance = random.nextDouble() * 50.0;
-    final coordinates = coordinatesInDirection(
-      player.coordinates,
+    final coordinates = player.coordinates.pointInDirection(
       angle,
       distance,
     );
@@ -266,8 +263,9 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final generator = synthizerContext.createBufferGenerator()
       ..looping.value = true;
     source.addGenerator(generator);
-    final breathing =
-        Assets.sounds.zombies.breathing.values.randomElement(random);
+    final breathing = Assets.sounds.zombies.breathing.values.randomElement(
+      random,
+    );
     final buffer = await context.bufferCache.getBuffer(context, breathing);
     if (mounted) {
       generator.buffer.value = buffer;

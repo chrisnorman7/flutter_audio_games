@@ -20,15 +20,3 @@ double angleToRad(final double angle) => angle * pi / 180.0;
 ///
 /// Function provided by Chat GPT.
 double radsToDegrees(final double radians) => radians * (180 / pi);
-
-/// Return coordinates in a given direction.
-Point<double> coordinatesInDirection(
-  final Point<double> start,
-  final double bearing,
-  final double distance,
-) {
-  final rad = angleToRad(bearing);
-  final x = start.x + (distance * sin(rad));
-  final y = start.y + (distance * cos(rad));
-  return Point<double>(x, y);
-}

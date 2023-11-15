@@ -14,6 +14,13 @@ class GameShortcuts extends StatelessWidget {
     super.key,
   });
 
+  /// Possibly return an instance.
+  static GameShortcuts? maybeOf(final BuildContext context) =>
+      context.findAncestorWidgetOfExactType<GameShortcuts>();
+
+  /// Return an instance.
+  static GameShortcuts of(final BuildContext context) => maybeOf(context)!;
+
   /// The widget below this widget in the tree.
   final Widget child;
 

@@ -1,4 +1,7 @@
-/// The direction the player is moving in.
+/// Possible movement directions.
+///
+/// This enumeration doesn't aim to be the most extensive collection of possible
+/// movement directions, but it covers the standard wasd cases.
 enum MovingDirection {
   /// The player is moving forward.
   forwards,

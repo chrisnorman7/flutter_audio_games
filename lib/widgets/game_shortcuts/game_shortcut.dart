@@ -1,6 +1,8 @@
 import 'package:flutter/services.dart';
 
-/// A shortcut in the game.
+import 'game_shortcuts.dart';
+
+/// A shortcut in a [GameShortcuts] widget.
 class GameShortcut {
   /// Create an instance.
   const GameShortcut({
@@ -14,23 +16,41 @@ class GameShortcut {
   });
 
   /// The title of this shortcut.
+  ///
+  /// This property is hear to make shortcuts clearer, and to make it easier for
+  /// help menus to be dynamically generated.
   final String title;
 
   /// The key which will activate this shortcut.
+  ///
+  /// Note: At this time, only [RawKeyEvent.logicalKey] is used.
   final LogicalKeyboardKey key;
 
-  /// Whether the control key must be used.
+  /// Whether the control key must be used to trigger this shortcut.
   final bool controlKey;
 
-  /// Whether the shift key must be used.
+  /// Whether the shift key must be used to trigger this shortcut.
   final bool shiftKey;
 
-  /// Whether the alt key must be used.
+  /// Whether the alt key must be used to trigger this shortcut.
   final bool altKey;
 
   /// The function to call when this key is activated.
+  ///
+  /// This function will be called when the associated key combination is first
+  /// pressed.
+  ///
+  /// If this value is `null`, then nothing will happen.
+  ///
+  /// Note: Key repeats are not handled. [RawKeyEvent]s with
+  /// [RawKeyEvent.repeat] are ignored.
   final VoidCallback? onStart;
 
   /// The function to call when this key is deactivated.
+  ///
+  /// This function will be called when the associated key combination is
+  /// released.
+  ///
+  /// If this value is `null`, then nothing will happen.
   final VoidCallback? onStop;
 }

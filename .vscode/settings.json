@@ -4,10 +4,14 @@
     "Behavior",
     "bools",
     "Colors",
+    "Fdn",
     "formals",
+    "GPT",
     "pubspec",
+    "riverpod",
     "synthizer",
     "todos",
-    "unawaited"
+    "unawaited",
+    "wasd"
   ]
 }
