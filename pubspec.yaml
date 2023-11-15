@@ -12,8 +12,7 @@ dependencies:
   dart_synthizer: ^0.11.2
   flutter:
     sdk: flutter
-  flutter_synthizer:
-    path: ../flutter_synthizer
+  flutter_synthizer: ^0.0.2
 
 dev_dependencies:
   flutter_lints: ^3.0.1

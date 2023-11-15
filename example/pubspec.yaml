@@ -15,8 +15,7 @@ dependencies:
   flutter_audio_games:
     path: ..
   flutter_riverpod: ^2.4.6
-  flutter_synthizer:
-    path: ../../flutter_synthizer
+  flutter_synthizer: ^0.0.2
   url_launcher: ^6.2.1
 
 dev_dependencies:
