@@ -1,4 +1,3 @@
-import 'package:backstreets_widgets/screens/simple_scaffold.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
@@ -69,8 +68,8 @@ class AudioGameMenu extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final music = musicAssetPath;
-    return SimpleScaffold(
-      title: title,
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
       body: music == null
           ? Builder(builder: builder)
           : MusicBuilder(
