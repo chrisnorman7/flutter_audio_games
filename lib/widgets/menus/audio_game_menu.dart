@@ -1,7 +1,7 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
-import '../music_builder/music_builder.dart';
+import '../music/music.dart';
 import 'audio_game_menu_item.dart';
 import 'audio_game_menu_item_list_tile.dart';
 
@@ -72,13 +72,13 @@ class AudioGameMenu extends StatelessWidget {
       appBar: AppBar(title: Text(title)),
       body: music == null
           ? Builder(builder: builder)
-          : MusicBuilder(
+          : Music(
               assetPath: music,
               source: musicSource,
               fadeInLength: musicFadeIn,
               fadeOutLength: musicFadeOut,
               gain: musicGain,
-              builder: builder,
+              child: Builder(builder: builder),
             ),
     );
   }

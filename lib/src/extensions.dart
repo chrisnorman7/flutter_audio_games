@@ -3,36 +3,36 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../widgets/menus/audio_game_menu.dart';
-import '../widgets/music_builder/music_builder.dart';
-import '../widgets/random_task_builder/random_task_builder.dart';
-import '../widgets/ticking_builder/ticking_builder.dart';
+import '../widgets/music/music.dart';
+import '../widgets/random_tasks/random_tasks.dart';
+import '../widgets/ticking/ticking.dart';
 import 'maths.dart';
 
 /// Useful extensions on build contexts.
 extension FlutterAudioGamesBuildContextExtensions on BuildContext {
-  /// Pause and resume a [TickingBuilder] while pushing a widget [builder].
+  /// Pause and resume a [Ticking] while pushing a widget [builder].
   ///
   /// This method is useful when implementing a pause menu for example.
   Future<void> pauseTickingBuilderAndPushWidget(
     final WidgetBuilder builder,
   ) async {
-    TickingBuilder.maybeOf(this)?.pause();
+    Ticking.maybeOf(this)?.pause();
     await Navigator.of(this).push(MaterialPageRoute(builder: builder));
-    TickingBuilder.maybeOf(this)?.resume();
+    Ticking.maybeOf(this)?.resume();
   }
 
-  /// Pause and resume a [RandomTaskBuilder] while pushing a widget [builder].
+  /// Pause and resume a [RandomTasks] while pushing a widget [builder].
   ///
   /// This method is useful when implementing a pause menu for example.
   Future<void> pauseRandomTaskBuilderAndPushWidget(
     final WidgetBuilder builder,
   ) async {
-    RandomTaskBuilder.maybeOf(this)?.pause();
+    RandomTasks.maybeOf(this)?.pause();
     await Navigator.of(this).push(MaterialPageRoute(builder: builder));
-    RandomTaskBuilder.maybeOf(this)?.resume();
+    RandomTasks.maybeOf(this)?.resume();
   }
 
-  /// Push a widget [builder], fading any [MusicBuilder] out and back in again.
+  /// Push a widget [builder], fading any [Music] out and back in again.
   ///
   /// This method is useful when pushing a widget over a [AudioGameMenu] for
   /// example.
@@ -43,14 +43,14 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
     final WidgetBuilder builder, {
     final bool restartMusic = true,
   }) async {
-    MusicBuilder.maybeOf(this)?.fadeOut();
+    Music.maybeOf(this)?.fadeOut();
     await Navigator.push(
       this,
       MaterialPageRoute(
         builder: builder,
       ),
     );
-    final inheritedMusic = MusicBuilder.maybeOf(this);
+    final inheritedMusic = Music.maybeOf(this);
     if (restartMusic) {
       inheritedMusic?.setPlaybackPosition(0.0);
     }

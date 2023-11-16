@@ -2,15 +2,15 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
 
-import 'inherited_music_builder.dart';
+import 'inherited_music.dart';
 
 /// A widget that plays music.
-class MusicBuilder extends StatefulWidget {
+class Music extends StatefulWidget {
   /// Create an instance.
-  const MusicBuilder({
+  const Music({
     required this.assetPath,
     required this.source,
-    required this.builder,
+    required this.child,
     this.gain = 0.7,
     this.fadeInLength,
     this.fadeOutLength,
@@ -18,12 +18,11 @@ class MusicBuilder extends StatefulWidget {
   });
 
   /// Possibly return an instance from higher up the widget tree.
-  static InheritedMusicBuilder? maybeOf(final BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<InheritedMusicBuilder>();
+  static InheritedMusic? maybeOf(final BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<InheritedMusic>();
 
   /// Return an instance from higher up the widget tree.
-  static InheritedMusicBuilder of(final BuildContext context) =>
-      maybeOf(context)!;
+  static InheritedMusic of(final BuildContext context) => maybeOf(context)!;
 
   /// The asset path to use for the music.
   final String assetPath;
@@ -31,8 +30,8 @@ class MusicBuilder extends StatefulWidget {
   /// The source to play music through.
   final Source source;
 
-  /// The widget below this one in the tree.
-  final WidgetBuilder builder;
+  /// The widget below this widget in the tree.
+  final Widget child;
 
   /// The gain to use.
   final double gain;
@@ -45,11 +44,11 @@ class MusicBuilder extends StatefulWidget {
 
   /// Create state for this widget.
   @override
-  MusicBuilderState createState() => MusicBuilderState();
+  MusicState createState() => MusicState();
 }
 
-/// State for [MusicBuilder].
-class MusicBuilderState extends State<MusicBuilder> {
+/// State for [Music].
+class MusicState extends State<Music> {
   /// The generator to use.
   BufferGenerator? generator;
 
@@ -113,11 +112,11 @@ class MusicBuilderState extends State<MusicBuilder> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => InheritedMusicBuilder(
+  Widget build(final BuildContext context) => InheritedMusic(
         fadeIn: fadeIn,
         fadeOut: fadeOut,
         setPlaybackPosition: (final value) =>
             generator?.playbackPosition.value = value,
-        child: Builder(builder: widget.builder),
+        child: widget.child,
       );
 }

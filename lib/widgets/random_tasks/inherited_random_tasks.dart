@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 
-import 'ticking_builder.dart';
+import 'random_tasks.dart';
 
-/// The inherited version of [TickingBuilder].
-class InheritedTickingBuilder extends InheritedWidget {
+/// An inherited version of [RandomTasks].
+class InheritedRandomTasks extends InheritedWidget {
   /// Create an instance.
-  const InheritedTickingBuilder({
+  const InheritedRandomTasks({
     required this.pause,
     required this.resume,
     required super.child,
     super.key,
   });
 
-  /// The function that will pause the [TickingBuilder].
+  /// The function that will pause the [RandomTasks].
   final VoidCallback pause;
 
-  /// The function that will resume the [TickingBuilder].
+  /// The function that will resume the [RandomTasks].
   final VoidCallback resume;
 
   /// Whether this widget should notify listeners.
   @override
-  bool updateShouldNotify(covariant final InheritedTickingBuilder oldWidget) =>
+  bool updateShouldNotify(
+    covariant final InheritedRandomTasks oldWidget,
+  ) =>
       pause != oldWidget.pause ||
       resume != oldWidget.resume ||
       child != oldWidget.child;
