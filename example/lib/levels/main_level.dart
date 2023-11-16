@@ -1,11 +1,9 @@
 import 'dart:math';
 
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
 
 import '../game_objects/player.dart';
 import '../game_objects/zombie.dart';
@@ -70,7 +68,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final synthizerContext = context.synthizerContext;
     final source = ref.watch(sourceProvider(synthizerContext));
     final random = ref.watch(randomProvider);
-    return TickingTaskBuilder(
+    return TickingTasks(
       duration: const Duration(milliseconds: 16),
       tasks: [
         TickingTask(
@@ -139,7 +137,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
           duration: const Duration(milliseconds: 200),
         ),
       ],
-      builder: (final context) => RandomTaskBuilder(
+      child: RandomTasks(
         tasks: [
           RandomTask(
             getDuration: () => Duration(seconds: random.nextInt(5) + 5),
@@ -180,63 +178,67 @@ class MainLevelState extends ConsumerState<MainLevel> {
             },
           ),
         ],
-        builder: (final context) => MusicBuilder(
+        child: Music(
           assetPath: Assets.sounds.ambiances.mainLevel,
           source: source,
           fadeOutLength: 3.0,
-          builder: (final context) => Scaffold(
-            appBar: AppBar(title: const Text('Main Level')),
-            body: GameShortcuts(
-              shortcuts: [
-                GameShortcut(
-                  title: 'Walk forwards',
-                  key: LogicalKeyboardKey.keyW,
-                  onStart: () =>
-                      player.movingDirection = MovingDirection.forwards,
-                  onStop: stopPlayerMoving,
+          child: Builder(
+            builder: (final context) => Scaffold(
+              appBar: AppBar(title: const Text('Main Level')),
+              body: GameShortcuts(
+                shortcuts: [
+                  GameShortcut(
+                    title: 'Walk forwards',
+                    key: LogicalKeyboardKey.keyW,
+                    onStart: () =>
+                        player.movingDirection = MovingDirection.forwards,
+                    onStop: stopPlayerMoving,
+                  ),
+                  GameShortcut(
+                    title: 'Move backwards',
+                    key: LogicalKeyboardKey.keyS,
+                    onStart: () =>
+                        player.movingDirection = MovingDirection.backwards,
+                    onStop: stopPlayerMoving,
+                  ),
+                  GameShortcut(
+                    title: 'Sidestep left',
+                    key: LogicalKeyboardKey.keyA,
+                    onStart: () =>
+                        player.movingDirection = MovingDirection.left,
+                    onStop: stopPlayerMoving,
+                  ),
+                  GameShortcut(
+                    title: 'Sidestep right',
+                    key: LogicalKeyboardKey.keyD,
+                    onStart: () =>
+                        player.movingDirection = MovingDirection.right,
+                    onStop: stopPlayerMoving,
+                  ),
+                  GameShortcut(
+                    title: 'Turn left',
+                    key: LogicalKeyboardKey.arrowLeft,
+                    onStart: () =>
+                        player.turningDirection = TurningDirection.left,
+                    onStop: stopPlayerTurning,
+                  ),
+                  GameShortcut(
+                    title: 'Turn right',
+                    key: LogicalKeyboardKey.arrowRight,
+                    onStart: () =>
+                        player.turningDirection = TurningDirection.right,
+                    onStop: stopPlayerTurning,
+                  ),
+                  GameShortcut(
+                    title: 'Fire weapon',
+                    key: LogicalKeyboardKey.space,
+                    onStart: () => firing = true,
+                    onStop: () => firing = false,
+                  ),
+                ],
+                child: const Center(
+                  child: Text('Keyboard area'),
                 ),
-                GameShortcut(
-                  title: 'Move backwards',
-                  key: LogicalKeyboardKey.keyS,
-                  onStart: () =>
-                      player.movingDirection = MovingDirection.backwards,
-                  onStop: stopPlayerMoving,
-                ),
-                GameShortcut(
-                  title: 'Sidestep left',
-                  key: LogicalKeyboardKey.keyA,
-                  onStart: () => player.movingDirection = MovingDirection.left,
-                  onStop: stopPlayerMoving,
-                ),
-                GameShortcut(
-                  title: 'Sidestep right',
-                  key: LogicalKeyboardKey.keyD,
-                  onStart: () => player.movingDirection = MovingDirection.right,
-                  onStop: stopPlayerMoving,
-                ),
-                GameShortcut(
-                  title: 'Turn left',
-                  key: LogicalKeyboardKey.arrowLeft,
-                  onStart: () =>
-                      player.turningDirection = TurningDirection.left,
-                  onStop: stopPlayerTurning,
-                ),
-                GameShortcut(
-                  title: 'Turn right',
-                  key: LogicalKeyboardKey.arrowRight,
-                  onStart: () =>
-                      player.turningDirection = TurningDirection.right,
-                  onStop: stopPlayerTurning,
-                ),
-                GameShortcut(
-                  title: 'Fire weapon',
-                  key: LogicalKeyboardKey.space,
-                  onStart: () => firing = true,
-                  onStop: () => firing = false,
-                ),
-              ],
-              child: const Center(
-                child: Text('Keyboard area'),
               ),
             ),
           ),
@@ -304,7 +306,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
         final angle = normaliseAngle(
           bearing - coordinates.angleBetween(zombie.coordinates),
         );
-        if (angle >= 355 || angle <= 5) {
+        if (angle >= 350 || angle <= 10) {
           if (mounted) {
             await context.playSound(
               assetPath:

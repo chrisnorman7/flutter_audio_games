@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 
-import '../ticking_builder/ticking_builder.dart';
+import '../ticking/ticking.dart';
 import 'ticking_task.dart';
 import 'ticking_task_context.dart';
 
 /// A widget which ticks [tasks].
-class TickingTaskBuilder extends StatefulWidget {
+class TickingTasks extends StatefulWidget {
   /// Create an instance.
-  const TickingTaskBuilder({
+  const TickingTasks({
     required this.duration,
     required this.tasks,
-    required this.builder,
+    required this.child,
     super.key,
   });
 
-  /// The duration the [TickingBuilder] should tick.
+  /// The duration the [Ticking] should tick.
   final Duration duration;
 
   /// The tasks to run.
   final List<TickingTask> tasks;
 
   /// The builder to build the child widget.
-  final WidgetBuilder builder;
+  final Widget child;
 
   /// Create state for this widget.
   @override
-  TickingTaskBuilderState createState() => TickingTaskBuilderState();
+  TickingTasksState createState() => TickingTasksState();
 }
 
-/// State for [TickingTaskBuilder].
-class TickingTaskBuilderState extends State<TickingTaskBuilder> {
+/// State for [TickingTasks].
+class TickingTasksState extends State<TickingTasks> {
   /// The contexts for the running tasks.
   late final List<TickingTaskContext> taskContexts;
 
@@ -43,10 +43,10 @@ class TickingTaskBuilderState extends State<TickingTaskBuilder> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => TickingBuilder(
+  Widget build(final BuildContext context) => Ticking(
         duration: widget.duration,
         onTick: onTick,
-        builder: widget.builder,
+        child: widget.child,
       );
 
   /// Tick the clock.

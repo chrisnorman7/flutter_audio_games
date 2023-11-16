@@ -2,39 +2,39 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'inherited_random_task_builder.dart';
+import 'inherited_random_tasks.dart';
 import 'random_task.dart';
 
 /// A widget which runs random [tasks].
-class RandomTaskBuilder extends StatefulWidget {
+class RandomTasks extends StatefulWidget {
   /// Create an instance.
-  const RandomTaskBuilder({
+  const RandomTasks({
     required this.tasks,
-    required this.builder,
+    required this.child,
     super.key,
   });
 
   /// Possibly provide an instance.
-  static InheritedRandomTaskBuilder? maybeOf(final BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<InheritedRandomTaskBuilder>();
+  static InheritedRandomTasks? maybeOf(final BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<InheritedRandomTasks>();
 
   /// Provide an instance.
-  static InheritedRandomTaskBuilder of(final BuildContext context) =>
+  static InheritedRandomTasks of(final BuildContext context) =>
       maybeOf(context)!;
 
   /// The tasks to use.
   final List<RandomTask> tasks;
 
   /// The builder to build the widget.
-  final WidgetBuilder builder;
+  final Widget child;
 
   /// Create state for this widget.
   @override
-  RandomTaskBuilderState createState() => RandomTaskBuilderState();
+  RandomTasksState createState() => RandomTasksState();
 }
 
-/// State for [RandomTaskBuilder].
-class RandomTaskBuilderState extends State<RandomTaskBuilder> {
+/// State for [RandomTasks].
+class RandomTasksState extends State<RandomTasks> {
   /// Whether the random tasks are paused.
   late bool paused;
 
@@ -62,10 +62,10 @@ class RandomTaskBuilderState extends State<RandomTaskBuilder> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => InheritedRandomTaskBuilder(
+  Widget build(final BuildContext context) => InheritedRandomTasks(
         pause: pause,
         resume: resume,
-        child: Builder(builder: widget.builder),
+        child: widget.child,
       );
 
   /// Pause the tasks.

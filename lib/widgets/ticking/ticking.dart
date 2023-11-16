@@ -2,25 +2,24 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'inherited_ticking_builder.dart';
+import 'inherited_ticking.dart';
 
 /// A widget that calls [onTick] every [duration].
-class TickingBuilder extends StatefulWidget {
+class Ticking extends StatefulWidget {
   /// Create an instance.
-  const TickingBuilder({
+  const Ticking({
     required this.duration,
     required this.onTick,
-    required this.builder,
+    required this.child,
     super.key,
   });
 
   /// Maybe return an instance.
-  static InheritedTickingBuilder? maybeOf(final BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<InheritedTickingBuilder>();
+  static InheritedTicking? maybeOf(final BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<InheritedTicking>();
 
   /// Return the nearest instance.
-  static InheritedTickingBuilder of(final BuildContext context) =>
-      maybeOf(context)!;
+  static InheritedTicking of(final BuildContext context) => maybeOf(context)!;
 
   /// How often [onTick] should be called.
   final Duration duration;
@@ -29,15 +28,15 @@ class TickingBuilder extends StatefulWidget {
   final VoidCallback onTick;
 
   /// The builder that will build this widget.
-  final WidgetBuilder builder;
+  final Widget child;
 
   /// Create state for this widget.
   @override
-  TickingBuilderState createState() => TickingBuilderState();
+  TickingState createState() => TickingState();
 }
 
-/// State for [TickingBuilder].
-class TickingBuilderState extends State<TickingBuilder> {
+/// State for [Ticking].
+class TickingState extends State<Ticking> {
   /// The timer to use.
   late final Timer timer;
 
@@ -65,9 +64,9 @@ class TickingBuilderState extends State<TickingBuilder> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => InheritedTickingBuilder(
+  Widget build(final BuildContext context) => InheritedTicking(
         pause: () => paused = true,
         resume: () => paused = false,
-        child: Builder(builder: widget.builder),
+        child: widget.child,
       );
 }
