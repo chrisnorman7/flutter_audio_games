@@ -36,7 +36,13 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
   ///
   /// This method is useful when pushing a widget over a [AudioGameMenu] for
   /// example.
-  Future<void> fadeMusicAndPushWidget(final WidgetBuilder builder) async {
+  ///
+  /// If [restartMusic] is `true`, then the playback position will be reset
+  /// before fading back in.
+  Future<void> fadeMusicAndPushWidget(
+    final WidgetBuilder builder, {
+    final bool restartMusic = true,
+  }) async {
     MusicBuilder.maybeOf(this)?.fadeOut();
     await Navigator.push(
       this,
@@ -44,7 +50,11 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
         builder: builder,
       ),
     );
-    MusicBuilder.maybeOf(this)?.fadeIn();
+    final inheritedMusic = MusicBuilder.maybeOf(this);
+    if (restartMusic) {
+      inheritedMusic?.setPlaybackPosition(0.0);
+    }
+    inheritedMusic?.fadeIn();
   }
 }
 
