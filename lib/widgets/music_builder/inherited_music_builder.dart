@@ -8,6 +8,7 @@ class InheritedMusicBuilder extends InheritedWidget {
   const InheritedMusicBuilder({
     required this.fadeIn,
     required this.fadeOut,
+    required this.setPlaybackPosition,
     required super.child,
     super.key,
   });
@@ -18,6 +19,8 @@ class InheritedMusicBuilder extends InheritedWidget {
   /// The function to fade out the music.
   final VoidCallback fadeOut;
 
+  /// The function to call to set the playback position.
+  final ValueChanged<double> setPlaybackPosition;
   @override
   bool updateShouldNotify(covariant final InheritedMusicBuilder oldWidget) =>
       fadeIn != oldWidget.fadeIn || fadeOut != oldWidget.fadeOut;

@@ -116,6 +116,8 @@ class MusicBuilderState extends State<MusicBuilder> {
   Widget build(final BuildContext context) => InheritedMusicBuilder(
         fadeIn: fadeIn,
         fadeOut: fadeOut,
+        setPlaybackPosition: (final value) =>
+            generator?.playbackPosition.value = value,
         child: Builder(builder: widget.builder),
       );
 }
