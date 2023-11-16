@@ -304,7 +304,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
         final angle = normaliseAngle(
           bearing - coordinates.angleBetween(zombie.coordinates),
         );
-        if (angle >= 355 || angle <= 5) {
+        if (angle >= 350 || angle <= 10) {
           if (mounted) {
             await context.playSound(
               assetPath:

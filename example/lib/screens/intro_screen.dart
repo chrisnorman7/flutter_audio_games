@@ -44,7 +44,7 @@ class IntroScreenState extends ConsumerState<IntroScreen> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) => TimedBuilders(
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 2),
         builders: [
           (final context) => const LoadingScreen(),
           (final context) => const MainMenu(),
