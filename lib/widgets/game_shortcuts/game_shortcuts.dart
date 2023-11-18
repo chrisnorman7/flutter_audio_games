@@ -3,7 +3,13 @@ import 'package:flutter/services.dart';
 
 import 'game_shortcut.dart';
 
-/// A widget for handling game shortcuts.
+/// A widget for handling game [shortcuts].
+///
+/// Wrap a widget in a [GameShortcuts] widget to easily add game-friendly
+/// shortcuts to a game.
+///
+/// This widget differs from the [CallbackShortcuts] widget because repeated key
+/// events are ignored.
 class GameShortcuts extends StatelessWidget {
   /// Create an instance.
   const GameShortcuts({
@@ -25,12 +31,17 @@ class GameShortcuts extends StatelessWidget {
   final Widget child;
 
   /// The shortcuts to handle.
+  ///
+  /// If the [shortcuts] list is empty, then this widget will do nothing.
   final List<GameShortcut> shortcuts;
 
-  /// Whether this widget should be autofocused.
+  /// Whether the resulting [Focus] widget should be autofocused.
   final bool autofocus;
 
   /// The focus node to use.
+  ///
+  /// Only provide a [focusNode] if you wish to use [focusNode.requestFocus()]
+  /// for example.
   final FocusNode? focusNode;
 
   /// Build the widget.

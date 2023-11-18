@@ -62,10 +62,13 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
 ///
 /// This extension is mostly copied from [Ziggurat](https://pub.dev/packages/ziggurat).
 extension FlutterAudioGamesPointDoubleExtension on Point<double> {
-  /// Return a floored version of this point.
+  /// Return a floored version of this point. That is a point made up of
+  /// [x.floor()] and [y.floor()].
   Point<int> floor() => Point<int>(x.floor(), y.floor());
 
   /// Return the angle between `this` and [other].
+  ///
+  /// This function provided by a good friend who wished to remain nameless.
   double angleBetween(final Point<double> other) {
     // Check if the points are on top of each other and output something
     // reasonable.
@@ -109,5 +112,7 @@ extension FlutterAudioGamesPointIntExtension on Point<int> {
 /// Useful extensions for lists.
 extension FlutterAudioGamesListExtension<E> on List<E> {
   /// Return a random element.
-  E randomElement(final Random random) => elementAt(random.nextInt(length));
+  ///
+  /// This uses [random.nextInt(length)] to get a random index.
+  E randomElement(final Random random) => this[random.nextInt(length)];
 }

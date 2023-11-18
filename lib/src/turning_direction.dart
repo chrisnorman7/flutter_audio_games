@@ -4,9 +4,9 @@
 /// left or right. For anything more complicated, consider using degrees
 /// directly.
 enum TurningDirection {
-  /// Left.
+  /// The playing is turning left (anticlockwise).
   left,
 
-  /// Right.
+  /// The player is turning right (clockwise).
   right,
 }

@@ -1,5 +1,29 @@
-/// This package provides useful widgets for creating audio games.
+/// This package provides useful widgets for rapid creation of audio games.
+///
+/// ## Getting Started
+///
+/// - Create audio menus with the [AudioGameMenu] class.
+/// - Schedule a single task to happen on a regular basis with the [Ticking]
+///   widget.
+/// - Schedule multiple tasks to happen at a given time with the [TickingTasks]
+///   widget.
+/// - Schedule random tasks with the [RandomTasks] widget.
+/// - Add music to any widget by wrapping it in a [Music] widget.
+/// - Add a sound to play when a widget is focused by wrapping it in a
+///   [PlaySoundSemantics] widget.
+/// - Add game shortcuts with the [GameShortcuts] widget.
+///
+/// This package uses the
+/// [flutter_synthizer](https://pub.dev/packages/flutter_synthizer) package.
 library flutter_audio_games;
+
+import 'widgets/game_shortcuts/game_shortcuts.dart';
+import 'widgets/menus/audio_game_menu.dart';
+import 'widgets/music/music.dart';
+import 'widgets/play_sound_semantics.dart';
+import 'widgets/random_tasks/random_tasks.dart';
+import 'widgets/ticking//ticking.dart';
+import 'widgets/ticking_tasks/ticking_tasks.dart';
 
 export 'package:dart_synthizer/dart_synthizer.dart';
 export 'package:flutter_synthizer/flutter_synthizer.dart';
