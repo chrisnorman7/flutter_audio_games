@@ -13,9 +13,6 @@
 ///   [PlaySoundSemantics] widget.
 /// - Add game shortcuts with the [GameShortcuts] widget.
 /// - Show splash screens and play cut scenes with the [TimedBuilders] widget.
-///
-/// This package uses and exposes the
-/// [flutter_synthizer](https://pub.dev/packages/flutter_synthizer) package.
 library flutter_audio_games;
 
 import 'widgets/audio_game_menu/audio_game_menu.dart';
@@ -26,9 +23,6 @@ import 'widgets/random_tasks/random_tasks.dart';
 import 'widgets/ticking//ticking.dart';
 import 'widgets/ticking_tasks/ticking_tasks.dart';
 import 'widgets/timed_builders.dart';
-
-export 'package:dart_synthizer/dart_synthizer.dart';
-export 'package:flutter_synthizer/flutter_synthizer.dart';
 
 export 'src/extensions.dart';
 export 'src/maths.dart';

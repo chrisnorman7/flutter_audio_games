@@ -1,9 +1,11 @@
 import 'dart:math';
 
+import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_synthizer/flutter_synthizer.dart';
 
 import '../game_objects/player.dart';
 import '../game_objects/zombie.dart';

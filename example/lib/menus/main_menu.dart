@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_synthizer/flutter_synthizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../gen/assets.gen.dart';

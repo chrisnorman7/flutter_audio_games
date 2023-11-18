@@ -1,6 +1,8 @@
+import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_synthizer/flutter_synthizer.dart';
 
 import '../menus/main_menu.dart';
 import '../providers.dart';

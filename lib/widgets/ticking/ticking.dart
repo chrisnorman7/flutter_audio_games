@@ -47,10 +47,10 @@ class TickingState extends State<Ticking> {
   /// Whether or not [timer] is paused.
   late bool _paused;
 
-  /// Returns `true` if [widget.onTick()] should run, `false` otherwise.
+  /// Returns `true` if the widget should tick, `false` otherwise.
   bool get isRunning => !_paused;
 
-  /// Returns `true` if [widget.onTick()] should not run, `false` otherwise.
+  /// Returns `true` if the widget should not tick, `false` otherwise.
   bool get isPaused => _paused;
 
   /// Initialise state.

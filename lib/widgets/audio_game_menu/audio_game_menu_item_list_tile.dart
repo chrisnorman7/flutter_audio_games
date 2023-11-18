@@ -39,8 +39,7 @@ class AudioGameMenuItemListTile extends StatelessWidget {
   /// The asset path for the activate sound.
   ///
   /// If [activateSoundAssetPath] is not `null`, the given sound will play when
-  /// this [AudioGameMenuItemListTile] is activated, and [task.onActivate()] is
-  /// called.
+  /// this [AudioGameMenuItemListTile] is activated.
   final String? activateSoundAssetPath;
 
   /// The gain for the activate sound.

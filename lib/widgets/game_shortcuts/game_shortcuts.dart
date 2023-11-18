@@ -40,8 +40,7 @@ class GameShortcuts extends StatelessWidget {
 
   /// The focus node to use.
   ///
-  /// Only provide a [focusNode] if you wish to use [focusNode.requestFocus()]
-  /// for example.
+  /// Only provide a [focusNode] if you wish to be able to request focus.
   final FocusNode? focusNode;
 
   /// Build the widget.
