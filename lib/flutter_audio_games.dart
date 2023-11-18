@@ -17,8 +17,8 @@
 /// [flutter_synthizer](https://pub.dev/packages/flutter_synthizer) package.
 library flutter_audio_games;
 
+import 'widgets/audio_game_menu/audio_game_menu.dart';
 import 'widgets/game_shortcuts/game_shortcuts.dart';
-import 'widgets/menus/audio_game_menu.dart';
 import 'widgets/music/music.dart';
 import 'widgets/play_sound_semantics.dart';
 import 'widgets/random_tasks/random_tasks.dart';
@@ -32,11 +32,11 @@ export 'src/extensions.dart';
 export 'src/maths.dart';
 export 'src/moving_direction.dart';
 export 'src/turning_direction.dart';
+export 'widgets/audio_game_menu/audio_game_menu.dart';
+export 'widgets/audio_game_menu/audio_game_menu_item.dart';
+export 'widgets/audio_game_menu/audio_game_menu_item_list_tile.dart';
 export 'widgets/game_shortcuts/game_shortcut.dart';
 export 'widgets/game_shortcuts/game_shortcuts.dart';
-export 'widgets/menus/audio_game_menu.dart';
-export 'widgets/menus/audio_game_menu_item.dart';
-export 'widgets/menus/audio_game_menu_item_list_tile.dart';
 export 'widgets/music/inherited_music.dart';
 export 'widgets/music/music.dart';
 export 'widgets/play_sound_semantics.dart';
