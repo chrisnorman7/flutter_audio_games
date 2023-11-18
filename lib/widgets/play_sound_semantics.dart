@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
 
 /// A [Semantics] widget which plays a sound when focused.
+///
+/// Wrap any [Focus]able [Widget] in a [PlaySoundSemantics] to have it play a
+/// sound when focused.
 class PlaySoundSemantics extends StatefulWidget {
   /// Create an instance.
   const PlaySoundSemantics({
@@ -20,7 +23,7 @@ class PlaySoundSemantics extends StatefulWidget {
   /// The source to play the sound through.
   final Source source;
 
-  /// The widget below this one in the tree.
+  /// The widget below this widget in the tree.
   final Widget child;
 
   /// The gain to play the sound at.

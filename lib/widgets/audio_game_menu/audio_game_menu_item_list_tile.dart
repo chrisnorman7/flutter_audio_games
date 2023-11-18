@@ -6,7 +6,7 @@ import '../play_sound_semantics.dart';
 import 'audio_game_menu.dart';
 import 'audio_game_menu_item.dart';
 
-/// A [ListTile] for use in an [AudioGameMenu].
+/// A [ListTile] for use in an [AudioGameMenu] widget.
 class AudioGameMenuItemListTile extends StatelessWidget {
   /// Create an instance.
   const AudioGameMenuItemListTile({
@@ -14,7 +14,7 @@ class AudioGameMenuItemListTile extends StatelessWidget {
     required this.source,
     this.selectSoundAssetPath,
     this.activateSoundAssetPath,
-    this.selectSoundGame = 0.7,
+    this.selectSoundGain = 0.7,
     this.activateSoundGain = 0.7,
     this.autofocus = false,
     this.looping = false,
@@ -25,24 +25,43 @@ class AudioGameMenuItemListTile extends StatelessWidget {
   final AudioGameMenuItem menuItem;
 
   /// The asset path for the select sound.
+  ///
+  /// If [selectSoundAssetPath] is not `null`, then the given sound will be
+  /// heard when this [AudioGameMenuItemListTile] receives focus.
   final String? selectSoundAssetPath;
 
   /// The gain for the select sound.
-  final double selectSoundGame;
+  ///
+  /// If [selectSoundAssetPath] is `null`, [selectSoundGain] will have no
+  /// effect.
+  final double selectSoundGain;
 
   /// The asset path for the activate sound.
+  ///
+  /// If [activateSoundAssetPath] is not `null`, the given sound will play when
+  /// this [AudioGameMenuItemListTile] is activated, and [task.onActivate()] is
+  /// called.
   final String? activateSoundAssetPath;
 
   /// The gain for the activate sound.
+  ///
+  /// If [activateSoundAssetPath] is `null`, [activateSoundGain] will have no
+  /// effect.
   final double activateSoundGain;
 
   /// The source to play sounds through.
+  ///
+  /// This source will be used to play both [selectSoundAssetPath] and
+  /// [activateSoundAssetPath].
   final Source source;
 
   /// Whether or not the [ListTile] should be autofocused.
   final bool autofocus;
 
   /// Whether or not the select sound should loop.
+  ///
+  /// If this value is `true`, [selectSoundAssetPath] will loop when this
+  /// [AudioGameMenuItemListTile] receives focus.
   final bool looping;
 
   /// Build the widget.
@@ -70,7 +89,7 @@ class AudioGameMenuItemListTile extends StatelessWidget {
     return PlaySoundSemantics(
       soundAssetPath: selectSound,
       source: source,
-      gain: selectSoundGame,
+      gain: selectSoundGain,
       looping: looping,
       child: listTile,
     );

@@ -69,7 +69,6 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final source = ref.watch(sourceProvider(synthizerContext));
     final random = ref.watch(randomProvider);
     return TickingTasks(
-      duration: const Duration(milliseconds: 16),
       tasks: [
         TickingTask(
           onTick: () {
@@ -114,6 +113,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
           duration: const Duration(milliseconds: 300),
         ),
         TickingTask(
+          duration: const Duration(milliseconds: 50),
           onTick: () {
             final turning = player.turningDirection;
             if (turning != null) {

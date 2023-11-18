@@ -17,7 +17,7 @@ class AudioGameMenu extends StatelessWidget {
     this.selectItemSoundAssetPath,
     this.activateItemSoundAssetPath,
     this.musicGain = 0.7,
-    this.selectSoundGame = 0.7,
+    this.selectItemSoundGame = 0.7,
     this.selectItemSoundLooping = false,
     this.activateSoundGain = 0.7,
     this.musicFadeIn,
@@ -25,43 +25,82 @@ class AudioGameMenu extends StatelessWidget {
     super.key,
   });
 
-  /// The title of this menu.
+  /// The title of the resulting [Scaffold] widget..
   final String title;
 
   /// The menu items in this menu.
+  ///
+  /// If the [menuItems] list is empty, then the menu will only show a title.
   final List<AudioGameMenuItem> menuItems;
 
   /// The asset path for music.
+  ///
+  /// If [musicAssetPath] is not `null`, then a [Music] widget will be added to
+  /// the widget tree.
   final String? musicAssetPath;
 
   /// The gain for music.
+  ///
+  /// If [musicAssetPath] is `null`, [musicGain] will have no effect.
   final double musicGain;
 
   /// The asset path for the sound to use when selecting an item in this menu.
+  ///
+  /// If [selectItemSoundAssetPath] is not `null`, then the sound will be heard
+  /// when moving to a menu item with the keyboard, or touching it on the
+  /// screen.
   final String? selectItemSoundAssetPath;
 
   /// The gain for the select sound.
-  final double selectSoundGame;
+  ///
+  /// If [selectItemSoundAssetPath] is `null`, [selectItemSoundGame] has no
+  /// effect.
+  final double selectItemSoundGame;
 
   /// Whether or not select sounds should loop.
+  ///
+  /// If [selectItemSoundLooping] is `true`, and [selectItemSoundAssetPath] is
+  /// not `null`, then the sound which is heard when moving to a menu item will
+  /// loop.
   final bool selectItemSoundLooping;
 
   /// The asset path for the sound to use when activating an item in this menu.
+  ///
+  /// If [activateItemSoundAssetPath] is not `null`, the sound will be heard
+  /// when activating menu items.
   final String? activateItemSoundAssetPath;
 
   /// The gain for the activate sound.
+  ///
+  /// If [activateItemSoundAssetPath] is `null`, [activateSoundGain] will have
+  /// no effect.
   final double activateSoundGain;
 
-  /// The source to play interface sounds through.
+  /// The source to play menu sounds through.
+  ///
+  /// This source only applies to [selectItemSoundAssetPath], and
+  /// [activateItemSoundAssetPath].
   final Source interfaceSoundsSource;
 
   /// The source to play music through.
+  ///
+  /// This source applies to [musicAssetPath].
   final Source musicSource;
 
   /// The fade in time for music.
+  ///
+  /// If [musicAssetPath] is `null`, [musicFadeIn] has no effect.
+  ///
+  /// If [musicFadeIn] is `null`, the menu music will begin playing at
+  /// [musicGain] right away.
   final double? musicFadeIn;
 
   /// The music fade out time.
+  ///
+  /// If [musicAssetPath] is `null`, [musicFadeOut] has no effect.
+  ///
+  /// If [musicFadeOut] is `null`, the menu music will end when the menu is
+  /// popped..
   final double? musicFadeOut;
 
   /// Build the widget.
@@ -95,7 +134,7 @@ class AudioGameMenu extends StatelessWidget {
               autofocus: i == 0,
               activateSoundGain: activateSoundGain,
               looping: selectItemSoundLooping,
-              selectSoundGame: selectSoundGame,
+              selectSoundGain: selectItemSoundGame,
             ),
         ],
       );

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'music.dart';
 
 /// The inherited version of a [Music].
+///
+/// Instances of [InheritedMusic] will be dealt with when using
+/// [Music.maybeOf()] or [Music.of()].
 class InheritedMusic extends InheritedWidget {
   /// Create an instance.
   const InheritedMusic({
@@ -21,7 +24,11 @@ class InheritedMusic extends InheritedWidget {
 
   /// The function to call to set the playback position.
   final ValueChanged<double> setPlaybackPosition;
+
+  /// Whether to notify listeners.
   @override
   bool updateShouldNotify(covariant final InheritedMusic oldWidget) =>
-      fadeIn != oldWidget.fadeIn || fadeOut != oldWidget.fadeOut;
+      fadeIn != oldWidget.fadeIn ||
+      fadeOut != oldWidget.fadeOut ||
+      setPlaybackPosition != oldWidget.setPlaybackPosition;
 }

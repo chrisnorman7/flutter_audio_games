@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'inherited_ticking.dart';
 
 /// A widget that calls [onTick] every [duration].
+///
+/// Wrapping any [Widget] in a [Ticking] can be used to run tasks which should
+/// do something every frame, such as moving vehicles, healing or doing damage,
+/// or resetting zones.
 class Ticking extends StatefulWidget {
   /// Create an instance.
   const Ticking({
@@ -27,7 +31,7 @@ class Ticking extends StatefulWidget {
   /// The function to call every [duration].
   final VoidCallback onTick;
 
-  /// The builder that will build this widget.
+  /// The widget below this widget in the tree.
   final Widget child;
 
   /// Create state for this widget.
@@ -41,15 +45,21 @@ class TickingState extends State<Ticking> {
   late final Timer timer;
 
   /// Whether or not [timer] is paused.
-  late bool paused;
+  late bool _paused;
+
+  /// Returns `true` if [widget.onTick()] should run, `false` otherwise.
+  bool get isRunning => !_paused;
+
+  /// Returns `true` if [widget.onTick()] should not run, `false` otherwise.
+  bool get isPaused => _paused;
 
   /// Initialise state.
   @override
   void initState() {
     super.initState();
-    paused = false;
+    _paused = false;
     timer = Timer.periodic(widget.duration, (final _) {
-      if (!paused) {
+      if (!_paused) {
         widget.onTick();
       }
     });
@@ -65,8 +75,8 @@ class TickingState extends State<Ticking> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) => InheritedTicking(
-        pause: () => paused = true,
-        resume: () => paused = false,
+        pause: () => _paused = true,
+        resume: () => _paused = false,
         child: widget.child,
       );
 }

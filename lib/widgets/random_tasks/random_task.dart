@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'random_tasks.dart';
+
 /// A task which will happen every [getDuration].
+///
+/// Instances of [RandomTask] are used by the [RandomTasks] widget.
 class RandomTask {
   /// Create an instance.
   const RandomTask({

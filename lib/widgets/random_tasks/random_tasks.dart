@@ -6,6 +6,13 @@ import 'inherited_random_tasks.dart';
 import 'random_task.dart';
 
 /// A widget which runs random [tasks].
+///
+/// This widget is useful for random events, such as playing background sounds,
+/// spawning game objects, or moving non-player characters.
+///
+/// Tasks can be paused by calling [InheritedRandomTasks.pause], and resumed
+/// with [InheritedRandomTasks.resume]. You can obtain an [InheritedRandomTasks]
+/// instance with the [maybeOf] or [of] static methods.
 class RandomTasks extends StatefulWidget {
   /// Create an instance.
   const RandomTasks({
@@ -23,9 +30,11 @@ class RandomTasks extends StatefulWidget {
       maybeOf(context)!;
 
   /// The tasks to use.
+  ///
+  /// If [tasks] is empty, then this widget will do nothing.
   final List<RandomTask> tasks;
 
-  /// The builder to build the widget.
+  /// The widget below this widget in the tree.
   final Widget child;
 
   /// Create state for this widget.
@@ -36,7 +45,13 @@ class RandomTasks extends StatefulWidget {
 /// State for [RandomTasks].
 class RandomTasksState extends State<RandomTasks> {
   /// Whether the random tasks are paused.
-  late bool paused;
+  late bool _paused;
+
+  /// Returns `true` if the tasks are running, `false` otherwise.
+  bool get isRunning => !_paused;
+
+  /// Returns `true` if the tasks are paused, `false` otherwise.
+  bool get isPaused => _paused;
 
   /// The timers for the tasks.
   late final Map<RandomTask, Timer> timers;
@@ -45,7 +60,7 @@ class RandomTasksState extends State<RandomTasks> {
   @override
   void initState() {
     super.initState();
-    paused = false;
+    _paused = false;
     timers = {};
     widget.tasks.forEach(scheduleTask);
   }
@@ -69,15 +84,15 @@ class RandomTasksState extends State<RandomTasks> {
       );
 
   /// Pause the tasks.
-  void pause() => paused = true;
+  void pause() => _paused = true;
 
   /// Resume the tasks.
-  void resume() => paused = false;
+  void resume() => _paused = false;
 
   /// Run [task].
   void scheduleTask(final RandomTask task) {
     timers[task] = Timer(task.getDuration(), () {
-      if (!paused) {
+      if (!_paused) {
         task.onTick();
       }
       scheduleTask(task);
