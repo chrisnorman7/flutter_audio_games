@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-
+import '../../src/type_defs.dart';
 import 'audio_game_menu.dart';
 
 /// A menu item in an [AudioGameMenu].
@@ -14,5 +13,5 @@ class AudioGameMenuItem {
   final String title;
 
   /// The function to call when this menu item is activated.
-  final void Function(BuildContext innerContext) onActivate;
+  final ContextCallback onActivate;
 }

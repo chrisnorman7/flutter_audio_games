@@ -192,49 +192,49 @@ class MainLevelState extends ConsumerState<MainLevel> {
                   GameShortcut(
                     title: 'Walk forwards',
                     key: LogicalKeyboardKey.keyW,
-                    onStart: () =>
+                    onStart: (final _) =>
                         player.movingDirection = MovingDirection.forwards,
                     onStop: stopPlayerMoving,
                   ),
                   GameShortcut(
                     title: 'Move backwards',
                     key: LogicalKeyboardKey.keyS,
-                    onStart: () =>
+                    onStart: (final _) =>
                         player.movingDirection = MovingDirection.backwards,
                     onStop: stopPlayerMoving,
                   ),
                   GameShortcut(
                     title: 'Sidestep left',
                     key: LogicalKeyboardKey.keyA,
-                    onStart: () =>
+                    onStart: (final _) =>
                         player.movingDirection = MovingDirection.left,
                     onStop: stopPlayerMoving,
                   ),
                   GameShortcut(
                     title: 'Sidestep right',
                     key: LogicalKeyboardKey.keyD,
-                    onStart: () =>
+                    onStart: (final _) =>
                         player.movingDirection = MovingDirection.right,
                     onStop: stopPlayerMoving,
                   ),
                   GameShortcut(
                     title: 'Turn left',
                     key: LogicalKeyboardKey.arrowLeft,
-                    onStart: () =>
+                    onStart: (final _) =>
                         player.turningDirection = TurningDirection.left,
                     onStop: stopPlayerTurning,
                   ),
                   GameShortcut(
                     title: 'Turn right',
                     key: LogicalKeyboardKey.arrowRight,
-                    onStart: () =>
+                    onStart: (final _) =>
                         player.turningDirection = TurningDirection.right,
                     onStop: stopPlayerTurning,
                   ),
                   GameShortcut(
                     title: 'Fire weapon',
                     key: LogicalKeyboardKey.space,
-                    onStart: () => firing = true,
+                    onStart: (final _) => firing = true,
                     onStop: () => firing = false,
                   ),
                 ],

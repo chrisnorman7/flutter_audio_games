@@ -57,7 +57,7 @@ class GameShortcuts extends StatelessWidget {
                 shortcut.altKey == event.isAltPressed &&
                 shortcut.shiftKey == event.isShiftPressed) {
               if (event is RawKeyDownEvent) {
-                shortcut.onStart?.call();
+                shortcut.onStart?.call(context);
               } else {
                 shortcut.onStop?.call();
               }

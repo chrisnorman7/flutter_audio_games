@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 
+import '../../src/type_defs.dart';
 import 'game_shortcuts.dart';
 
 /// A shortcut in a [GameShortcuts] widget.
@@ -44,7 +45,7 @@ class GameShortcut {
   ///
   /// Note: Key repeats are not handled. [RawKeyEvent]s with
   /// [RawKeyEvent.repeat] are ignored.
-  final VoidCallback? onStart;
+  final ContextCallback? onStart;
 
   /// The function to call when this key is deactivated.
   ///

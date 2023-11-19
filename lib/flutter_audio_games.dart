@@ -28,6 +28,7 @@ export 'src/extensions.dart';
 export 'src/maths.dart';
 export 'src/moving_direction.dart';
 export 'src/turning_direction.dart';
+export 'src/type_defs.dart';
 export 'widgets/audio_game_menu/audio_game_menu.dart';
 export 'widgets/audio_game_menu/audio_game_menu_item.dart';
 export 'widgets/audio_game_menu/audio_game_menu_item_list_tile.dart';
