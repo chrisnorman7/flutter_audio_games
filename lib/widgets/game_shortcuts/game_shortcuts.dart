@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'game_shortcut.dart';
+import '../../flutter_audio_games.dart';
 
 /// A widget for handling game [shortcuts].
 ///
@@ -21,11 +21,12 @@ class GameShortcuts extends StatelessWidget {
   });
 
   /// Possibly return an instance.
-  static GameShortcuts? maybeOf(final BuildContext context) =>
-      context.findAncestorWidgetOfExactType<GameShortcuts>();
+  static InheritedGameShortcuts? maybeOf(final BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<InheritedGameShortcuts>();
 
   /// Return an instance.
-  static GameShortcuts of(final BuildContext context) => maybeOf(context)!;
+  static InheritedGameShortcuts of(final BuildContext context) =>
+      maybeOf(context)!;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -45,28 +46,33 @@ class GameShortcuts extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => Focus(
-        autofocus: autofocus,
-        onKey: (final node, final event) {
-          if (event.repeat) {
-            return KeyEventResult.ignored;
-          }
-          for (final shortcut in shortcuts) {
-            if (shortcut.key == event.logicalKey &&
-                shortcut.controlKey == event.isControlPressed &&
-                shortcut.altKey == event.isAltPressed &&
-                shortcut.shiftKey == event.isShiftPressed) {
-              if (event is RawKeyDownEvent) {
-                shortcut.onStart?.call(context);
-              } else {
-                shortcut.onStop?.call();
+  Widget build(final BuildContext context) => InheritedGameShortcuts(
+        shortcuts: shortcuts,
+        child: Builder(
+          builder: (final innerContext) => Focus(
+            autofocus: autofocus,
+            onKey: (final node, final event) {
+              if (event.repeat) {
+                return KeyEventResult.ignored;
               }
-              return KeyEventResult.handled;
-            }
-          }
-          return KeyEventResult.ignored;
-        },
-        focusNode: focusNode,
-        child: child,
+              for (final shortcut in shortcuts) {
+                if (shortcut.key == event.logicalKey &&
+                    shortcut.controlKey == event.isControlPressed &&
+                    shortcut.altKey == event.isAltPressed &&
+                    shortcut.shiftKey == event.isShiftPressed) {
+                  if (event is RawKeyDownEvent) {
+                    shortcut.onStart?.call(innerContext);
+                  } else {
+                    shortcut.onStop?.call(innerContext);
+                  }
+                  return KeyEventResult.handled;
+                }
+              }
+              return KeyEventResult.ignored;
+            },
+            focusNode: focusNode,
+            child: child,
+          ),
+        ),
       );
 }

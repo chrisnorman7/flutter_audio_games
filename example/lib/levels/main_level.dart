@@ -235,7 +235,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                     title: 'Fire weapon',
                     key: LogicalKeyboardKey.space,
                     onStart: (final _) => firing = true,
-                    onStop: () => firing = false,
+                    onStop: (final _) => firing = false,
                   ),
                 ],
                 child: const Center(
@@ -289,10 +289,12 @@ class MainLevelState extends ConsumerState<MainLevel> {
   }
 
   /// Stop the player moving.
-  void stopPlayerMoving() => player.movingDirection = null;
+  void stopPlayerMoving(final BuildContext innerContext) =>
+      player.movingDirection = null;
 
   /// Stop the player turning.
-  void stopPlayerTurning() => player.turningDirection = null;
+  void stopPlayerTurning(final BuildContext innerContext) =>
+      player.turningDirection = null;
 
   /// Fire the player's weapon.
   Future<void> fireWeapon(final Source source) async {

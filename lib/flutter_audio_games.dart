@@ -34,6 +34,7 @@ export 'widgets/audio_game_menu/audio_game_menu_item.dart';
 export 'widgets/audio_game_menu/audio_game_menu_item_list_tile.dart';
 export 'widgets/game_shortcuts/game_shortcut.dart';
 export 'widgets/game_shortcuts/game_shortcuts.dart';
+export 'widgets/game_shortcuts/inherited_game_shortcuts.dart';
 export 'widgets/music/inherited_music.dart';
 export 'widgets/music/music.dart';
 export 'widgets/play_sound_semantics.dart';

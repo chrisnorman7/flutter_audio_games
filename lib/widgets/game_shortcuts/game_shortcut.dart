@@ -53,5 +53,5 @@ class GameShortcut {
   /// released.
   ///
   /// If this value is `null`, then nothing will happen.
-  final VoidCallback? onStop;
+  final ContextCallback? onStop;
 }
