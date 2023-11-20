@@ -1,5 +1,9 @@
 # Changes
 
+## 0.3.0
+
+- Updated `flutter_synthizer`.
+
 ## 0.2.0
 
 - Updated `flutter_synthizer`.
