@@ -123,19 +123,18 @@ class AudioGameMenu extends StatelessWidget {
   }
 
   /// Build the widget.
-  Widget builder(final BuildContext innerContext) => ListView(
-        children: [
-          for (var i = 0; i < menuItems.length; i++)
-            AudioGameMenuItemListTile(
-              menuItem: menuItems[i],
-              selectSoundAssetPath: selectItemSoundAssetPath,
-              activateSoundAssetPath: activateItemSoundAssetPath,
-              source: interfaceSoundsSource,
-              autofocus: i == 0,
-              activateSoundGain: activateSoundGain,
-              looping: selectItemSoundLooping,
-              selectSoundGain: selectItemSoundGame,
-            ),
-        ],
+  Widget builder(final BuildContext innerContext) => ListView.builder(
+        itemBuilder: (final context, final index) => AudioGameMenuItemListTile(
+          menuItem: menuItems[index],
+          selectSoundAssetPath: selectItemSoundAssetPath,
+          activateSoundAssetPath: activateItemSoundAssetPath,
+          source: interfaceSoundsSource,
+          autofocus: index == 0,
+          activateSoundGain: activateSoundGain,
+          looping: selectItemSoundLooping,
+          selectSoundGain: selectItemSoundGame,
+        ),
+        itemCount: menuItems.length,
+        shrinkWrap: true,
       );
 }

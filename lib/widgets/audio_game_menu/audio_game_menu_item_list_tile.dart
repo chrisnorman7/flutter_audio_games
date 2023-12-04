@@ -81,16 +81,28 @@ class AudioGameMenuItemListTile extends StatelessWidget {
         menuItem.onActivate(context);
       },
     );
+    final earcon = menuItem.earcon;
+    final Widget child;
+    if (earcon == null) {
+      child = listTile;
+    } else {
+      child = PlaySoundSemantics(
+        soundAssetPath: earcon,
+        source: source,
+        gain: menuItem.earconGain,
+        child: listTile,
+      );
+    }
     final selectSound = selectSoundAssetPath;
     if (selectSound == null) {
-      return listTile;
+      return child;
     }
     return PlaySoundSemantics(
       soundAssetPath: selectSound,
       source: source,
       gain: selectSoundGain,
       looping: looping,
-      child: listTile,
+      child: child,
     );
   }
 }

@@ -60,17 +60,24 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
       context,
       widget.soundAssetPath,
     );
-    final g =
-        synthizerScope.synthizerContext.createBufferGenerator(buffer: buffer)
-          ..gain.value = widget.gain
-          ..looping.value = widget.looping;
+    final g = synthizerScope.synthizerContext.createBufferGenerator(
+      buffer: buffer,
+    )
+      ..gain.value = widget.gain
+      ..looping.value = widget.looping;
     widget.source.addGenerator(g);
     generator = g;
+    if (mounted) {
+      await context.findAncestorStateOfType<PlaySoundSemanticsState>()?.play();
+    }
   }
 
   /// Stop the sound.
   void stop() {
     generator?.destroy();
     generator = null;
+    if (mounted) {
+      context.findAncestorStateOfType<PlaySoundSemanticsState>()?.stop();
+    }
   }
 }

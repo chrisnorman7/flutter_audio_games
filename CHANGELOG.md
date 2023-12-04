@@ -1,5 +1,9 @@
 # Changes
 
+## 0.4.0
+
+- Added earcons to audio game menu items.
+
 ## 0.3.0
 
 - Updated `flutter_synthizer`.
