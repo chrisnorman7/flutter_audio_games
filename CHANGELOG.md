@@ -1,5 +1,11 @@
 # Changes
 
+## 0.5.0
+
+- Added the `CutScene` widget.
+- Added the `PlaySound` widget.
+- Cleaned up the source tree.
+
 ## 0.4.0
 
 - Added earcons to audio game menu items.
