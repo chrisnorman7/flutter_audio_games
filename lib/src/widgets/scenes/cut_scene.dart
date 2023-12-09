@@ -2,7 +2,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
 import '../play_sound.dart';
-import '../timed_builders.dart';
+import 'timed_builders.dart';
 
 /// A cut scene.
 class CutScene extends StatelessWidget {
