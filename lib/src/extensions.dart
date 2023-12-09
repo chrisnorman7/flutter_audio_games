@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../widgets/audio_game_menu/audio_game_menu.dart';
-import '../widgets/music/music.dart';
-import '../widgets/random_tasks/random_tasks.dart';
-import '../widgets/ticking/ticking.dart';
 import 'maths.dart';
+import 'widgets/audio_game_menu/audio_game_menu.dart';
+import 'widgets/music/music.dart';
+import 'widgets/random_tasks/random_tasks.dart';
+import 'widgets/ticking/ticking.dart';
 
 /// Useful extensions on build contexts.
 extension FlutterAudioGamesBuildContextExtensions on BuildContext {

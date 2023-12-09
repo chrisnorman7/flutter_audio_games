@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../flutter_audio_games.dart';
+import '../../../flutter_audio_games.dart';
 
 /// A widget for handling game [shortcuts].
 ///

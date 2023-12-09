@@ -1,4 +1,4 @@
-import '../../src/type_defs.dart';
+import '../../type_defs.dart';
 import 'audio_game_menu.dart';
 
 /// A menu item in an [AudioGameMenu].

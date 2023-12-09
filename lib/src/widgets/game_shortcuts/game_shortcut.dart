@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import '../../src/type_defs.dart';
+import '../../type_defs.dart';
 import 'game_shortcuts.dart';
 
 /// A shortcut in a [GameShortcuts] widget.

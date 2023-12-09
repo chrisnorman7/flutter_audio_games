@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../flutter_audio_games.dart';
+import '../../../flutter_audio_games.dart';
 
 /// A widget which ticks [tasks].
 ///
