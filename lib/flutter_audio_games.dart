@@ -37,6 +37,7 @@ export 'widgets/game_shortcuts/game_shortcuts.dart';
 export 'widgets/game_shortcuts/inherited_game_shortcuts.dart';
 export 'widgets/music/inherited_music.dart';
 export 'widgets/music/music.dart';
+export 'widgets/play_sound.dart';
 export 'widgets/play_sound_semantics.dart';
 export 'widgets/random_tasks/inherited_random_tasks.dart';
 export 'widgets/random_tasks/random_task.dart';
