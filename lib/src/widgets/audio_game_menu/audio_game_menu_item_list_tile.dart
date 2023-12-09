@@ -2,7 +2,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
 
-import '../play_sound_semantics.dart';
+import '../sounds/play_sound_semantics.dart';
 import 'audio_game_menu.dart';
 import 'audio_game_menu_item.dart';
 

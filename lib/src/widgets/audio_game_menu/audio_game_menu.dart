@@ -1,7 +1,7 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
-import '../music/music.dart';
+import '../sounds/music/music.dart';
 import 'audio_game_menu_item.dart';
 import 'audio_game_menu_item_list_tile.dart';
 
