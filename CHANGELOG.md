@@ -1,5 +1,9 @@
 # Changes
 
+## 0.6.0
+
+- Added the `ReverbBuilder` widget.
+
 ## 0.5.0
 
 - Added the `CutScene` widget.
