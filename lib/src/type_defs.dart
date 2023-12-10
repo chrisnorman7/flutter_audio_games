@@ -7,3 +7,9 @@ import 'widgets/game_shortcuts/game_shortcut.dart';
 ///
 /// This typedef is used by [AudioGameMenuItem] and [GameShortcut].
 typedef ContextCallback = void Function(BuildContext innerContext);
+
+/// The type of a function which takes both a build [context] and a [value].
+typedef BuildContextValueBuilder<T> = Widget Function(
+  BuildContext context,
+  T value,
+);

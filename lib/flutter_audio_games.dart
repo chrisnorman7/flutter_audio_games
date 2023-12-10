@@ -40,6 +40,8 @@ export 'src/widgets/sounds/music/inherited_music.dart';
 export 'src/widgets/sounds/music/music.dart';
 export 'src/widgets/sounds/play_sound.dart';
 export 'src/widgets/sounds/play_sound_semantics.dart';
+export 'src/widgets/sounds/reverb_builder/reverb_builder.dart';
+export 'src/widgets/sounds/reverb_builder/reverb_preset.dart';
 export 'src/widgets/tasks/random_tasks/inherited_random_tasks.dart';
 export 'src/widgets/tasks/random_tasks/random_task.dart';
 export 'src/widgets/tasks/random_tasks/random_tasks.dart';
