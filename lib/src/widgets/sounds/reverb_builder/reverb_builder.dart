@@ -19,7 +19,7 @@ class ReverbBuilder extends StatefulWidget {
   final ReverbPreset reverbPreset;
 
   /// The widget builder to use.
-  final BuildContextValueBuilder builder;
+  final BuildContextValueBuilder<GlobalFdnReverb> builder;
 
   /// Create state for this widget.
   @override

@@ -1,5 +1,9 @@
 # Changes
 
+## 0.6.1
+
+- Fixed the type of `ReverbBuilder.builder`.
+
 ## 0.6.0
 
 - Added the `ReverbBuilder` widget.
