@@ -74,7 +74,8 @@ class MusicState extends State<Music> {
       source: widget.source,
       destroy: false,
       gain: widget.gain,
-    );
+    )
+      ..looping.value = true;
     if (mounted) {
       generator = g;
       fadeIn();
