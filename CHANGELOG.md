@@ -5,6 +5,7 @@
 - Use `backstreets_widgets` widgets more often.
 - Code clean-up.
 - Added the `GainListTile` widget.
+- Added the `TransitionSoundBuilder` widget.
 
 ## 0.7.0
 
