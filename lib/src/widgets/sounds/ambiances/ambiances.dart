@@ -58,26 +58,28 @@ class AmbiancesState extends State<Ambiances> {
         ..destroy();
     }
     generators.clear();
-    final synthizerContext = context.synthizerContext;
-    final bufferCache = context.bufferCache;
-    final assetBundle = DefaultAssetBundle.of(context);
     for (final ambiance in widget.ambiances) {
-      final buffer = await bufferCache.getBufferFromAssetBundle(
-        assetBundle,
-        ambiance.assetPath,
-      );
-      final generator = synthizerContext.createBufferGenerator(
-        buffer: buffer,
-      )
-        ..configDeleteBehavior(linger: true)
-        ..looping.value = true
-        ..maybeFade(
-          fadeLength: widget.fadeIn,
-          startGain: 0.0,
-          endGain: ambiance.gain,
+      if (mounted) {
+        final generator = await context.playSound(
+          assetPath: ambiance.assetPath,
+          source: widget.source,
+          destroy: false,
+          gain: ambiance.gain,
         );
-      widget.source.addGenerator(generator);
-      generators.add(generator);
+        generator
+          ..looping.value = true
+          ..maybeFade(
+            fadeLength: widget.fadeIn,
+            startGain: 0.0,
+            endGain: ambiance.gain,
+          );
+        widget.source.addGenerator(generator);
+        if (mounted) {
+          generators.add(generator);
+        } else {
+          generator.destroy();
+        }
+      }
     }
   }
 

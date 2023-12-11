@@ -1,5 +1,10 @@
 # Changes
 
+## 0.7.1
+
+- Use `backstreets_widgets` widgets more often.
+- Code clean-up.
+
 ## 0.7.0
 
 - Added the `GainMixin.maybeFade` extension method.

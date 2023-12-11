@@ -2,6 +2,7 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
 
+import '../../../extensions.dart';
 import 'inherited_music.dart';
 
 /// A widget that plays music.
@@ -53,44 +54,32 @@ class MusicState extends State<Music> {
   BufferGenerator? generator;
 
   /// Fade in [generator].
-  void fadeIn() {
-    final fadeIn = widget.fadeInLength;
-    if (fadeIn != null) {
-      generator?.fade(fadeLength: fadeIn, startGain: 0.0, endGain: widget.gain);
-    } else {
-      generator?.gain.value = widget.gain;
-    }
-  }
+  void fadeIn() => generator?.maybeFade(
+        fadeLength: widget.fadeInLength,
+        startGain: 0.0,
+        endGain: widget.gain,
+      );
 
   /// Fade out [generator].
-  void fadeOut() {
-    final fadeLength = widget.fadeOutLength;
-    if (fadeLength != null) {
-      generator?.fade(
-        fadeLength: fadeLength,
+  void fadeOut() => generator?.maybeFade(
+        fadeLength: widget.fadeOutLength,
         startGain: widget.gain,
         endGain: 0.0,
       );
-    }
-  }
 
-  /// ]]
   /// Load the music.
-  Future<void> loadMusic() async {
-    final g = context.synthizerContext.createBufferGenerator()
-      ..looping.value = true
-      ..configDeleteBehavior(linger: true)
-      ..gain.value = 0.0;
-    widget.source.addGenerator(g);
-    final buffer = await context.bufferCache.getBuffer(
-      context,
-      widget.assetPath,
+  Future<void> _loadMusic() async {
+    final g = await context.playSound(
+      assetPath: widget.assetPath,
+      source: widget.source,
+      destroy: false,
+      gain: widget.gain,
     );
-    g.buffer.value = buffer;
     if (mounted) {
       generator = g;
       fadeIn();
     } else {
+      generator = null;
       g.destroy();
     }
   }
@@ -99,7 +88,7 @@ class MusicState extends State<Music> {
   @override
   void initState() {
     super.initState();
-    loadMusic();
+    _loadMusic();
   }
 
   /// Dispose of the widget.

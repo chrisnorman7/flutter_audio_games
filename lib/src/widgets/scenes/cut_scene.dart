@@ -1,3 +1,4 @@
+import 'package:backstreets_widgets/screens.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
@@ -47,10 +48,8 @@ class CutScene extends StatelessWidget {
           (final context) {
             final a = assetPath;
             final s = source;
-            final scaffold = Scaffold(
-              appBar: AppBar(
-                title: Text(sceneTitle),
-              ),
+            final scaffold = SimpleScaffold(
+              title: sceneTitle,
               body: Focus(
                 autofocus: true,
                 child: Center(
