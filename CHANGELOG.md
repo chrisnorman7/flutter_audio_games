@@ -1,5 +1,9 @@
 # Changes
 
+## 0.6.2
+
+- Updated `flutter_synthizer`.
+
 ## 0.6.1
 
 - Fixed the type of `ReverbBuilder.builder`.

@@ -48,6 +48,7 @@ class PlaySoundState extends State<PlaySound> {
       assetPath: widget.assetPath,
       source: widget.source,
       gain: widget.gain,
+      destroy: false,
     );
     if (mounted) {
       generator = value;

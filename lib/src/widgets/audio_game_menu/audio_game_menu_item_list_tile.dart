@@ -76,6 +76,7 @@ class AudioGameMenuItemListTile extends StatelessWidget {
             assetPath: activateSound,
             source: source,
             gain: activateSoundGain,
+            destroy: true,
           );
         }
         menuItem.onActivate(context);

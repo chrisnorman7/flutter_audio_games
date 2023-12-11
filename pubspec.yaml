@@ -1,5 +1,5 @@
 name: flutter_audio_games
-version: 0.6.1
+version: 0.6.2
 description: "Widgets useful for creating audio games."
 homepage: https://github.com/chrisnorman7/flutter_audio_games
 environment:
@@ -10,7 +10,7 @@ dependencies:
   dart_synthizer: ^0.11.2
   flutter:
     sdk: flutter
-  flutter_synthizer: ^0.3.0
+  flutter_synthizer: ^0.3.2
 
 dev_dependencies:
   flutter_lints: ^3.0.1
