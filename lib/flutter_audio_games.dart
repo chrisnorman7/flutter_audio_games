@@ -32,6 +32,7 @@ export 'src/type_defs.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu_item.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu_item_list_tile.dart';
+export 'src/widgets/gain_list_tile.dart';
 export 'src/widgets/game_shortcuts/game_shortcut.dart';
 export 'src/widgets/game_shortcuts/game_shortcuts.dart';
 export 'src/widgets/game_shortcuts/inherited_game_shortcuts.dart';

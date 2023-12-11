@@ -4,6 +4,7 @@
 
 - Use `backstreets_widgets` widgets more often.
 - Code clean-up.
+- Added the `GainListTile` widget.
 
 ## 0.7.0
 
