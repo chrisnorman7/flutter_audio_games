@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_synthizer/flutter_synthizer.dart';
 
 import 'maths.dart';
 import 'widgets/audio_game_menu/audio_game_menu.dart';
@@ -115,4 +117,20 @@ extension FlutterAudioGamesListExtension<E> on List<E> {
   ///
   /// This uses [Random.nextInt] to get a random index.
   E randomElement(final Random random) => this[random.nextInt(length)];
+}
+
+/// Useful methods.
+extension FlutterAudioGamesGainExtensions on GainMixin {
+  /// Maybe fade from [startGain] to [endGain].
+  void maybeFade({
+    required final double? fadeLength,
+    required final double startGain,
+    required final double endGain,
+  }) {
+    if (fadeLength != null) {
+      fade(fadeLength: fadeLength, startGain: startGain, endGain: endGain);
+    } else {
+      gain.value = endGain;
+    }
+  }
 }

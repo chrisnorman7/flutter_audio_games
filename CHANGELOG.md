@@ -1,5 +1,12 @@
 # Changes
 
+## 0.7.0
+
+- Added the `GainMixin.maybeFade` extension method.
+- Added the `Ambiances` widget.
+- Started using the [backstreets_widgets](https://pub.dev/packages/backstreets_widgets) package.
+- Added the `TimedTransitions` widget.
+
 ## 0.6.2
 
 - Updated `flutter_synthizer`.

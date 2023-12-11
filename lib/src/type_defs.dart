@@ -13,3 +13,6 @@ typedef BuildContextValueBuilder<T> = Widget Function(
   BuildContext context,
   T value,
 );
+
+/// The type of a function to instigate a transition.
+typedef OnTransition = void Function(Duration duration, WidgetBuilder builder);
