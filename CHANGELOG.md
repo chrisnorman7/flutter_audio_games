@@ -1,5 +1,9 @@
 # Changes
 
+## 0.8.0
+
+- Updated the docs.
+
 ## 0.7.1
 
 - Use `backstreets_widgets` widgets more often.
