@@ -1,3 +1,4 @@
+import 'package:backstreets_widgets/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_synthizer/flutter_synthizer.dart';
 import '../gen/assets.gen.dart';
 import '../providers.dart';
 
-/// The loaindg screen.
+/// The loading screen.
 class LoadingScreen extends ConsumerWidget {
   /// Create an instance.
   const LoadingScreen({
@@ -19,12 +20,11 @@ class LoadingScreen extends ConsumerWidget {
     context.playSound(
       assetPath: Assets.sounds.music.intro,
       source: source,
+      destroy: true,
     );
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Audio Game Example'),
-      ),
-      body: const Focus(
+    return const SimpleScaffold(
+      title: 'Flutter Audio Game Example',
+      body: Focus(
         autofocus: true,
         child: CircularProgressIndicator(
           semanticsLabel: 'Loading game...',

@@ -109,6 +109,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
               context.playSound(
                 assetPath: Assets.sounds.footsteps.values.randomElement(random),
                 source: source,
+                destroy: true,
               );
             }
           },
@@ -152,6 +153,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
               context.playSound(
                 assetPath: zombie.saying,
                 source: zombie.source,
+                destroy: true,
               );
             },
           ),
@@ -175,6 +177,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                   assetPath:
                       Assets.sounds.footsteps.values.randomElement(random),
                   source: zombie.source,
+                  destroy: true,
                 );
               }
             },
@@ -303,6 +306,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
       await context.playSound(
         assetPath: Assets.sounds.combat.gun,
         source: source,
+        destroy: true,
       );
       final coordinates = player.coordinates;
       final bearing = player.heading;
@@ -316,6 +320,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
               assetPath:
                   Assets.sounds.zombies.hits.values.randomElement(random),
               source: zombie.source,
+              destroy: true,
             );
             zombie.hitPoints -= random.nextInt(5);
             if (zombie.hitPoints <= 0) {
@@ -324,6 +329,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                   assetPath:
                       Assets.sounds.zombies.death.values.randomElement(random),
                   source: zombie.source,
+                  destroy: true,
                 );
               }
               zombie.destroy();
