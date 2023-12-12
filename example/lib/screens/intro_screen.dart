@@ -4,6 +4,7 @@ import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
 
+import '../gen/assets.gen.dart';
 import '../menus/main_menu.dart';
 import '../providers.dart';
 import 'loading_screen.dart';
@@ -43,11 +44,14 @@ class IntroScreenState extends ConsumerState<IntroScreen> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => TimedBuilders(
-        duration: const Duration(seconds: 2),
-        builders: [
-          (final context) => const LoadingScreen(),
-          (final context) => const MainMenu(),
-        ],
-      );
+  Widget build(final BuildContext context) {
+    final source = ref.watch(sourceProvider(context.synthizerContext));
+    return TransitionSoundBuilder(
+      duration: const Duration(seconds: 2),
+      loadingBuilder: (final context) => const LoadingScreen(),
+      builder: (final context) => const MainMenu(),
+      sound: Assets.sounds.music.intro,
+      source: source,
+    );
+  }
 }
