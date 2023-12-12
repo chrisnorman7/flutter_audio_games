@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:backstreets_widgets/screens.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -188,8 +189,8 @@ class MainLevelState extends ConsumerState<MainLevel> {
           source: source,
           fadeOutLength: 3.0,
           child: Builder(
-            builder: (final context) => Scaffold(
-              appBar: AppBar(title: const Text('Main Level')),
+            builder: (final context) => SimpleScaffold(
+              title: 'Main Level',
               body: GameShortcuts(
                 shortcuts: [
                   GameShortcut(
