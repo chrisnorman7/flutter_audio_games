@@ -53,19 +53,28 @@ class MusicState extends State<Music> {
   /// The generator to use.
   BufferGenerator? generator;
 
+  /// Whether [fadeOut] has been used.
+  late bool _faded;
+
   /// Fade in [generator].
-  void fadeIn() => generator?.maybeFade(
-        fadeLength: widget.fadeInLength,
-        startGain: 0.0,
-        endGain: widget.gain,
-      );
+  void fadeIn() {
+    _faded = false;
+    generator?.maybeFade(
+      fadeLength: widget.fadeInLength,
+      startGain: 0.0,
+      endGain: widget.gain,
+    );
+  }
 
   /// Fade out [generator].
-  void fadeOut() => generator?.maybeFade(
-        fadeLength: widget.fadeOutLength,
-        startGain: widget.gain,
-        endGain: 0.0,
-      );
+  void fadeOut() {
+    _faded = true;
+    generator?.maybeFade(
+      fadeLength: widget.fadeOutLength,
+      startGain: widget.gain,
+      endGain: 0.0,
+    );
+  }
 
   /// Load the music.
   Future<void> _loadMusic() async {
@@ -90,6 +99,7 @@ class MusicState extends State<Music> {
   @override
   void initState() {
     super.initState();
+    _faded = false;
     _loadMusic();
   }
 
@@ -103,11 +113,16 @@ class MusicState extends State<Music> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => InheritedMusic(
-        fadeIn: fadeIn,
-        fadeOut: fadeOut,
-        setPlaybackPosition: (final position) =>
-            generator?.playbackPosition.value = position,
-        child: widget.child,
-      );
+  Widget build(final BuildContext context) {
+    if (!_faded) {
+      generator?.gain.value = widget.gain;
+    }
+    return InheritedMusic(
+      fadeIn: fadeIn,
+      fadeOut: fadeOut,
+      setPlaybackPosition: (final position) =>
+          generator?.playbackPosition.value = position,
+      child: widget.child,
+    );
+  }
 }
