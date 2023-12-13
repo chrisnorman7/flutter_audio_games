@@ -1,5 +1,10 @@
 # Changes
 
+## 0.10.0
+
+- Updated `flutter_synthizer`.
+- Set `linger` properly for `music` widgets.
+
 ## 0.9.1
 
 - Fixed a bug which meant `Music` widgets weren't rebuilt.

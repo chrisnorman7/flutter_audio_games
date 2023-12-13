@@ -60,10 +60,8 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
       source: widget.source,
       destroy: false,
       gain: widget.gain,
+      looping: widget.looping,
     );
-    g
-      ..gain.value = widget.gain
-      ..looping.value = widget.looping;
     widget.source.addGenerator(g);
     if (mounted) {
       generator = g;
