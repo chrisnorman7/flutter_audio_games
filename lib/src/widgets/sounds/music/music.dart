@@ -1,3 +1,4 @@
+import 'package:backstreets_widgets/widgets.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
@@ -85,13 +86,6 @@ class MusicState extends State<Music> {
     }
   }
 
-  /// Initialise state.
-  @override
-  void initState() {
-    super.initState();
-    _loadMusic();
-  }
-
   /// Dispose of the widget.
   @override
   void dispose() {
@@ -102,11 +96,27 @@ class MusicState extends State<Music> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => InheritedMusic(
+  Widget build(final BuildContext context) {
+    generator?.destroy();
+    generator = null;
+    final future = _loadMusic();
+    return SimpleFutureBuilder(
+      future: future,
+      done: (final context, final value) => InheritedMusic(
         fadeIn: fadeIn,
         fadeOut: fadeOut,
         setPlaybackPosition: (final value) =>
             generator?.playbackPosition.value = value,
         child: widget.child,
-      );
+      ),
+      loading: (final context) => InheritedMusic(
+        fadeIn: fadeIn,
+        fadeOut: fadeOut,
+        setPlaybackPosition: (final value) =>
+            generator?.playbackPosition.value = value,
+        child: widget.child,
+      ),
+      error: ErrorListView.withPositional,
+    );
+  }
 }

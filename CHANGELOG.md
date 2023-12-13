@@ -1,5 +1,9 @@
 # Changes
 
+## 0.9.1
+
+- Fixed a bug which meant `Music` widgets weren't rebuilt.
+
 ## 0.9.0
 
 - Added the `MaybeMusic` widget.
