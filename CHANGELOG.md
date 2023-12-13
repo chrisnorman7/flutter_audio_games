@@ -1,5 +1,9 @@
 # Changes
 
+## 0.9.0
+
+- Added the `MaybeMusic` widget.
+
 ## 0.8.0
 
 - Updated the docs.

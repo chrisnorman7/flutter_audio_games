@@ -42,6 +42,7 @@ export 'src/widgets/scenes/transition_sound_builder.dart';
 export 'src/widgets/sounds/ambiances/ambiance.dart';
 export 'src/widgets/sounds/ambiances/ambiances.dart';
 export 'src/widgets/sounds/music/inherited_music.dart';
+export 'src/widgets/sounds/music/maybe_music.dart';
 export 'src/widgets/sounds/music/music.dart';
 export 'src/widgets/sounds/play_sound.dart';
 export 'src/widgets/sounds/play_sound_semantics.dart';
