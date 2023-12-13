@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:backstreets_widgets/screens.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -109,6 +110,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
               context.playSound(
                 assetPath: Assets.sounds.footsteps.values.randomElement(random),
                 source: source,
+                destroy: true,
               );
             }
           },
@@ -152,6 +154,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
               context.playSound(
                 assetPath: zombie.saying,
                 source: zombie.source,
+                destroy: true,
               );
             },
           ),
@@ -175,6 +178,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                   assetPath:
                       Assets.sounds.footsteps.values.randomElement(random),
                   source: zombie.source,
+                  destroy: true,
                 );
               }
             },
@@ -185,8 +189,8 @@ class MainLevelState extends ConsumerState<MainLevel> {
           source: source,
           fadeOutLength: 3.0,
           child: Builder(
-            builder: (final context) => Scaffold(
-              appBar: AppBar(title: const Text('Main Level')),
+            builder: (final context) => SimpleScaffold(
+              title: 'Main Level',
               body: GameShortcuts(
                 shortcuts: [
                   GameShortcut(
@@ -303,6 +307,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
       await context.playSound(
         assetPath: Assets.sounds.combat.gun,
         source: source,
+        destroy: true,
       );
       final coordinates = player.coordinates;
       final bearing = player.heading;
@@ -316,6 +321,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
               assetPath:
                   Assets.sounds.zombies.hits.values.randomElement(random),
               source: zombie.source,
+              destroy: true,
             );
             zombie.hitPoints -= random.nextInt(5);
             if (zombie.hitPoints <= 0) {
@@ -324,6 +330,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                   assetPath:
                       Assets.sounds.zombies.death.values.randomElement(random),
                   source: zombie.source,
+                  destroy: true,
                 );
               }
               zombie.destroy();
