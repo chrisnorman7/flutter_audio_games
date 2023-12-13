@@ -3,6 +3,7 @@
 ## 0.9.0
 
 - Added the `MaybeMusic` widget.
+- Added the `ShortcutsHelpScreen` widget.`
 
 ## 0.8.0
 

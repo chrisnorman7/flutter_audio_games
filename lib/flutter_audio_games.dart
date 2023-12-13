@@ -35,6 +35,7 @@ export 'src/widgets/audio_game_menu/audio_game_menu_item_list_tile.dart';
 export 'src/widgets/gain_list_tile.dart';
 export 'src/widgets/game_shortcuts/game_shortcut.dart';
 export 'src/widgets/game_shortcuts/game_shortcuts.dart';
+export 'src/widgets/game_shortcuts/game_shortcuts_help_screen.dart';
 export 'src/widgets/game_shortcuts/inherited_game_shortcuts.dart';
 export 'src/widgets/scenes/timed_builders.dart';
 export 'src/widgets/scenes/timed_transitions.dart';
