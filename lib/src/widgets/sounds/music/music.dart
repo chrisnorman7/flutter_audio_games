@@ -98,7 +98,9 @@ class MusicState extends State<Music> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
-    generator?.destroy();
+    generator
+      ?..configDeleteBehavior(linger: false)
+      ..destroy();
     generator = null;
     final future = _loadMusic();
     return SimpleFutureBuilder(
@@ -106,18 +108,21 @@ class MusicState extends State<Music> {
       done: (final context, final value) => InheritedMusic(
         fadeIn: fadeIn,
         fadeOut: fadeOut,
-        setPlaybackPosition: (final value) =>
-            generator?.playbackPosition.value = value,
+        setPlaybackPosition: setPlaybackPosition,
         child: widget.child,
       ),
       loading: (final context) => InheritedMusic(
         fadeIn: fadeIn,
         fadeOut: fadeOut,
-        setPlaybackPosition: (final value) =>
-            generator?.playbackPosition.value = value,
+        setPlaybackPosition: setPlaybackPosition,
         child: widget.child,
       ),
       error: ErrorListView.withPositional,
     );
   }
+
+  /// Set the playback [position] of [generator].
+  // ignore: use_setters_to_change_properties
+  void setPlaybackPosition(final double position) =>
+      generator?.playbackPosition.value = position;
 }

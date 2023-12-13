@@ -1,5 +1,9 @@
 # Changes
 
+## 0.10.1
+
+- Stop music lingering when the widget is rebuilt.
+
 ## 0.10.0
 
 - Updated `flutter_synthizer`.
