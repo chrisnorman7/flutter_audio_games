@@ -60,6 +60,17 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
   }
 }
 
+/// Useful methods on generic points.
+extension FlutterAudioGamesPointExtension on Point {
+  /// Return `true` if this point lies on a straight line between points [a] and
+  /// [b].
+  bool isOnLine(
+    final Point<double> a,
+    final Point<double> b,
+  ) =>
+      (distanceTo(b) + a.distanceTo(b)) == distanceTo(a);
+}
+
 /// Useful methods for points.
 ///
 /// This extension is mostly copied from [Ziggurat](https://pub.dev/packages/ziggurat).
