@@ -1,5 +1,9 @@
 # Changes
 
+## 0.11.0
+
+- Added the `isOnLine` method for `Point` instances.
+
 ## 0.10.1
 
 - Stop music lingering when the widget is rebuilt.
