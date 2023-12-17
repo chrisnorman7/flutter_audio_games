@@ -1,5 +1,11 @@
 # Changes
 
+## 0.12.0
+
+- Added the `Sound` and `SoundList` classes.
+- Added the `asSound` extension method to `String` instances.
+- Added the `asSoundList` extension method to `List<String>` instances.
+
 ## 0.11.0
 
 - Added the `isOnLine` method for `Point` instances.
