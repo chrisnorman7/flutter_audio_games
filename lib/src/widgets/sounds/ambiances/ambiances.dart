@@ -1,10 +1,9 @@
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
 
 import '../../../extensions.dart';
-import 'ambiance.dart';
+import '../../../sounds/sound.dart';
 
 /// A widget which plays [ambiances].
 class Ambiances extends StatefulWidget {
@@ -19,7 +18,7 @@ class Ambiances extends StatefulWidget {
   });
 
   /// The ambiances to play.
-  final List<Ambiance> ambiances;
+  final List<Sound> ambiances;
 
   /// The source to play [ambiances] through.
   final Source source;
@@ -61,10 +60,10 @@ class AmbiancesState extends State<Ambiances> {
     for (final ambiance in widget.ambiances) {
       if (mounted) {
         final generator = await context.playSound(
-          assetPath: ambiance.assetPath,
+          sound: ambiance,
           source: widget.source,
           destroy: false,
-          gain: ambiance.gain,
+          linger: true,
         );
         generator
           ..looping.value = true
@@ -73,8 +72,8 @@ class AmbiancesState extends State<Ambiances> {
             startGain: 0.0,
             endGain: ambiance.gain,
           );
-        widget.source.addGenerator(generator);
         if (mounted) {
+          widget.source.addGenerator(generator);
           generators.add(generator);
         } else {
           generator.destroy();

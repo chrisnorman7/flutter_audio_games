@@ -51,7 +51,7 @@ class GainListTile extends StatelessWidget {
   Widget build(final BuildContext context) => DoubleListTile(
         value: gain,
         onChanged: (final value) {
-          context.playSound(
+          context.playAssetPath(
             assetPath: volumeChangeSound,
             source: source,
             destroy: true,

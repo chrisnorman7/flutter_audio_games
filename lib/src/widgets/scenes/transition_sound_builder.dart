@@ -1,7 +1,8 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
 
+import '../../extensions.dart';
+import '../../sounds/sound.dart';
 import 'timed_builders.dart';
 
 /// A screen for transitioning to [builder] while playing [sound].
@@ -13,7 +14,6 @@ class TransitionSoundBuilder extends StatelessWidget {
     required this.sound,
     required this.source,
     required this.loadingBuilder,
-    this.gain = 0.7,
     super.key,
   });
 
@@ -24,16 +24,13 @@ class TransitionSoundBuilder extends StatelessWidget {
   final WidgetBuilder builder;
 
   /// The sound to play.
-  final String sound;
+  final Sound sound;
 
   /// The source to play [sound] through.
   final Source source;
 
   /// The builder which will build the loading screen.
   final WidgetBuilder loadingBuilder;
-
-  /// The gain of [sound].
-  final double gain;
 
   /// Build the widget.
   @override
@@ -42,10 +39,9 @@ class TransitionSoundBuilder extends StatelessWidget {
         builders: [
           (final innerContext) {
             innerContext.playSound(
-              assetPath: sound,
+              sound: sound,
               source: source,
               destroy: true,
-              gain: gain,
             );
             return Builder(builder: loadingBuilder);
           },

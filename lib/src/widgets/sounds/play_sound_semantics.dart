@@ -1,6 +1,7 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
+
+import '../../../flutter_audio_games.dart';
 
 /// A [Semantics] widget which plays a sound when focused.
 ///
@@ -9,25 +10,21 @@ import 'package:flutter_synthizer/flutter_synthizer.dart';
 class PlaySoundSemantics extends StatefulWidget {
   /// Create an instance.
   const PlaySoundSemantics({
-    required this.soundAssetPath,
+    required this.sound,
     required this.source,
     required this.child,
-    this.gain = 0.7,
     this.looping = false,
     super.key,
   });
 
-  /// The asset path for the sound to play.
-  final String soundAssetPath;
+  /// The sound to play.
+  final Sound sound;
 
   /// The source to play the sound through.
   final Source source;
 
   /// The widget below this widget in the tree.
   final Widget child;
-
-  /// The gain to play the sound at.
-  final double gain;
 
   /// Whether or not the sound should loop.
   final bool looping;
@@ -56,10 +53,9 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   /// Play the sound.
   Future<void> play() async {
     final g = await context.playSound(
-      assetPath: widget.soundAssetPath,
+      sound: widget.sound,
       source: widget.source,
       destroy: false,
-      gain: widget.gain,
       looping: widget.looping,
     );
     widget.source.addGenerator(g);

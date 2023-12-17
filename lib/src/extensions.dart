@@ -4,14 +4,10 @@ import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
 
-import 'maths.dart';
-import 'widgets/audio_game_menu/audio_game_menu.dart';
-import 'widgets/sounds/music/music.dart';
-import 'widgets/tasks/random_tasks/random_tasks.dart';
-import 'widgets/tasks/ticking/ticking.dart';
+import '../flutter_audio_games.dart';
 
 /// Useful extensions on build contexts.
-extension FlutterAudioGamesBuildContextExtensions on BuildContext {
+extension FlutterAudioGamesBuildContextExtension on BuildContext {
   /// Pause and resume a [Ticking] while pushing a widget [builder].
   ///
   /// This method is useful when implementing a pause menu for example.
@@ -58,15 +54,32 @@ extension FlutterAudioGamesBuildContextExtensions on BuildContext {
     }
     inheritedMusic?.fadeIn();
   }
+
+  /// Play a [sound].
+  Future<BufferGenerator> playSound({
+    required final Sound sound,
+    required final Source source,
+    required final bool destroy,
+    final bool? linger,
+    final bool looping = false,
+  }) =>
+      playAssetPath(
+        assetPath: sound.assetPath,
+        source: source,
+        destroy: destroy,
+        gain: sound.gain,
+        linger: linger,
+        looping: looping,
+      );
 }
 
 /// Useful methods on generic points.
-extension FlutterAudioGamesPointExtension on Point {
+extension FlutterAudioGamesPointExtension<T extends num> on Point<T> {
   /// Return `true` if this point lies on a straight line between points [a] and
   /// [b].
   bool isOnLine(
-    final Point<double> a,
-    final Point<double> b,
+    final Point<T> a,
+    final Point<T> b,
   ) =>
       (distanceTo(b) + a.distanceTo(b)) == distanceTo(a);
 }
@@ -131,7 +144,7 @@ extension FlutterAudioGamesListExtension<E> on List<E> {
 }
 
 /// Useful methods.
-extension FlutterAudioGamesGainExtensions on GainMixin {
+extension FlutterAudioGamesGainExtension on GainMixin {
   /// Maybe fade from [startGain] to [endGain].
   void maybeFade({
     required final double? fadeLength,
@@ -144,4 +157,21 @@ extension FlutterAudioGamesGainExtensions on GainMixin {
       gain.value = endGain;
     }
   }
+}
+
+/// Useful string methods.
+extension FlutterAudioGamesStringExtension on String {
+  /// Return a sound, using this string as the asset path.
+  ///
+  /// If you want to turn a [List] of [String]s into a [SoundList], use the
+  /// [FlutterAudioGamesListStringExtension.asSoundList] method.
+  Sound asSound({final double gain = 0.7}) =>
+      Sound(assetPath: this, gain: gain);
+}
+
+/// Useful methods on string lists.
+extension FlutterAudioGamesListStringExtension on List<String> {
+  /// Return a sound list.
+  SoundList asSoundList({final double gain = 0.7}) =>
+      SoundList(assetPaths: this, gain: gain);
 }

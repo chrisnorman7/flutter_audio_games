@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// A zombie in the game.
 class Zombie {
@@ -21,13 +22,13 @@ class Zombie {
   final Source3D source;
 
   /// The ambiance of this zombie.
-  final String ambiance;
+  final Sound ambiance;
 
   /// The generator to use for the [ambiance].
   final BufferGenerator ambianceGenerator;
 
   /// The sound this zombie will emit.
-  final String saying;
+  final Sound saying;
 
   /// The hit points of this zombie.
   int hitPoints;

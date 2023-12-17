@@ -68,6 +68,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
   @override
   Widget build(final BuildContext context) {
     reverb.t60.value = 1.0;
+    final footstepSounds = Assets.sounds.footsteps.values.asSoundList();
     final synthizerContext = context.synthizerContext;
     final source = ref.watch(sourceProvider(synthizerContext));
     final random = ref.watch(randomProvider);
@@ -108,7 +109,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                 0.0,
               );
               context.playSound(
-                assetPath: Assets.sounds.footsteps.values.randomElement(random),
+                sound: footstepSounds.getSound(random: random),
                 source: source,
                 destroy: true,
               );
@@ -152,7 +153,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
               }
               final zombie = zombies.randomElement(random);
               context.playSound(
-                assetPath: zombie.saying,
+                sound: zombie.saying,
                 source: zombie.source,
                 destroy: true,
               );
@@ -175,8 +176,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
                   ),
                 );
                 context.playSound(
-                  assetPath:
-                      Assets.sounds.footsteps.values.randomElement(random),
+                  sound: footstepSounds.getSound(random: random),
                   source: zombie.source,
                   destroy: true,
                 );
@@ -185,7 +185,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
           ),
         ],
         child: Music(
-          assetPath: Assets.sounds.ambiances.mainLevel,
+          music: Assets.sounds.ambiances.mainLevel.asSound(),
           source: source,
           fadeOutLength: 3.0,
           child: Builder(
@@ -255,6 +255,8 @@ class MainLevelState extends ConsumerState<MainLevel> {
 
   /// Add a zombie.
   Future<void> addZombie() async {
+    final zombieSayings = Assets.sounds.zombies.sayings.values.asSoundList();
+    final breathing = Assets.sounds.zombies.breathing.values.asSoundList();
     final random = ref.read(randomProvider);
     final angle = random.nextDouble() * 360;
     final distance = random.nextDouble() * 50.0;
@@ -266,23 +268,25 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final source = synthizerContext.createSource3D(
       x: coordinates.x,
       y: coordinates.y,
-    )..configDeleteBehavior(linger: true);
-    synthizerContext.configRoute(source, reverb);
-    final generator = synthizerContext.createBufferGenerator()
-      ..looping.value = true;
-    source.addGenerator(generator);
-    final breathing = Assets.sounds.zombies.breathing.values.randomElement(
-      random,
+    )
+      ..configDeleteBehavior(linger: true)
+      ..addInput(reverb);
+    final breath = breathing.getSound(random: random);
+    final generator = await context.playSound(
+      sound: breath,
+      source: source,
+      destroy: false,
+      linger: true,
+      looping: true,
     );
-    final buffer = await context.bufferCache.getBuffer(context, breathing);
     if (mounted) {
-      generator.buffer.value = buffer;
+      source.addGenerator(generator);
       final zombie = Zombie(
         coordinates: coordinates,
         source: source,
-        ambiance: breathing,
+        ambiance: breath,
         ambianceGenerator: generator,
-        saying: Assets.sounds.zombies.sayings.values.randomElement(random),
+        saying: zombieSayings.getSound(random: random),
         hitPoints: random.nextInt(50),
       );
       zombies.add(zombie);
@@ -305,7 +309,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final random = ref.read(randomProvider);
     if (firing) {
       await context.playSound(
-        assetPath: Assets.sounds.combat.gun,
+        sound: Assets.sounds.combat.gun.asSound(),
         source: source,
         destroy: true,
       );
@@ -318,8 +322,9 @@ class MainLevelState extends ConsumerState<MainLevel> {
         if (angle >= 350 || angle <= 10) {
           if (mounted) {
             await context.playSound(
-              assetPath:
-                  Assets.sounds.zombies.hits.values.randomElement(random),
+              sound: Assets.sounds.zombies.hits.values
+                  .randomElement(random)
+                  .asSound(),
               source: zombie.source,
               destroy: true,
             );
@@ -327,8 +332,9 @@ class MainLevelState extends ConsumerState<MainLevel> {
             if (zombie.hitPoints <= 0) {
               if (mounted) {
                 await context.playSound(
-                  assetPath:
-                      Assets.sounds.zombies.death.values.randomElement(random),
+                  sound: Assets.sounds.zombies.death.values
+                      .randomElement(random)
+                      .asSound(),
                   source: zombie.source,
                   destroy: true,
                 );

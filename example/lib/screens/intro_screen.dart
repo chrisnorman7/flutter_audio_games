@@ -50,7 +50,7 @@ class IntroScreenState extends ConsumerState<IntroScreen> {
       duration: const Duration(seconds: 2),
       loadingBuilder: (final context) => const LoadingScreen(),
       builder: (final context) => const MainMenu(),
-      sound: Assets.sounds.music.intro,
+      sound: Sound(assetPath: Assets.sounds.music.intro),
       source: source,
     );
   }

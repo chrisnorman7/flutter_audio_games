@@ -1,26 +1,28 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
+
+import '../../extensions.dart';
+import '../../sounds/sound.dart';
+import 'music/music.dart';
 
 /// A widget which plays a sound when built.
+///
+/// If you want a widget which plays a looping sound when built, consider the
+/// [Music] widget.
 class PlaySound extends StatefulWidget {
   /// Create an instance.
   const PlaySound({
-    required this.assetPath,
+    required this.sound,
     required this.source,
     required this.child,
-    this.gain = 0.7,
     super.key,
   });
 
-  /// The asset path to use.
-  final String assetPath;
+  /// The sound to play.
+  final Sound sound;
 
-  /// The source to play [assetPath] through.
+  /// The source to play [sound] through.
   final Source source;
-
-  /// The gain to play [assetPath] at.
-  final double gain;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -44,16 +46,15 @@ class PlaySoundState extends State<PlaySound> {
 
   /// Load the sound.
   Future<void> loadSound() async {
-    final value = await context.playSound(
-      assetPath: widget.assetPath,
+    final g = await context.playSound(
+      sound: widget.sound,
       source: widget.source,
-      gain: widget.gain,
       destroy: false,
     );
     if (mounted) {
-      generator = value;
+      generator = g;
     } else {
-      value.destroy();
+      g.destroy();
     }
   }
 
@@ -61,7 +62,6 @@ class PlaySoundState extends State<PlaySound> {
   @override
   void dispose() {
     super.dispose();
-    generator?.configDeleteBehavior(linger: false);
     generator?.destroy();
   }
 

@@ -1,3 +1,4 @@
+import '../../sounds/sound.dart';
 import '../../type_defs.dart';
 import 'audio_game_menu.dart';
 
@@ -8,7 +9,6 @@ class AudioGameMenuItem {
     required this.title,
     required this.onActivate,
     this.earcon,
-    this.earconGain = 0.7,
   });
 
   /// The title of this menu item.
@@ -19,8 +19,5 @@ class AudioGameMenuItem {
 
   /// The path of an asset reference that will play when this menu item is
   /// selected. This sound will play in addition to the usual menu select sound.
-  final String? earcon;
-
-  /// The gain to play [earcon] at.
-  final double earconGain;
+  final Sound? earcon;
 }

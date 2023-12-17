@@ -1,25 +1,25 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
+import '../../../sounds/sound.dart';
 import 'music.dart';
 
 /// A widget that possibly plays music through [source].
 class MaybeMusic extends StatelessWidget {
   /// Create an instance.
   const MaybeMusic({
-    required this.assetPath,
+    required this.music,
     required this.source,
     required this.builder,
-    this.gain = 0.7,
     this.fadeInLength,
     this.fadeOutLength,
     super.key,
   });
 
-  /// The asset path to play.
+  /// The music to possibly play.
   ///
-  /// If [assetPath] is `null`, then no music will be played.
-  final String? assetPath;
+  /// If [music] is `null`, then no music will be played.
+  final Sound? music;
 
   /// The source to play the music through.
   final Source source;
@@ -33,18 +33,14 @@ class MaybeMusic extends StatelessWidget {
   /// The fade out length to use.
   final double? fadeOutLength;
 
-  /// The gain to use.
-  final double gain;
-
   /// Build the widget.
   @override
   Widget build(final BuildContext context) {
-    final path = assetPath;
-    if (path != null) {
+    final sound = music;
+    if (sound != null) {
       return Music(
-        assetPath: path,
+        music: sound,
         source: source,
-        gain: gain,
         fadeInLength: fadeInLength,
         fadeOutLength: fadeOutLength,
         child: Builder(builder: builder),

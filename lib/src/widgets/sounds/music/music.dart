@@ -1,18 +1,17 @@
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
 
 import '../../../extensions.dart';
+import '../../../sounds/sound.dart';
 import 'inherited_music.dart';
 
 /// A widget that plays music.
 class Music extends StatefulWidget {
   /// Create an instance.
   const Music({
-    required this.assetPath,
+    required this.music,
     required this.source,
     required this.child,
-    this.gain = 0.7,
     this.fadeInLength,
     this.fadeOutLength,
     super.key,
@@ -25,17 +24,14 @@ class Music extends StatefulWidget {
   /// Return an instance from higher up the widget tree.
   static InheritedMusic of(final BuildContext context) => maybeOf(context)!;
 
-  /// The asset path to use for the music.
-  final String assetPath;
+  /// The music to play.
+  final Sound music;
 
   /// The source to play music through.
   final Source source;
 
   /// The widget below this widget in the tree.
   final Widget child;
-
-  /// The gain to use.
-  final double gain;
 
   /// The fade in length to use.
   final double? fadeInLength;
@@ -62,7 +58,7 @@ class MusicState extends State<Music> {
     generator?.maybeFade(
       fadeLength: widget.fadeInLength,
       startGain: 0.0,
-      endGain: widget.gain,
+      endGain: widget.music.gain,
     );
   }
 
@@ -71,7 +67,7 @@ class MusicState extends State<Music> {
     _faded = true;
     generator?.maybeFade(
       fadeLength: widget.fadeOutLength,
-      startGain: widget.gain,
+      startGain: widget.music.gain,
       endGain: 0.0,
     );
   }
@@ -79,11 +75,10 @@ class MusicState extends State<Music> {
   /// Load the music.
   Future<void> _loadMusic() async {
     final g = await context.playSound(
-      assetPath: widget.assetPath,
+      sound: widget.music,
       source: widget.source,
       destroy: false,
       linger: true,
-      gain: widget.gain,
       looping: true,
     );
     if (mounted) {
@@ -115,7 +110,7 @@ class MusicState extends State<Music> {
   @override
   Widget build(final BuildContext context) {
     if (!_faded) {
-      generator?.gain.value = widget.gain;
+      generator?.gain.value = widget.music.gain;
     }
     return InheritedMusic(
       fadeIn: fadeIn,

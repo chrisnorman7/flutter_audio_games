@@ -38,9 +38,9 @@ class MainMenu extends ConsumerWidget {
       ],
       interfaceSoundsSource: source,
       musicSource: source,
-      musicAssetPath: Assets.sounds.music.mainTheme,
-      activateItemSoundAssetPath: Assets.sounds.menus.activate,
-      selectItemSoundAssetPath: Assets.sounds.menus.select,
+      music: Sound(assetPath: Assets.sounds.music.mainTheme),
+      activateItemSound: Sound(assetPath: Assets.sounds.menus.activate),
+      selectItemSound: Sound(assetPath: Assets.sounds.menus.select),
       musicFadeIn: 3.0,
       musicFadeOut: 4.0,
     );
