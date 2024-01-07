@@ -1,5 +1,9 @@
 # Changes
 
+## 0.13.1
+
+- Stop the `PlaySoundSemantics` widget when `dispose`d.
+
 ## 0.13.0
 
 - Updated `flutter_synthizer`.

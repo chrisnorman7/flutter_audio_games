@@ -39,6 +39,13 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   /// The generator to use.
   BufferGenerator? generator;
 
+  /// Dispose of the widget.
+  @override
+  void dispose() {
+    super.dispose();
+    stop();
+  }
+
   /// Build a widget.
   @override
   Widget build(final BuildContext context) => Semantics(
