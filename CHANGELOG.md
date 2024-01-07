@@ -1,5 +1,9 @@
 # Changes
 
+## 0.13.2
+
+- Don't look up deactivated widgets.
+
 ## 0.13.1
 
 - Stop the `PlaySoundSemantics` widget when `dispose`d.

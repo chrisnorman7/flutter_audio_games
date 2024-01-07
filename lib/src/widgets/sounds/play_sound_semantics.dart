@@ -43,7 +43,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   @override
   void dispose() {
     super.dispose();
-    stop();
+    stop(recurse: false);
   }
 
   /// Build a widget.
@@ -75,10 +75,13 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   }
 
   /// Stop the sound.
-  void stop() {
+  ///
+  /// If [recurse] is `true`, then this method will attempt to go up the tree
+  /// and call [stop] on the next [PlaySoundSemanticsState] instance.
+  void stop({final bool recurse = true}) {
     generator?.destroy();
     generator = null;
-    if (mounted) {
+    if (recurse && mounted) {
       context.findAncestorStateOfType<PlaySoundSemanticsState>()?.stop();
     }
   }
