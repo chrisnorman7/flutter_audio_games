@@ -1,5 +1,9 @@
 # Changes
 
+## 0.13.0
+
+- Updated `flutter_synthizer`.
+
 ## 0.12.0
 
 - Added the `Sound` and `SoundList` classes.
