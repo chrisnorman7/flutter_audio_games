@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:dart_synthizer/dart_synthizer.dart';
@@ -56,15 +57,15 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
   }
 
   /// Play a [sound].
-  Future<BufferGenerator> playSound({
+  FutureOr<BufferGenerator> playSound({
     required final Sound sound,
     required final Source source,
     required final bool destroy,
     final bool? linger,
     final bool looping = false,
   }) =>
-      playAssetPath(
-        assetPath: sound.assetPath,
+      playBufferReference(
+        bufferReference: sound.bufferReference,
         source: source,
         destroy: destroy,
         gain: sound.gain,
@@ -161,17 +162,30 @@ extension FlutterAudioGamesGainExtension on GainMixin {
 
 /// Useful string methods.
 extension FlutterAudioGamesStringExtension on String {
-  /// Return a sound, using this string as the asset path.
+  /// Return a sound, using this string as the path.
   ///
   /// If you want to turn a [List] of [String]s into a [SoundList], use the
   /// [FlutterAudioGamesListStringExtension.asSoundList] method.
-  Sound asSound({final double gain = 0.7}) =>
-      Sound(assetPath: this, gain: gain);
+  Sound asSound({
+    final PathType pathType = PathType.asset,
+    final double gain = 0.7,
+  }) =>
+      Sound(
+        bufferReference: BufferReference(path: this, pathType: pathType),
+        gain: gain,
+      );
 }
 
 /// Useful methods on string lists.
 extension FlutterAudioGamesListStringExtension on List<String> {
   /// Return a sound list.
-  SoundList asSoundList({final double gain = 0.7}) =>
-      SoundList(assetPaths: this, gain: gain);
+  SoundList asSoundList({
+    final PathType pathType = PathType.asset,
+    final double gain = 0.7,
+  }) =>
+      SoundList(
+        paths: this,
+        pathType: pathType,
+        gain: gain,
+      );
 }
