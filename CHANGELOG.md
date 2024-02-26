@@ -1,5 +1,9 @@
 # Changes
 
+## 0.14.0
+
+- Start using `PhysicalKeyboardKey`s for `GameShortcut` instances.
+
 ## 0.13.2
 
 - Don't look up deactivated widgets.
