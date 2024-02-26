@@ -47,33 +47,36 @@ class GameShortcuts extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => InheritedGameShortcuts(
-        shortcuts: shortcuts,
-        child: Builder(
-          builder: (final innerContext) => Focus(
-            autofocus: autofocus,
-            onKey: (final node, final event) {
-              if (event.repeat) {
-                return KeyEventResult.ignored;
-              }
-              for (final shortcut in shortcuts) {
-                if (shortcut.key == event.logicalKey &&
-                    shortcut.controlKey == event.isControlPressed &&
-                    shortcut.altKey == event.isAltPressed &&
-                    shortcut.shiftKey == event.isShiftPressed) {
-                  if (event is RawKeyDownEvent) {
-                    shortcut.onStart?.call(innerContext);
-                  } else {
-                    shortcut.onStop?.call(innerContext);
-                  }
-                  return KeyEventResult.handled;
-                }
-              }
+  Widget build(final BuildContext context) {
+    final keyboard = HardwareKeyboard.instance;
+    return InheritedGameShortcuts(
+      shortcuts: shortcuts,
+      child: Builder(
+        builder: (final innerContext) => Focus(
+          autofocus: autofocus,
+          onKeyEvent: (final node, final event) {
+            if (event is KeyRepeatEvent) {
               return KeyEventResult.ignored;
-            },
-            focusNode: focusNode,
-            child: child,
-          ),
+            }
+            for (final shortcut in shortcuts) {
+              if (shortcut.key == event.physicalKey &&
+                  shortcut.controlKey == keyboard.isControlPressed &&
+                  shortcut.altKey == keyboard.isAltPressed &&
+                  shortcut.shiftKey == keyboard.isShiftPressed) {
+                if (event is KeyDownEvent) {
+                  shortcut.onStart?.call(innerContext);
+                } else {
+                  shortcut.onStop?.call(innerContext);
+                }
+                return KeyEventResult.handled;
+              }
+            }
+            return KeyEventResult.ignored;
+          },
+          focusNode: focusNode,
+          child: child,
         ),
-      );
+      ),
+    );
+  }
 }

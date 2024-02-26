@@ -74,8 +74,14 @@ class MusicState extends State<Music> {
 
   /// Load the music.
   Future<void> _loadMusic() async {
+    final Sound sound;
+    if (widget.fadeInLength == null) {
+      sound = widget.music;
+    } else {
+      sound = Sound(bufferReference: widget.music.bufferReference, gain: 0.0);
+    }
     final g = await context.playSound(
-      sound: widget.music,
+      sound: sound,
       source: widget.source,
       destroy: false,
       linger: true,

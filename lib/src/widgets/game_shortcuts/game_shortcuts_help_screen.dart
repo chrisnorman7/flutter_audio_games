@@ -1,6 +1,7 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'game_shortcut.dart';
 
@@ -43,7 +44,10 @@ class GameShortcutsHelpScreen extends StatelessWidget {
                 if (shortcut.controlKey) controlKey,
                 if (shortcut.shiftKey) shiftKey,
                 if (shortcut.altKey) altKey,
-                shortcut.key.keyLabel,
+                LogicalKeyboardKey.findKeyByKeyId(shortcut.key.usbHidUsage)
+                        ?.keyLabel ??
+                    shortcut.key.debugName ??
+                    shortcut.key.toStringShort(),
               ];
               return CopyListTile(
                 title: keys.join('+'),

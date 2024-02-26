@@ -22,10 +22,8 @@ class GameShortcut {
   /// help menus to be dynamically generated.
   final String title;
 
-  /// The key which will activate this shortcut.
-  ///
-  /// Note: At this time, only [RawKeyEvent.logicalKey] is used.
-  final LogicalKeyboardKey key;
+  /// The physical key which will activate this shortcut.
+  final PhysicalKeyboardKey key;
 
   /// Whether the control key must be used to trigger this shortcut.
   final bool controlKey;
@@ -43,8 +41,7 @@ class GameShortcut {
   ///
   /// If this value is `null`, then nothing will happen.
   ///
-  /// Note: Key repeats are not handled. [RawKeyEvent]s with
-  /// [RawKeyEvent.repeat] are ignored.
+  /// Note: Key repeats are not handled.
   final ContextCallback? onStart;
 
   /// The function to call when this key is deactivated.
