@@ -1,5 +1,9 @@
 # Changes
 
+## 0.15.0
+
+- Use sounds instead of assets paths in `GainListTile`.
+
 ## 0.14.0
 
 - Start using `PhysicalKeyboardKey`s for `GameShortcut` instances.
