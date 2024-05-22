@@ -6,12 +6,12 @@ import '../../../extensions.dart';
 import '../../../sounds/sound.dart';
 
 /// A widget which plays [ambiances].
-class Ambiances extends StatefulWidget {
+class AmbiancesBuilder extends StatefulWidget {
   /// Create an instance.
-  const Ambiances({
+  const AmbiancesBuilder({
     required this.ambiances,
     required this.source,
-    required this.child,
+    required this.builder,
     this.fadeIn,
     this.fadeOut,
     super.key,
@@ -24,7 +24,8 @@ class Ambiances extends StatefulWidget {
   final Source source;
 
   /// The widget below this widget in the tree.
-  final Widget child;
+  final Widget Function(BuildContext context, List<BufferGenerator> generators)
+      builder;
 
   /// The fade in time.
   final double? fadeIn;
@@ -34,11 +35,11 @@ class Ambiances extends StatefulWidget {
 
   /// Create state for this widget.
   @override
-  AmbiancesState createState() => AmbiancesState();
+  AmbiancesBuilderState createState() => AmbiancesBuilderState();
 }
 
-/// State for [Ambiances].
-class AmbiancesState extends State<Ambiances> {
+/// State for [AmbiancesBuilder].
+class AmbiancesBuilderState extends State<AmbiancesBuilder> {
   /// The ambiance generators.
   late final List<BufferGenerator> generators;
 
@@ -57,21 +58,27 @@ class AmbiancesState extends State<Ambiances> {
         ..destroy();
     }
     generators.clear();
+    final fadeIn = widget.fadeIn;
     for (final ambiance in widget.ambiances) {
       if (mounted) {
+        final sound = fadeIn == null
+            ? ambiance
+            : Sound(
+                bufferReference: ambiance.bufferReference,
+                gain: 0.0,
+              );
         final generator = await context.playSound(
-          sound: ambiance,
+          sound: sound,
           source: widget.source,
           destroy: false,
           linger: true,
+          looping: true,
         );
-        generator
-          ..looping.value = true
-          ..maybeFade(
-            fadeLength: widget.fadeIn,
-            startGain: 0.0,
-            endGain: ambiance.gain,
-          );
+        generator.maybeFade(
+          fadeLength: fadeIn,
+          startGain: 0.0,
+          endGain: ambiance.gain,
+        );
         if (mounted) {
           widget.source.addGenerator(generator);
           generators.add(generator);
@@ -105,8 +112,8 @@ class AmbiancesState extends State<Ambiances> {
     final future = loadAmbiances();
     return SimpleFutureBuilder(
       future: future,
-      done: (final context, final value) => widget.child,
-      loading: (final context) => widget.child,
+      done: (final context, final value) => widget.builder(context, generators),
+      loading: (final context) => widget.builder(context, []),
       error: ErrorListView.withPositional,
     );
   }

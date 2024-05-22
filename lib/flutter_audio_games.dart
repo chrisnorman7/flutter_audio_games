@@ -42,7 +42,7 @@ export 'src/widgets/game_shortcuts/inherited_game_shortcuts.dart';
 export 'src/widgets/scenes/timed_builders.dart';
 export 'src/widgets/scenes/timed_transitions.dart';
 export 'src/widgets/scenes/transition_sound_builder.dart';
-export 'src/widgets/sounds/ambiances/ambiances.dart';
+export 'src/widgets/sounds/ambiances/ambiances_builder.dart';
 export 'src/widgets/sounds/music/inherited_music.dart';
 export 'src/widgets/sounds/music/maybe_music.dart';
 export 'src/widgets/sounds/music/music.dart';
