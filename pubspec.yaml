@@ -11,10 +11,10 @@ dependencies:
   dart_synthizer: ^0.11.3
   flutter:
     sdk: flutter
-  flutter_synthizer: ^0.8.0
+  flutter_synthizer: ^0.9.0
 
 dev_dependencies:
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
 
