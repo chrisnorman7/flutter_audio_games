@@ -1,5 +1,9 @@
 # Changes
 
+## 0.16.0
+
+- Added the `SceneBuilder` widget.
+
 ## 0.15.0
 
 - Use sounds instead of assets paths in `GainListTile`.
