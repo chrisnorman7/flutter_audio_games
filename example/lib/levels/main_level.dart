@@ -73,200 +73,216 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final synthizerContext = context.synthizerContext;
     final source = ref.watch(sourceProvider(synthizerContext));
     final random = ref.watch(randomProvider);
-    return TickingTasks(
-      tasks: [
-        TickingTask(
-          onTick: () {
-            final direction = player.movingDirection;
-            if (direction != null) {
-              final double distance;
-              final double bearing;
-              switch (direction) {
-                case MovingDirection.forwards:
-                  distance = 0.5;
-                  bearing = player.heading;
-                  break;
-                case MovingDirection.backwards:
-                  distance = 0.1;
-                  bearing = normaliseAngle(player.heading + 180);
-                  break;
-                case MovingDirection.left:
-                  distance = 0.2;
-                  bearing = normaliseAngle(player.heading - 90);
-                  break;
-                case MovingDirection.right:
-                  distance = 0.2;
-                  bearing = normaliseAngle(player.heading + 90);
-                  break;
-              }
-              final coordinates = player.coordinates.pointInDirection(
-                bearing,
-                distance,
-              );
-              player.coordinates = coordinates;
-              synthizerContext.position.value = Double3(
-                coordinates.x,
-                coordinates.y,
-                0.0,
-              );
-              context.playSound(
-                sound: footstepSounds.getSound(random: random),
-                source: source,
-                destroy: true,
-              );
-            }
-          },
-          duration: const Duration(milliseconds: 300),
-        ),
-        TickingTask(
-          duration: const Duration(milliseconds: 50),
-          onTick: () {
-            final turning = player.turningDirection;
-            if (turning != null) {
-              final double amount;
-              switch (turning) {
-                case TurningDirection.left:
-                  amount = -5.0;
-                  break;
-                case TurningDirection.right:
-                  amount = 5.0;
-                  break;
-              }
-              player.heading = normaliseAngle(player.heading + amount);
-              synthizerContext.orientation.value =
-                  player.heading.angleToDouble6();
-            }
-          },
-        ),
-        TickingTask(
-          onTick: () => fireWeapon(source),
-          duration: const Duration(milliseconds: 200),
+    return SceneBuilder(
+      ambiances: [
+        SceneBuilderAmbiance(
+          sound: Assets.sounds.ambiances.fire.asSound(gain: 1.0),
+          x: 5.0,
+          y: 2.0,
         ),
       ],
-      child: RandomTasks(
+      sourceGain: 1.0,
+      builder: (final context, final ambiances) => TickingTasks(
         tasks: [
-          RandomTask(
-            getDuration: () => Duration(seconds: random.nextInt(5) + 5),
+          TickingTask(
             onTick: () {
-              if (zombies.length < 10) {
-                addZombie();
-                return;
-              }
-              final zombie = zombies.randomElement(random);
-              context.playSound(
-                sound: zombie.saying,
-                source: zombie.source,
-                destroy: true,
-              );
-            },
-          ),
-          RandomTask(
-            getDuration: () => Duration(seconds: random.nextInt(5) + 1),
-            onTick: () {
-              if (zombies.isEmpty) {
-                return;
-              }
-              final zombie = zombies.randomElement(random);
-              if (zombie.coordinates.distanceTo(player.coordinates) > 0.5) {
-                final angle =
-                    zombie.coordinates.angleBetween(player.coordinates);
-                zombie.move(
-                  zombie.coordinates.pointInDirection(
-                    angle,
-                    max(0.5, zombie.coordinates.distanceTo(player.coordinates)),
-                  ),
+              final direction = player.movingDirection;
+              if (direction != null) {
+                final double distance;
+                final double bearing;
+                switch (direction) {
+                  case MovingDirection.forwards:
+                    distance = 0.5;
+                    bearing = player.heading;
+                    break;
+                  case MovingDirection.backwards:
+                    distance = 0.1;
+                    bearing = normaliseAngle(player.heading + 180);
+                    break;
+                  case MovingDirection.left:
+                    distance = 0.2;
+                    bearing = normaliseAngle(player.heading - 90);
+                    break;
+                  case MovingDirection.right:
+                    distance = 0.2;
+                    bearing = normaliseAngle(player.heading + 90);
+                    break;
+                }
+                final coordinates = player.coordinates.pointInDirection(
+                  bearing,
+                  distance,
+                );
+                player.coordinates = coordinates;
+                synthizerContext.position.value = Double3(
+                  coordinates.x,
+                  coordinates.y,
+                  0.0,
                 );
                 context.playSound(
                   sound: footstepSounds.getSound(random: random),
-                  source: zombie.source,
+                  source: source,
                   destroy: true,
                 );
               }
             },
+            duration: const Duration(milliseconds: 300),
+          ),
+          TickingTask(
+            duration: const Duration(milliseconds: 50),
+            onTick: () {
+              final turning = player.turningDirection;
+              if (turning != null) {
+                final double amount;
+                switch (turning) {
+                  case TurningDirection.left:
+                    amount = -5.0;
+                    break;
+                  case TurningDirection.right:
+                    amount = 5.0;
+                    break;
+                }
+                player.heading = normaliseAngle(player.heading + amount);
+                synthizerContext.orientation.value =
+                    player.heading.angleToDouble6();
+              }
+            },
+          ),
+          TickingTask(
+            onTick: () => fireWeapon(source),
+            duration: const Duration(milliseconds: 200),
           ),
         ],
-        child: Music(
-          music: Assets.sounds.ambiances.mainLevel.asSound(),
-          source: source,
-          fadeOutLength: 3.0,
-          child: Builder(
-            builder: (final context) => SimpleScaffold(
-              title: 'Main Level',
-              body: GameShortcuts(
-                shortcuts: [
-                  GameShortcut(
-                    title: 'Walk forwards',
-                    key: PhysicalKeyboardKey.keyW,
-                    onStart: (final _) =>
-                        player.movingDirection = MovingDirection.forwards,
-                    onStop: stopPlayerMoving,
+        child: RandomTasks(
+          tasks: [
+            RandomTask(
+              getDuration: () => Duration(seconds: random.nextInt(5) + 5),
+              onTick: () {
+                if (zombies.length < 10) {
+                  addZombie();
+                  return;
+                }
+                final zombie = zombies.randomElement(random);
+                context.playSound(
+                  sound: zombie.saying,
+                  source: zombie.source,
+                  destroy: true,
+                );
+              },
+            ),
+            RandomTask(
+              getDuration: () => Duration(seconds: random.nextInt(5) + 1),
+              onTick: () {
+                if (zombies.isEmpty) {
+                  return;
+                }
+                final zombie = zombies.randomElement(random);
+                if (zombie.coordinates.distanceTo(player.coordinates) > 0.5) {
+                  final angle =
+                      zombie.coordinates.angleBetween(player.coordinates);
+                  zombie.move(
+                    zombie.coordinates.pointInDirection(
+                      angle,
+                      max(
+                        0.5,
+                        zombie.coordinates.distanceTo(player.coordinates),
+                      ),
+                    ),
+                  );
+                  context.playSound(
+                    sound: footstepSounds.getSound(random: random),
+                    source: zombie.source,
+                    destroy: true,
+                  );
+                }
+              },
+            ),
+          ],
+          child: Music(
+            music: Assets.sounds.ambiances.mainLevel.asSound(),
+            source: source,
+            fadeOutLength: 3.0,
+            child: Builder(
+              builder: (final context) => SimpleScaffold(
+                title: 'Main Level',
+                body: GameShortcuts(
+                  shortcuts: [
+                    GameShortcut(
+                      title: 'Walk forwards',
+                      key: PhysicalKeyboardKey.keyW,
+                      onStart: (final _) =>
+                          player.movingDirection = MovingDirection.forwards,
+                      onStop: stopPlayerMoving,
+                    ),
+                    GameShortcut(
+                      title: 'Move backwards',
+                      key: PhysicalKeyboardKey.keyS,
+                      onStart: (final _) =>
+                          player.movingDirection = MovingDirection.backwards,
+                      onStop: stopPlayerMoving,
+                    ),
+                    GameShortcut(
+                      title: 'Sidestep left',
+                      key: PhysicalKeyboardKey.keyA,
+                      onStart: (final _) =>
+                          player.movingDirection = MovingDirection.left,
+                      onStop: stopPlayerMoving,
+                    ),
+                    GameShortcut(
+                      title: 'Sidestep right',
+                      key: PhysicalKeyboardKey.keyD,
+                      onStart: (final _) =>
+                          player.movingDirection = MovingDirection.right,
+                      onStop: stopPlayerMoving,
+                    ),
+                    GameShortcut(
+                      title: 'Turn left',
+                      key: PhysicalKeyboardKey.arrowLeft,
+                      onStart: (final _) =>
+                          player.turningDirection = TurningDirection.left,
+                      onStop: stopPlayerTurning,
+                    ),
+                    GameShortcut(
+                      title: 'Turn right',
+                      key: PhysicalKeyboardKey.arrowRight,
+                      onStart: (final _) =>
+                          player.turningDirection = TurningDirection.right,
+                      onStop: stopPlayerTurning,
+                    ),
+                    GameShortcut(
+                      title: 'Fire weapon',
+                      key: PhysicalKeyboardKey.space,
+                      onStart: (final _) => firing = true,
+                      onStop: (final _) => firing = false,
+                    ),
+                    GameShortcut(
+                      title: 'Get help',
+                      key: PhysicalKeyboardKey.slash,
+                      shiftKey: true,
+                      onStart: (final innerContext) {
+                        final shortcuts =
+                            GameShortcuts.maybeOf(innerContext)?.shortcuts ??
+                                [];
+                        pushWidget(
+                          context: innerContext,
+                          builder: (final builderContext) =>
+                              GameShortcutsHelpScreen(
+                            shortcuts: shortcuts,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                  child: const Center(
+                    child: Text('Keyboard area'),
                   ),
-                  GameShortcut(
-                    title: 'Move backwards',
-                    key: PhysicalKeyboardKey.keyS,
-                    onStart: (final _) =>
-                        player.movingDirection = MovingDirection.backwards,
-                    onStop: stopPlayerMoving,
-                  ),
-                  GameShortcut(
-                    title: 'Sidestep left',
-                    key: PhysicalKeyboardKey.keyA,
-                    onStart: (final _) =>
-                        player.movingDirection = MovingDirection.left,
-                    onStop: stopPlayerMoving,
-                  ),
-                  GameShortcut(
-                    title: 'Sidestep right',
-                    key: PhysicalKeyboardKey.keyD,
-                    onStart: (final _) =>
-                        player.movingDirection = MovingDirection.right,
-                    onStop: stopPlayerMoving,
-                  ),
-                  GameShortcut(
-                    title: 'Turn left',
-                    key: PhysicalKeyboardKey.arrowLeft,
-                    onStart: (final _) =>
-                        player.turningDirection = TurningDirection.left,
-                    onStop: stopPlayerTurning,
-                  ),
-                  GameShortcut(
-                    title: 'Turn right',
-                    key: PhysicalKeyboardKey.arrowRight,
-                    onStart: (final _) =>
-                        player.turningDirection = TurningDirection.right,
-                    onStop: stopPlayerTurning,
-                  ),
-                  GameShortcut(
-                    title: 'Fire weapon',
-                    key: PhysicalKeyboardKey.space,
-                    onStart: (final _) => firing = true,
-                    onStop: (final _) => firing = false,
-                  ),
-                  GameShortcut(
-                    title: 'Get help',
-                    key: PhysicalKeyboardKey.slash,
-                    shiftKey: true,
-                    onStart: (final innerContext) {
-                      final shortcuts =
-                          GameShortcuts.maybeOf(innerContext)?.shortcuts ?? [];
-                      pushWidget(
-                        context: innerContext,
-                        builder: (final builderContext) =>
-                            GameShortcutsHelpScreen(
-                          shortcuts: shortcuts,
-                        ),
-                      );
-                    },
-                  ),
-                ],
-                child: const Center(
-                  child: Text('Keyboard area'),
                 ),
               ),
             ),
           ),
         ),
       ),
+      fadeIn: 3.0,
+      fadeOut: 3.0,
     );
   }
 
@@ -287,7 +303,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
       y: coordinates.y,
     )
       ..configDeleteBehavior(linger: true)
-      ..addInput(reverb);
+      ..configRoute(reverb);
     final breath = breathing.getSound(random: random);
     final generator = await context.playSound(
       sound: breath,

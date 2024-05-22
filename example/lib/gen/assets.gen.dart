@@ -32,11 +32,14 @@ class $SoundsGen {
 class $SoundsAmbiancesGen {
   const $SoundsAmbiancesGen();
 
+  /// File path: sounds/ambiances/fire.wav
+  String get fire => 'sounds/ambiances/fire.wav';
+
   /// File path: sounds/ambiances/main_level.wav
   String get mainLevel => 'sounds/ambiances/main_level.wav';
 
   /// List of all assets
-  List<String> get values => [mainLevel];
+  List<String> get values => [fire, mainLevel];
 }
 
 class $SoundsCombatGen {
