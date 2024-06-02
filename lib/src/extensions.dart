@@ -72,6 +72,10 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
         linger: linger,
         looping: looping,
       );
+
+  /// Stop a sound playing with this context.
+  void stopPlaySoundSemantics() =>
+      findAncestorStateOfType<PlaySoundSemanticsState>()?.stop();
 }
 
 /// Useful methods on generic points.

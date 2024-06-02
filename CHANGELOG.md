@@ -1,5 +1,9 @@
 # Changes
 
+## 0.17.0
+
+- Added the `stopPlaySoundSemantics` extension method.
+
 ## 0.16.1
 
 - Updated `backstreets_widgets`.
