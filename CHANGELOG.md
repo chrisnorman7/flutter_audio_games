@@ -1,5 +1,9 @@
 # Changes
 
+## 0.16.1
+
+- Updated `backstreets_widgets`.
+
 ## 0.16.0
 
 - Added the `SceneBuilder` widget.
