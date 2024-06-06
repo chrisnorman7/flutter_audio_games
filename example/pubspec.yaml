@@ -8,7 +8,7 @@ environment:
   sdk: ">=3.2.0-210.4.beta <4.0.0"
 
 dependencies:
-  backstreets_widgets: ^0.9.0
+  backstreets_widgets: ^0.11.0
   cupertino_icons: ^1.0.2
   dart_synthizer: ^0.11.2
   flutter:
