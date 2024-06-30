@@ -67,6 +67,7 @@ class MusicState extends State<Music> {
   Future<void> _loadMusic() async {
     final soLoud = SoLoud.instance;
     final h = await widget.sound.play(
+      destroy: false,
       looping: true,
       gain: widget.fadeInTime == null ? null : 0.0,
     );

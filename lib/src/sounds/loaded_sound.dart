@@ -18,12 +18,12 @@ class LoadedSound {
 
   /// Play this sound.
   Future<SoundHandle> play({
+    required final bool destroy,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,
     final double pan = 0,
     final bool paused = false,
     final double? gain,
-    final bool destroy = false,
   }) async {
     final soLoud = SoLoud.instance;
     final handle = await soLoud.play(
@@ -43,6 +43,7 @@ class LoadedSound {
 
   /// Play this sound in 3d.
   Future<SoundHandle> play3d({
+    required final bool destroy,
     final double x = 0.0,
     final double y = 0.0,
     final double z = 0.0,
@@ -53,7 +54,6 @@ class LoadedSound {
     final Duration loopingStart = Duration.zero,
     final bool paused = false,
     final double? gain,
-    final bool destroy = false,
   }) async {
     final soLoud = SoLoud.instance;
     final handle = await soLoud.play3d(

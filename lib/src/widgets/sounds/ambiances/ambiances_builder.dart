@@ -55,6 +55,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
     final fadeInTime = widget.fadeInTime;
     for (final ambiance in widget.ambiances) {
       final handle = await ambiance.play(
+        destroy: false,
         gain: fadeInTime == null ? null : 0.0,
         looping: true,
       );
