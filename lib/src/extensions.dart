@@ -197,7 +197,7 @@ extension FlutterAudioGamesSoLoudExtension on SoLoud {
     final rads = angleToRad(angle);
     final x = cos(rads);
     final y = sin(rads);
-    const z = -1;
+    const z = -1.0;
     set3dListenerAt(x, y, z);
   }
 }

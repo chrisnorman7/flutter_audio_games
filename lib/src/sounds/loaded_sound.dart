@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 import 'sound.dart';
 
-/// A class which represents a [sound] which has been loaded into a [source].
+/// A class which represents a [sound] which has been loaded from [source].
 class LoadedSound {
   /// Create an instance.
   const LoadedSound({
@@ -13,7 +15,7 @@ class LoadedSound {
   /// The loaded sound.
   final Sound sound;
 
-  /// The source which [sound] has been loaded to.
+  /// The source which [sound] has been loaded from.
   final AudioSource source;
 
   /// Play this sound.

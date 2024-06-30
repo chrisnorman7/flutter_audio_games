@@ -42,7 +42,7 @@ class PlaySoundState extends State<PlaySound> {
 
   /// Load the sound.
   Future<void> loadSound() async {
-    final h = await widget.sound.play();
+    final h = await widget.sound.play(destroy: false);
     if (mounted) {
       handle = h;
     } else {

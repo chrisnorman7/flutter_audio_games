@@ -56,7 +56,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
 
   /// Play the sound.
   Future<void> play() async {
-    final h = await widget.sound.play(looping: widget.looping);
+    final h = await widget.sound.play(destroy: false, looping: widget.looping);
     if (mounted) {
       handle = h;
       await context.findAncestorStateOfType<PlaySoundSemanticsState>()?.play();
