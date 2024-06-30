@@ -8,10 +8,8 @@ environment:
 
 dependencies:
   backstreets_widgets: ^0.13.0
-  dart_synthizer: ^0.11.3
   flutter:
     sdk: flutter
-  flutter_synthizer: ^0.9.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
