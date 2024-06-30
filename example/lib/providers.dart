@@ -1,12 +1,15 @@
 import 'dart:math';
 
-import 'package:dart_synthizer/dart_synthizer.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-/// Provide a sound source.
-final sourceProvider = Provider.family<DirectSource, Context>(
-  (final ref, final context) => context.createDirectSource(),
-);
+part 'providers.g.dart';
 
 /// The random number provider.
-final randomProvider = Provider<Random>((final ref) => Random());
+@riverpod
+Random random(final RandomRef ref) => Random();
+
+/// Provide an asset from a sound.
+@Riverpod(keepAlive: true)
+Future<LoadedSound> loadedSound(final LoadedSoundRef ref, final Sound sound) =>
+    sound.load();

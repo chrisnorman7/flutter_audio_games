@@ -1,7 +1,7 @@
+import 'package:backstreets_widgets/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../gen/assets.gen.dart';
@@ -9,40 +9,56 @@ import '../levels/main_level.dart';
 import '../providers.dart';
 
 /// The main menu widget.
-class MainMenu extends ConsumerWidget {
+class MainMenu extends ConsumerStatefulWidget {
   /// Create an instance.
   const MainMenu({
     super.key,
   });
 
-  /// Build the widget.
+  /// Create state for this widget.
   @override
-  Widget build(final BuildContext context, final WidgetRef ref) {
-    final source = ref.watch(sourceProvider.call(context.synthizerContext));
-    return AudioGameMenu(
-      title: 'Main Menu',
-      menuItems: [
-        AudioGameMenuItem(
-          title: 'Play Game',
-          onActivate: (final innerContext) {
-            innerContext
-                .fadeMusicAndPushWidget((final context) => const MainLevel());
-          },
-        ),
-        AudioGameMenuItem(
-          title: 'Visit chrisnorman7 on GitHub',
-          onActivate: (final innerContext) => launchUrl(
-            Uri.parse('https://github.com/chrisnorman7/'),
+  MainMenuState createState() => MainMenuState();
+}
+
+/// State for [MainMenu].
+class MainMenuState extends ConsumerState<MainMenu> {
+  /// Build a widget.
+  @override
+  Widget build(final BuildContext context) {
+    final musicSound = Assets.sounds.music.mainTheme.asSound(
+      soundType: SoundType.asset,
+    );
+    final value = ref.watch(loadedSoundProvider(musicSound));
+    return value.when(
+      data: (final sound) => AudioGameMenu(
+        title: 'Main Menu',
+        menuItems: [
+          AudioGameMenuItem(
+            title: 'Play Game',
+            onActivate: (final innerContext) {
+              innerContext
+                  .fadeMusicAndPushWidget((final context) => const MainLevel());
+            },
           ),
+          AudioGameMenuItem(
+            title: 'Visit chrisnorman7 on GitHub',
+            onActivate: (final innerContext) => launchUrl(
+              Uri.parse('https://github.com/chrisnorman7/'),
+            ),
+          ),
+        ],
+        music: sound,
+        activateItemSound: Assets.sounds.menus.activate.asSound(
+          soundType: SoundType.asset,
         ),
-      ],
-      interfaceSoundsSource: source,
-      musicSource: source,
-      music: Assets.sounds.music.mainTheme.asSound(),
-      activateItemSound: Assets.sounds.menus.activate.asSound(),
-      selectItemSound: Assets.sounds.menus.select.asSound(),
-      musicFadeIn: 3.0,
-      musicFadeOut: 4.0,
+        selectItemSound: Assets.sounds.menus.select.asSound(
+          soundType: SoundType.asset,
+        ),
+        musicFadeInTime: const Duration(seconds: 3),
+        musicFadeOutTime: const Duration(seconds: 4),
+      ),
+      error: ErrorScreen.withPositional,
+      loading: LoadingScreen.new,
     );
   }
 }

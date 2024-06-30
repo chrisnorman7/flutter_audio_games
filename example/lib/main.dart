@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
 
 import 'screens/intro_screen.dart';
 
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(final BuildContext context) => ProviderScope(
-        child: SynthizerScope(
+        child: SoLoudScope(
           child: MaterialApp(
             title: 'Flutter Audio Games Example',
             theme: ThemeData(
