@@ -319,6 +319,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
     final breath = breathing.getSound(random: random);
     final sound = await ref.read(loadedSoundProvider(breath).future);
     final ambianceHandle = await sound.play3d(
+      destroy: false,
       x: coordinates.x,
       y: coordinates.y,
     );
