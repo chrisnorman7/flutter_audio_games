@@ -10,6 +10,7 @@ dependencies:
   backstreets_widgets: ^0.13.0
   flutter:
     sdk: flutter
+  flutter_soloud: ^2.0.2
 
 dev_dependencies:
   flutter_lints: ^4.0.0
