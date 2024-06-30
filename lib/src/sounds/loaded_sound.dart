@@ -40,4 +40,33 @@ class LoadedSound {
     }
     return handle;
   }
+
+  /// Play this sound in 3d.
+  Future<SoundHandle> play3d({
+    final double x = 0.0,
+    final double y = 0.0,
+    final double z = 0.0,
+    final bool looping = false,
+    final Duration loopingStart = Duration.zero,
+    final bool paused = false,
+    final double? gain,
+    final bool destroy = false,
+  }) async {
+    final soLoud = SoLoud.instance;
+    final handle = await soLoud.play3d(
+      source,
+      x,
+      y,
+      z,
+      looping: looping,
+      volume: gain ?? sound.gain,
+      loopingStartAt: loopingStart,
+      paused: paused,
+    );
+    if (destroy) {
+      final length = soLoud.getLength(source);
+      soLoud.scheduleStop(handle, length);
+    }
+    return handle;
+  }
 }
