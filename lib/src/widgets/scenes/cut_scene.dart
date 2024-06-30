@@ -1,10 +1,10 @@
 import 'package:backstreets_widgets/screens.dart';
+import 'package:backstreets_widgets/widgets.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
 import '../../sounds/sound.dart';
 import '../sounds/play_sound.dart';
-import 'timed_builders.dart';
 
 /// A cut scene.
 class CutScene extends StatelessWidget {

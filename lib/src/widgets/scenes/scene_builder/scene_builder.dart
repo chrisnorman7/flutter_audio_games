@@ -130,8 +130,7 @@ class SceneBuilderState extends State<SceneBuilder> {
       future: future,
       done: (final futureBuilderContext, final value) =>
           widget.builder(futureBuilderContext, ambianceContexts),
-      loading: (final futureBuilderContext) =>
-          widget.builder(futureBuilderContext, []),
+      loading: () => widget.builder(context, []),
       error: ErrorListView.withPositional,
     );
   }

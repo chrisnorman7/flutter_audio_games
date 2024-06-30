@@ -1,8 +1,8 @@
+import 'package:backstreets_widgets/typedefs.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
 
-import '../../../type_defs.dart';
 import 'reverb_preset.dart';
 
 /// A widget which creates a [GlobalFdnReverb] from [reverbPreset] and manages

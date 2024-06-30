@@ -1,9 +1,9 @@
+import 'package:backstreets_widgets/widgets.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
 import '../../extensions.dart';
 import '../../sounds/sound.dart';
-import 'timed_builders.dart';
 
 /// A screen for transitioning to [builder] while playing [sound].
 class TransitionSoundBuilder extends StatelessWidget {

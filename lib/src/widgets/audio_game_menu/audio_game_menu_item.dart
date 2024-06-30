@@ -1,5 +1,6 @@
+import 'package:backstreets_widgets/typedefs.dart';
+
 import '../../sounds/sound.dart';
-import '../../type_defs.dart';
 import 'audio_game_menu.dart';
 
 /// A menu item in an [AudioGameMenu].

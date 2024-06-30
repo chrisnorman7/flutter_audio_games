@@ -113,7 +113,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
     return SimpleFutureBuilder(
       future: future,
       done: (final context, final value) => widget.builder(context, generators),
-      loading: (final context) => widget.builder(context, []),
+      loading: () => widget.builder(context, []),
       error: ErrorListView.withPositional,
     );
   }

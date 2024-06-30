@@ -1,5 +1,9 @@
 # Changes
 
+## 0.19.0
+
+- Moved widgets to [backstreets_widgets](https://pub.dev/packages/backstreets_widgets).
+
 ## 0.18.0
 
 - Updated `backstreets_widgets`.

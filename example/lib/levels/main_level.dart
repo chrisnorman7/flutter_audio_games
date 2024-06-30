@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:backstreets_widgets/screens.dart';
 import 'package:backstreets_widgets/util.dart';
+import 'package:backstreets_widgets/widgets.dart';
 import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_synthizer/flutter_synthizer.dart';
@@ -208,55 +208,55 @@ class MainLevelState extends ConsumerState<MainLevel> {
                   shortcuts: [
                     GameShortcut(
                       title: 'Walk forwards',
-                      key: PhysicalKeyboardKey.keyW,
+                      shortcut: GameShortcutsShortcut.keyW,
                       onStart: (final _) =>
                           player.movingDirection = MovingDirection.forwards,
                       onStop: stopPlayerMoving,
                     ),
                     GameShortcut(
                       title: 'Move backwards',
-                      key: PhysicalKeyboardKey.keyS,
+                      shortcut: GameShortcutsShortcut.keyS,
                       onStart: (final _) =>
                           player.movingDirection = MovingDirection.backwards,
                       onStop: stopPlayerMoving,
                     ),
                     GameShortcut(
                       title: 'Sidestep left',
-                      key: PhysicalKeyboardKey.keyA,
+                      shortcut: GameShortcutsShortcut.keyA,
                       onStart: (final _) =>
                           player.movingDirection = MovingDirection.left,
                       onStop: stopPlayerMoving,
                     ),
                     GameShortcut(
                       title: 'Sidestep right',
-                      key: PhysicalKeyboardKey.keyD,
+                      shortcut: GameShortcutsShortcut.keyD,
                       onStart: (final _) =>
                           player.movingDirection = MovingDirection.right,
                       onStop: stopPlayerMoving,
                     ),
                     GameShortcut(
                       title: 'Turn left',
-                      key: PhysicalKeyboardKey.arrowLeft,
+                      shortcut: GameShortcutsShortcut.arrowLeft,
                       onStart: (final _) =>
                           player.turningDirection = TurningDirection.left,
                       onStop: stopPlayerTurning,
                     ),
                     GameShortcut(
                       title: 'Turn right',
-                      key: PhysicalKeyboardKey.arrowRight,
+                      shortcut: GameShortcutsShortcut.arrowRight,
                       onStart: (final _) =>
                           player.turningDirection = TurningDirection.right,
                       onStop: stopPlayerTurning,
                     ),
                     GameShortcut(
                       title: 'Fire weapon',
-                      key: PhysicalKeyboardKey.space,
+                      shortcut: GameShortcutsShortcut.space,
                       onStart: (final _) => firing = true,
                       onStop: (final _) => firing = false,
                     ),
                     GameShortcut(
                       title: 'Get help',
-                      key: PhysicalKeyboardKey.slash,
+                      shortcut: GameShortcutsShortcut.slash,
                       shiftKey: true,
                       onStart: (final innerContext) {
                         final shortcuts =
