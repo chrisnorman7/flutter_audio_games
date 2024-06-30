@@ -1,37 +1,33 @@
 import 'package:backstreets_widgets/widgets.dart';
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../../extensions.dart';
-import '../../../sounds/sound.dart';
+import '../../../sounds/loaded_sound.dart';
 
 /// A widget which plays [ambiances].
 class AmbiancesBuilder extends StatefulWidget {
   /// Create an instance.
   const AmbiancesBuilder({
     required this.ambiances,
-    required this.source,
     required this.builder,
-    this.fadeIn,
-    this.fadeOut,
+    this.fadeInTime,
+    this.fadeOutTime,
     super.key,
   });
 
   /// The ambiances to play.
-  final List<Sound> ambiances;
-
-  /// The source to play [ambiances] through.
-  final Source source;
+  final List<LoadedSound> ambiances;
 
   /// The widget below this widget in the tree.
-  final Widget Function(BuildContext context, List<BufferGenerator> generators)
+  final Widget Function(BuildContext context, List<SoundHandle> handles)
       builder;
 
   /// The fade in time.
-  final double? fadeIn;
+  final Duration? fadeInTime;
 
   /// The fade out time.
-  final double? fadeOut;
+  final Duration? fadeOutTime;
 
   /// Create state for this widget.
   @override
@@ -40,51 +36,32 @@ class AmbiancesBuilder extends StatefulWidget {
 
 /// State for [AmbiancesBuilder].
 class AmbiancesBuilderState extends State<AmbiancesBuilder> {
-  /// The ambiance generators.
-  late final List<BufferGenerator> generators;
+  /// The ambiance handles.
+  late final List<SoundHandle> handles;
 
   /// Initialise state.
   @override
   void initState() {
     super.initState();
-    generators = [];
+    handles = [];
   }
 
   /// Load the ambiances.
   Future<void> loadAmbiances() async {
-    for (final generator in generators) {
-      generator
-        ..configDeleteBehavior(linger: false)
-        ..destroy();
+    for (final handle in handles) {
+      await handle.stop();
     }
-    generators.clear();
-    final fadeIn = widget.fadeIn;
+    handles.clear();
+    final fadeInTime = widget.fadeInTime;
     for (final ambiance in widget.ambiances) {
+      final handle = await ambiance.play(
+        gain: fadeInTime == null ? null : 0.0,
+        looping: true,
+      );
       if (mounted) {
-        final sound = fadeIn == null
-            ? ambiance
-            : Sound(
-                path: ambiance.path,
-                gain: 0.0,
-              );
-        final generator = await context.playSound(
-          sound: sound,
-          source: widget.source,
-          destroy: false,
-          linger: true,
-          looping: true,
-        );
-        generator.maybeFade(
-          fadeLength: fadeIn,
-          startGain: 0.0,
-          endGain: ambiance.gain,
-        );
-        if (mounted) {
-          widget.source.addGenerator(generator);
-          generators.add(generator);
-        } else {
-          generator.destroy();
-        }
+        handles.add(handle);
+      } else {
+        await handle.stop();
       }
     }
   }
@@ -93,16 +70,8 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
   @override
   void dispose() {
     super.dispose();
-    for (var i = 0; i < widget.ambiances.length; i++) {
-      final ambiance = widget.ambiances[i];
-      generators[i]
-        ..looping.value = false
-        ..maybeFade(
-          fadeLength: widget.fadeOut,
-          startGain: ambiance.gain,
-          endGain: 0.0,
-        )
-        ..destroy();
+    for (final handle in handles) {
+      handle.stop(fadeOutTime: widget.fadeOutTime);
     }
   }
 
@@ -112,7 +81,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
     final future = loadAmbiances();
     return SimpleFutureBuilder(
       future: future,
-      done: (final context, final value) => widget.builder(context, generators),
+      done: (final context, final value) => widget.builder(context, handles),
       loading: () => widget.builder(context, []),
       error: ErrorListView.withPositional,
     );

@@ -25,7 +25,6 @@ class Sound {
 
   /// Load this sound into memory.
   Future<LoadedSound> load({
-    final bool looping = false,
     final AssetBundle? assetBundle,
     final LoadMode loadMode = LoadMode.memory,
     final Client? httpClient,

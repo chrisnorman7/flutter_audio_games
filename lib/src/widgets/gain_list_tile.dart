@@ -1,8 +1,7 @@
 import 'package:backstreets_widgets/widgets.dart';
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
-import '../../flutter_audio_games.dart';
+import '../sounds/loaded_sound.dart';
 
 /// A [ListTile] for editing [gain].
 class GainListTile extends StatelessWidget {
@@ -11,7 +10,6 @@ class GainListTile extends StatelessWidget {
     required this.title,
     required this.gain,
     required this.onChanged,
-    required this.source,
     required this.volumeChangeSound,
     this.autofocus = false,
     this.minGain = 0.0,
@@ -29,11 +27,8 @@ class GainListTile extends StatelessWidget {
   /// The function to call when [gain] changes.
   final ValueChanged<double> onChanged;
 
-  /// The source whose volume should be set.
-  final Source source;
-
   /// The sound to play when the volume changes.
-  final Sound volumeChangeSound;
+  final LoadedSound volumeChangeSound;
 
   /// Whether the [ListTile] should be autofocused.
   final bool autofocus;
@@ -52,10 +47,9 @@ class GainListTile extends StatelessWidget {
   Widget build(final BuildContext context) => DoubleListTile(
         value: gain,
         onChanged: (final value) {
-          context.playSound(
-            sound: volumeChangeSound,
-            source: source,
+          volumeChangeSound.play(
             destroy: true,
+            gain: value,
           );
           onChanged(value);
         },

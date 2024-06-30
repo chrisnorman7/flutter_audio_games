@@ -23,13 +23,21 @@ class LoadedSound {
     final double pan = 0,
     final bool paused = false,
     final double? gain,
-  }) =>
-      SoLoud.instance.play(
-        source,
-        looping: looping,
-        volume: gain ?? sound.gain,
-        loopingStartAt: loopingStart,
-        pan: pan,
-        paused: paused,
-      );
+    final bool destroy = false,
+  }) async {
+    final soLoud = SoLoud.instance;
+    final handle = await soLoud.play(
+      source,
+      looping: looping,
+      volume: gain ?? sound.gain,
+      loopingStartAt: loopingStart,
+      pan: pan,
+      paused: paused,
+    );
+    if (destroy) {
+      final length = soLoud.getLength(source);
+      soLoud.scheduleStop(handle, length);
+    }
+    return handle;
+  }
 }

@@ -1,7 +1,8 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:flutter/material.dart';
 
-import '../../sounds/sound.dart';
+import '../../sounds/loaded_sound.dart';
+import '../sounds/music/maybe_music.dart';
 import '../sounds/music/music.dart';
 import 'audio_game_menu_item.dart';
 import 'audio_game_menu_item_list_tile.dart';
@@ -16,8 +17,8 @@ class AudioGameMenu extends StatelessWidget {
     this.selectItemSound,
     this.activateItemSound,
     this.selectItemSoundLooping = false,
-    this.musicFadeIn,
-    this.musicFadeOut,
+    this.musicFadeInTime,
+    this.musicFadeOutTime,
     super.key,
   });
 
@@ -33,14 +34,14 @@ class AudioGameMenu extends StatelessWidget {
   ///
   /// If [music] is not `null`, then a [Music] widget will be added to the
   /// widget tree.
-  final Sound? music;
+  final LoadedSound? music;
 
   /// The sound to play when selecting an item in this menu.
   ///
   /// If [selectItemSound] is not `null`, then the sound will be heard
   /// when moving to a menu item with the keyboard, or touching it on the
   /// screen.
-  final Sound? selectItemSound;
+  final LoadedSound? selectItemSound;
 
   /// Whether or not select sounds should loop.
   ///
@@ -53,20 +54,20 @@ class AudioGameMenu extends StatelessWidget {
   ///
   /// If [activateItemSound] is not `null`, the sound will be heard
   /// when activating menu items.
-  final Sound? activateItemSound;
+  final LoadedSound? activateItemSound;
 
   /// The fade in time for [music].
   ///
-  /// If [music] is `null`, [musicFadeIn] has no effect.
-  final double? musicFadeIn;
+  /// If [music] is `null`, [musicFadeInTime] has no effect.
+  final Duration? musicFadeInTime;
 
   /// The fade out time for [music].
   ///
-  /// If [music] is `null`, [musicFadeOut] has no effect.
+  /// If [music] is `null`, [musicFadeOutTime] has no effect.
   ///
-  /// If [musicFadeOut] is `null`, the menu [music] will end when the menu is
-  /// popped.
-  final double? musicFadeOut;
+  /// If [musicFadeOutTime] is `null`, the menu [music] will end when the menu
+  /// is popped.
+  final Duration? musicFadeOutTime;
 
   /// Build the widget.
   @override
@@ -74,15 +75,12 @@ class AudioGameMenu extends StatelessWidget {
     final musicSound = music;
     return SimpleScaffold(
       title: title,
-      body: musicSound == null
-          ? Builder(builder: builder)
-          : Music(
-              source: musicSound,
-              source: musicSource,
-              fadeInTime: musicFadeIn,
-              fadeOutTime: musicFadeOut,
-              child: Builder(builder: builder),
-            ),
+      body: MaybeMusic(
+        music: musicSound,
+        builder: builder,
+        fadeInTime: musicFadeInTime,
+        fadeOutTime: musicFadeOutTime,
+      ),
     );
   }
 
@@ -92,7 +90,6 @@ class AudioGameMenu extends StatelessWidget {
           menuItem: menuItems[index],
           selectSound: selectItemSound,
           activateSound: activateItemSound,
-          source: interfaceSoundsSource,
           autofocus: index == 0,
           looping: selectItemSoundLooping,
         ),

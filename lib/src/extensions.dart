@@ -189,3 +189,15 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
     }
   }
 }
+
+/// Useful methods.
+extension FlutterAudioGamesSoLoudExtension on SoLoud {
+  /// Set the listener orientation from [angle].
+  void set3dListenerOrientation(final double angle) {
+    final rads = angleToRad(angle);
+    final x = cos(rads);
+    final y = sin(rads);
+    const z = -1;
+    set3dListenerAt(x, y, z);
+  }
+}

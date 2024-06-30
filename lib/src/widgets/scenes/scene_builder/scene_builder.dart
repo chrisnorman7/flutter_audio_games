@@ -1,9 +1,8 @@
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../../extensions.dart';
-import '../../../sounds/sound.dart';
 import 'scene_builder_ambiance.dart';
 import 'scene_builder_ambiance_context.dart';
 
@@ -14,8 +13,8 @@ class SceneBuilder extends StatefulWidget {
     required this.ambiances,
     required this.builder,
     this.sourceGain = 0.7,
-    this.fadeIn,
-    this.fadeOut,
+    this.fadeInTime,
+    this.fadeOutTime,
     super.key,
   });
 
@@ -32,10 +31,10 @@ class SceneBuilder extends StatefulWidget {
   final double sourceGain;
 
   /// The fade in time.
-  final double? fadeIn;
+  final Duration? fadeInTime;
 
   /// The fade out time.
-  final double? fadeOut;
+  final Duration? fadeOutTime;
 
   /// Create state for this widget.
   @override
@@ -57,51 +56,34 @@ class SceneBuilderState extends State<SceneBuilder> {
   /// Load the ambiances.
   Future<void> loadAmbiances() async {
     for (final ambianceContext in ambianceContexts) {
-      ambianceContext.destroy();
+      await ambianceContext.handle.stop();
     }
     ambianceContexts.clear();
-    final fadeIn = widget.fadeIn;
+    final fadeInTime = widget.fadeInTime;
+    final soLoud = SoLoud.instance;
+    final gain = widget.sourceGain;
     for (final ambiance in widget.ambiances) {
+      final handle = await soLoud.play3d(
+        ambiance.source,
+        ambiance.x,
+        ambiance.y,
+        ambiance.z,
+        looping: true,
+        volume: fadeInTime == null ? gain : 0.0,
+      );
+      handle.maybeFade(
+        fadeTime: fadeInTime,
+        to: gain,
+      );
       if (mounted) {
-        final source = context.synthizerContext.createSource3D(
-          pannerStrategy: ambiance.pannerStrategy,
-          x: ambiance.x,
-          y: ambiance.y,
-          z: ambiance.z,
-        )
-          ..gain.value = widget.sourceGain
-          ..configDeleteBehavior(linger: true);
-        final sound = fadeIn == null
-            ? ambiance.sound
-            : Sound(
-                path: ambiance.sound.path,
-                gain: 0.0,
-              );
-        final generator = await context.playSound(
-          sound: sound,
-          source: source,
-          destroy: false,
-          linger: true,
-          looping: true,
+        ambianceContexts.add(
+          SceneBuilderAmbianceContext(
+            sceneBuilderAmbiance: ambiance,
+            handle: handle,
+          ),
         );
-        generator.maybeFade(
-          fadeLength: fadeIn,
-          startGain: 0.0,
-          endGain: ambiance.sound.gain,
-        );
-        if (mounted) {
-          source.addGenerator(generator);
-          ambianceContexts.add(
-            SceneBuilderAmbianceContext(
-              sceneBuilderAmbiance: ambiance,
-              source: source,
-              generator: generator,
-            ),
-          );
-        } else {
-          source.destroy();
-          generator.destroy();
-        }
+      } else {
+        await handle.stop();
       }
     }
   }
@@ -110,15 +92,8 @@ class SceneBuilderState extends State<SceneBuilder> {
   @override
   void dispose() {
     super.dispose();
-    for (var i = 0; i < widget.ambiances.length; i++) {
-      final ambiance = widget.ambiances[i];
-      final ambianceContext = ambianceContexts[i];
-      ambianceContext.generator.maybeFade(
-        fadeLength: widget.fadeOut,
-        startGain: ambiance.sound.gain,
-        endGain: 0.0,
-      );
-      ambianceContext.destroy();
+    for (final ambianceContext in ambianceContexts) {
+      ambianceContext.handle.stop(fadeOutTime: widget.fadeOutTime);
     }
   }
 
@@ -128,8 +103,10 @@ class SceneBuilderState extends State<SceneBuilder> {
     final future = loadAmbiances();
     return SimpleFutureBuilder(
       future: future,
-      done: (final futureBuilderContext, final value) =>
-          widget.builder(futureBuilderContext, ambianceContexts),
+      done: (final futureBuilderContext, final value) => widget.builder(
+        futureBuilderContext,
+        ambianceContexts,
+      ),
       loading: () => widget.builder(context, []),
       error: ErrorListView.withPositional,
     );

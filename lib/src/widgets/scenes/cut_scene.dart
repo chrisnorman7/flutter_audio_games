@@ -1,9 +1,8 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:backstreets_widgets/widgets.dart';
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
-import '../../sounds/sound.dart';
+import '../../sounds/loaded_sound.dart';
 import '../sounds/play_sound.dart';
 
 /// A cut scene.
@@ -15,15 +14,11 @@ class CutScene extends StatelessWidget {
     required this.duration,
     required this.builder,
     this.sound,
-    this.source,
     super.key,
   });
 
   /// The sound to play for the scene.
-  final Sound? sound;
-
-  /// The source to play [sound] through.
-  final Source? source;
+  final LoadedSound? sound;
 
   /// The title of the scene.
   final String sceneTitle;
@@ -43,23 +38,19 @@ class CutScene extends StatelessWidget {
         duration: duration,
         builders: [
           (final context) {
-            final a = sound;
-            final s = source;
+            final s = sound;
             final scaffold = SimpleScaffold(
               title: sceneTitle,
-              body: Focus(
+              body: CenterText(
+                text: sceneText,
                 autofocus: true,
-                child: Center(
-                  child: Text(sceneText),
-                ),
               ),
             );
-            if (a == null || s == null) {
+            if (s == null) {
               return scaffold;
             } else {
               return PlaySound(
-                sound: a,
-                source: s,
+                sound: s,
                 child: scaffold,
               );
             }

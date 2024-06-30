@@ -1,37 +1,32 @@
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
-import '../../../sounds/sound.dart';
+import '../../../sounds/loaded_sound.dart';
 import 'music.dart';
 
-/// A widget that possibly plays music through [source].
+/// A widget that possibly plays music.
 class MaybeMusic extends StatelessWidget {
   /// Create an instance.
   const MaybeMusic({
     required this.music,
-    required this.source,
     required this.builder,
-    this.fadeInLength,
-    this.fadeOutLength,
+    this.fadeInTime,
+    this.fadeOutTime,
     super.key,
   });
 
   /// The music to possibly play.
   ///
   /// If [music] is `null`, then no music will be played.
-  final Sound? music;
-
-  /// The source to play the music through.
-  final Source source;
+  final LoadedSound? music;
 
   /// The widget below this one in the tree.
   final WidgetBuilder builder;
 
   /// The fade in length to use.
-  final double? fadeInLength;
+  final Duration? fadeInTime;
 
   /// The fade out length to use.
-  final double? fadeOutLength;
+  final Duration? fadeOutTime;
 
   /// Build the widget.
   @override
@@ -39,10 +34,9 @@ class MaybeMusic extends StatelessWidget {
     final sound = music;
     if (sound != null) {
       return Music(
-        source: sound,
-        source: source,
-        fadeInTime: fadeInLength,
-        fadeOutTime: fadeOutLength,
+        sound: sound,
+        fadeInTime: fadeInTime,
+        fadeOutTime: fadeOutTime,
         child: Builder(builder: builder),
       );
     }

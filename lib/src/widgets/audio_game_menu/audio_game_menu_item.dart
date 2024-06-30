@@ -1,6 +1,6 @@
 import 'package:backstreets_widgets/typedefs.dart';
 
-import '../../sounds/sound.dart';
+import '../../sounds/loaded_sound.dart';
 import 'audio_game_menu.dart';
 
 /// A menu item in an [AudioGameMenu].
@@ -20,5 +20,5 @@ class AudioGameMenuItem {
 
   /// The path of an asset reference that will play when this menu item is
   /// selected. This sound will play in addition to the usual menu select sound.
-  final Sound? earcon;
+  final LoadedSound? earcon;
 }
