@@ -1,19 +1,18 @@
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../../extensions.dart';
-import '../../../sounds/sound.dart';
+import '../../../sounds/loaded_sound.dart';
 import 'inherited_music.dart';
 
 /// A widget that plays music.
 class Music extends StatefulWidget {
   /// Create an instance.
   const Music({
-    required this.music,
-    required this.source,
+    required this.sound,
     required this.child,
-    this.fadeInLength,
-    this.fadeOutLength,
+    this.fadeInTime,
+    this.fadeOutTime,
     super.key,
   });
 
@@ -24,20 +23,17 @@ class Music extends StatefulWidget {
   /// Return an instance from higher up the widget tree.
   static InheritedMusic of(final BuildContext context) => maybeOf(context)!;
 
-  /// The music to play.
-  final Sound music;
-
-  /// The source to play music through.
-  final Source source;
+  /// The loaded sound.
+  final LoadedSound sound;
 
   /// The widget below this widget in the tree.
   final Widget child;
 
   /// The fade in length to use.
-  final double? fadeInLength;
+  final Duration? fadeInTime;
 
   /// The fade out time to use.
-  final double? fadeOutLength;
+  final Duration? fadeOutTime;
 
   /// Create state for this widget.
   @override
@@ -46,53 +42,41 @@ class Music extends StatefulWidget {
 
 /// State for [Music].
 class MusicState extends State<Music> {
-  /// The generator to use.
-  BufferGenerator? generator;
+  /// The playing sound.
+  SoundHandle? handle;
 
   /// Whether [fadeOut] has been used.
   late bool _faded;
 
-  /// Fade in [generator].
+  /// Fade in [handle].
   void fadeIn() {
     _faded = false;
-    generator?.maybeFade(
-      fadeLength: widget.fadeInLength,
-      startGain: 0.0,
-      endGain: widget.music.gain,
+    handle?.maybeFade(
+      fadeTime: widget.fadeInTime,
+      to: widget.sound.sound.gain,
     );
   }
 
-  /// Fade out [generator].
+  /// Fade out [handle].
   void fadeOut() {
     _faded = true;
-    generator?.maybeFade(
-      fadeLength: widget.fadeOutLength,
-      startGain: widget.music.gain,
-      endGain: 0.0,
-    );
+    handle?.maybeFade(fadeTime: widget.fadeOutTime, to: 0.0);
   }
 
   /// Load the music.
   Future<void> _loadMusic() async {
-    final Sound sound;
-    if (widget.fadeInLength == null) {
-      sound = widget.music;
-    } else {
-      sound = Sound(bufferReference: widget.music.bufferReference, gain: 0.0);
-    }
-    final g = await context.playSound(
-      sound: sound,
-      source: widget.source,
-      destroy: false,
-      linger: true,
+    final soLoud = SoLoud.instance;
+    final h = await widget.sound.play(
       looping: true,
+      gain: widget.fadeInTime == null ? null : 0.0,
     );
     if (mounted) {
-      generator = g;
-      fadeIn();
+      handle = h;
+      if (widget.fadeInTime != null) {
+        fadeIn();
+      }
     } else {
-      generator = null;
-      g.destroy();
+      await soLoud.stop(h);
     }
   }
 
@@ -108,21 +92,32 @@ class MusicState extends State<Music> {
   @override
   void dispose() {
     super.dispose();
-    fadeOut();
-    generator?.destroy();
+    final h = handle;
+    if (h != null) {
+      h.stop(fadeOutTime: widget.fadeOutTime);
+    }
+    handle = null;
   }
 
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
+    final soLoud = SoLoud.instance;
     if (!_faded) {
-      generator?.gain.value = widget.music.gain;
+      final h = handle;
+      if (h != null) {
+        soLoud.setVolume(h, widget.sound.sound.gain);
+      }
     }
     return InheritedMusic(
       fadeIn: fadeIn,
       fadeOut: fadeOut,
-      setPlaybackPosition: (final position) =>
-          generator?.playbackPosition.value = position,
+      setPlaybackPosition: (final position) {
+        final h = handle;
+        if (h != null) {
+          soLoud.seek(h, position as Duration);
+        }
+      },
       child: widget.child,
     );
   }

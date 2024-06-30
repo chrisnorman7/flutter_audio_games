@@ -198,9 +198,9 @@ class MainLevelState extends ConsumerState<MainLevel> {
             ),
           ],
           child: Music(
-            music: Assets.sounds.ambiances.mainLevel.asSound(),
+            source: Assets.sounds.ambiances.mainLevel.asSound(),
             source: source,
-            fadeOutLength: 3.0,
+            fadeOutTime: 3.0,
             child: Builder(
               builder: (final context) => SimpleScaffold(
                 title: 'Main Level',

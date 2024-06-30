@@ -74,7 +74,7 @@ class SceneBuilderState extends State<SceneBuilder> {
         final sound = fadeIn == null
             ? ambiance.sound
             : Sound(
-                bufferReference: ambiance.sound.bufferReference,
+                path: ambiance.sound.path,
                 gain: 0.0,
               );
         final generator = await context.playSound(

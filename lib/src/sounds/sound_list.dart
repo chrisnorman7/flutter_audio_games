@@ -1,9 +1,8 @@
 import 'dart:math';
 
-import 'package:flutter_synthizer/flutter_synthizer.dart';
-
 import '../extensions.dart';
 import 'sound.dart';
+import 'sound_type.dart';
 
 /// A class which provides a list of [paths] to choose a sound from.
 ///
@@ -12,7 +11,7 @@ class SoundList {
   /// Create an instance.
   const SoundList({
     required this.paths,
-    required this.pathType,
+    required this.soundType,
     this.gain = 0.7,
   });
 
@@ -20,7 +19,7 @@ class SoundList {
   final List<String> paths;
 
   /// The type of [paths].
-  final PathType pathType;
+  final SoundType soundType;
 
   /// The gain to play the sound at.
   ///
@@ -29,9 +28,8 @@ class SoundList {
 
   /// Get a single sound.
   Sound getSound({final Random? random}) => Sound(
-        bufferReference: BufferReference(
-          path: paths.randomElement(random ?? Random()),
-          pathType: pathType,
-        ),
+        path: paths.randomElement(random ?? Random()),
+        soundType: soundType,
+        gain: gain,
       );
 }

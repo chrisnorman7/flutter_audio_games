@@ -64,7 +64,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
         final sound = fadeIn == null
             ? ambiance
             : Sound(
-                bufferReference: ambiance.bufferReference,
+                path: ambiance.path,
                 gain: 0.0,
               );
         final generator = await context.playSound(

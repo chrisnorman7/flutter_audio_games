@@ -1,8 +1,8 @@
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../extensions.dart';
-import '../../sounds/sound.dart';
+import '../../sounds/loaded_sound.dart';
 import 'music/music.dart';
 
 /// A widget which plays a sound when built.
@@ -13,16 +13,12 @@ class PlaySound extends StatefulWidget {
   /// Create an instance.
   const PlaySound({
     required this.sound,
-    required this.source,
     required this.child,
     super.key,
   });
 
-  /// The sound to play.
-  final Sound sound;
-
-  /// The source to play [sound] through.
-  final Source source;
+  /// The loaded sound.
+  final LoadedSound sound;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -34,8 +30,8 @@ class PlaySound extends StatefulWidget {
 
 /// State for [PlaySound].
 class PlaySoundState extends State<PlaySound> {
-  /// The generator to use.
-  BufferGenerator? generator;
+  /// The sound handle to use.
+  SoundHandle? handle;
 
   /// Initialise state.
   @override
@@ -46,15 +42,11 @@ class PlaySoundState extends State<PlaySound> {
 
   /// Load the sound.
   Future<void> loadSound() async {
-    final g = await context.playSound(
-      sound: widget.sound,
-      source: widget.source,
-      destroy: false,
-    );
+    final h = await widget.sound.play();
     if (mounted) {
-      generator = g;
+      handle = h;
     } else {
-      g.destroy();
+      await h.stop();
     }
   }
 
@@ -62,7 +54,7 @@ class PlaySoundState extends State<PlaySound> {
   @override
   void dispose() {
     super.dispose();
-    generator?.destroy();
+    handle?.stop();
   }
 
   /// Build a widget.

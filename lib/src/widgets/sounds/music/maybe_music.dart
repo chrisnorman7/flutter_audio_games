@@ -39,10 +39,10 @@ class MaybeMusic extends StatelessWidget {
     final sound = music;
     if (sound != null) {
       return Music(
-        music: sound,
+        source: sound,
         source: source,
-        fadeInLength: fadeInLength,
-        fadeOutLength: fadeOutLength,
+        fadeInTime: fadeInLength,
+        fadeOutTime: fadeOutLength,
         child: Builder(builder: builder),
       );
     }

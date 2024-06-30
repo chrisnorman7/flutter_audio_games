@@ -2,9 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:backstreets_widgets/widgets.dart';
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_synthizer/flutter_synthizer.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../flutter_audio_games.dart';
 
@@ -56,23 +55,6 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
     }
     inheritedMusic?.fadeIn();
   }
-
-  /// Play a [sound].
-  FutureOr<BufferGenerator> playSound({
-    required final Sound sound,
-    required final Source source,
-    required final bool destroy,
-    final bool? linger,
-    final bool looping = false,
-  }) =>
-      playBufferReference(
-        bufferReference: sound.bufferReference,
-        source: source,
-        destroy: destroy,
-        gain: sound.gain,
-        linger: linger,
-        looping: looping,
-      );
 
   /// Stop a sound playing with this context.
   void stopPlaySoundSemantics() =>
@@ -149,22 +131,6 @@ extension FlutterAudioGamesListExtension<E> on List<E> {
   E randomElement(final Random random) => this[random.nextInt(length)];
 }
 
-/// Useful methods.
-extension FlutterAudioGamesGainExtension on GainMixin {
-  /// Maybe fade from [startGain] to [endGain].
-  void maybeFade({
-    required final double? fadeLength,
-    required final double startGain,
-    required final double endGain,
-  }) {
-    if (fadeLength != null) {
-      fade(fadeLength: fadeLength, startGain: startGain, endGain: endGain);
-    } else {
-      gain.value = endGain;
-    }
-  }
-}
-
 /// Useful string methods.
 extension FlutterAudioGamesStringExtension on String {
   /// Return a sound, using this string as the path.
@@ -172,11 +138,12 @@ extension FlutterAudioGamesStringExtension on String {
   /// If you want to turn a [List] of [String]s into a [SoundList], use the
   /// [FlutterAudioGamesListStringExtension.asSoundList] method.
   Sound asSound({
-    final PathType pathType = PathType.asset,
+    required final SoundType soundType,
     final double gain = 0.7,
   }) =>
       Sound(
-        bufferReference: BufferReference(path: this, pathType: pathType),
+        path: this,
+        soundType: soundType,
         gain: gain,
       );
 }
@@ -185,12 +152,40 @@ extension FlutterAudioGamesStringExtension on String {
 extension FlutterAudioGamesListStringExtension on List<String> {
   /// Return a sound list.
   SoundList asSoundList({
-    final PathType pathType = PathType.asset,
+    required final SoundType soundType,
     final double gain = 0.7,
   }) =>
       SoundList(
         paths: this,
-        pathType: pathType,
+        soundType: soundType,
         gain: gain,
       );
+}
+
+/// Useful methods on sound handles.
+extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
+  /// Stop this handle.
+  Future<void> stop({final Duration? fadeOutTime}) async {
+    final soLoud = SoLoud.instance;
+    if (fadeOutTime == null) {
+      await soLoud.stop(this);
+    } else {
+      soLoud
+        ..fadeVolume(this, 0.0, fadeOutTime)
+        ..scheduleStop(this, fadeOutTime);
+    }
+  }
+
+  /// Maybe fade to [to].
+  void maybeFade({
+    required final Duration? fadeTime,
+    required final double to,
+  }) {
+    final soLoud = SoLoud.instance;
+    if (fadeTime != null) {
+      soLoud.fadeVolume(this, to, fadeTime);
+    } else {
+      soLoud.setVolume(this, to);
+    }
+  }
 }

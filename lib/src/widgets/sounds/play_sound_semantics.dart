@@ -1,7 +1,8 @@
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 
-import '../../../flutter_audio_games.dart';
+import '../../extensions.dart';
+import '../../sounds/loaded_sound.dart';
 
 /// A [Semantics] widget which plays a sound when focused.
 ///
@@ -11,17 +12,13 @@ class PlaySoundSemantics extends StatefulWidget {
   /// Create an instance.
   const PlaySoundSemantics({
     required this.sound,
-    required this.source,
     required this.child,
     this.looping = false,
     super.key,
   });
 
   /// The sound to play.
-  final Sound sound;
-
-  /// The source to play the sound through.
-  final Source source;
+  final LoadedSound sound;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -36,8 +33,8 @@ class PlaySoundSemantics extends StatefulWidget {
 
 /// State for [PlaySoundSemantics].
 class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
-  /// The generator to use.
-  BufferGenerator? generator;
+  /// The sound handle to use.
+  SoundHandle? handle;
 
   /// Dispose of the widget.
   @override
@@ -59,18 +56,12 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
 
   /// Play the sound.
   Future<void> play() async {
-    final g = await context.playSound(
-      sound: widget.sound,
-      source: widget.source,
-      destroy: false,
-      looping: widget.looping,
-    );
-    widget.source.addGenerator(g);
+    final h = await widget.sound.play(looping: widget.looping);
     if (mounted) {
-      generator = g;
+      handle = h;
       await context.findAncestorStateOfType<PlaySoundSemanticsState>()?.play();
     } else {
-      g.destroy();
+      await h.stop();
     }
   }
 
@@ -79,10 +70,12 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   /// If [recurse] is `true`, then this method will attempt to go up the tree
   /// and call [stop] on the next [PlaySoundSemanticsState] instance.
   void stop({final bool recurse = true}) {
-    generator?.destroy();
-    generator = null;
+    handle?.stop();
+    handle = null;
     if (recurse && mounted) {
-      context.findAncestorStateOfType<PlaySoundSemanticsState>()?.stop();
+      context
+          .findAncestorStateOfType<PlaySoundSemanticsState>()
+          ?.stop(recurse: recurse);
     }
   }
 }

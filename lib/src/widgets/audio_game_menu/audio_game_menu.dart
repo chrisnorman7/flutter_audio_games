@@ -1,5 +1,4 @@
 import 'package:backstreets_widgets/screens.dart';
-import 'package:dart_synthizer/dart_synthizer.dart';
 import 'package:flutter/material.dart';
 
 import '../../sounds/sound.dart';
@@ -13,8 +12,6 @@ class AudioGameMenu extends StatelessWidget {
   const AudioGameMenu({
     required this.title,
     required this.menuItems,
-    required this.interfaceSoundsSource,
-    required this.musicSource,
     this.music,
     this.selectItemSound,
     this.activateItemSound,
@@ -58,15 +55,6 @@ class AudioGameMenu extends StatelessWidget {
   /// when activating menu items.
   final Sound? activateItemSound;
 
-  /// The source to play menu sounds through.
-  ///
-  /// This source only applies to [selectItemSound], and
-  /// [activateItemSound].
-  final Source interfaceSoundsSource;
-
-  /// The source to play [music] through.
-  final Source musicSource;
-
   /// The fade in time for [music].
   ///
   /// If [music] is `null`, [musicFadeIn] has no effect.
@@ -89,10 +77,10 @@ class AudioGameMenu extends StatelessWidget {
       body: musicSound == null
           ? Builder(builder: builder)
           : Music(
-              music: musicSound,
+              source: musicSound,
               source: musicSource,
-              fadeInLength: musicFadeIn,
-              fadeOutLength: musicFadeOut,
+              fadeInTime: musicFadeIn,
+              fadeOutTime: musicFadeOut,
               child: Builder(builder: builder),
             ),
     );

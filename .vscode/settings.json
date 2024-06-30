@@ -18,8 +18,10 @@
     "riverpod",
     "Rolloff",
     "sdl",
+    "soloud",
     "synthizer",
     "todos",
+    "tts",
     "unawaited",
     "wasd"
   ]
