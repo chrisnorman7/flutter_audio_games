@@ -19,7 +19,14 @@ const unpanned = SoundPositionPanned(0.0);
 /// Position for a 3d sound.
 class SoundPosition3d implements SoundPosition {
   /// Create an instance.
-  const SoundPosition3d(this.x, this.y, this.z);
+  const SoundPosition3d(
+    this.x,
+    this.y,
+    this.z, {
+    this.velX = 0.0,
+    this.velY = 0.0,
+    this.velZ = 0.0,
+  });
 
   /// The x coordinate.
   final double x;
@@ -29,4 +36,13 @@ class SoundPosition3d implements SoundPosition {
 
   /// THe z coordinate.
   final double z;
+
+  /// The velocity x coordinate.
+  final double velX;
+
+  /// The velocity y coordinate.
+  final double velY;
+
+  /// The velocity z coordinate.
+  final double velZ;
 }

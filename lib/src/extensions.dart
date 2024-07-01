@@ -95,6 +95,9 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
           loopingStartAt: sound.loopingStart,
           paused: sound.paused,
           volume: sound.volume,
+          velX: position.velX,
+          velY: position.velY,
+          velZ: position.velZ,
         );
     }
     if (sound.destroy) {

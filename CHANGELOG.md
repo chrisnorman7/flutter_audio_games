@@ -1,5 +1,9 @@
 # Changes
 
+## 0.20.0
+
+- Added `velX`, `velY`, and `velZ` properties to `SoundPosition3d`.
+
 ## 0.19.0
 
 - Moved widgets to [backstreets_widgets](https://pub.dev/packages/backstreets_widgets).
