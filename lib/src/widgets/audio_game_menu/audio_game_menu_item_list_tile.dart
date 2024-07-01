@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../sounds/loaded_sound.dart';
+import '../../extensions.dart';
+import '../../sounds/sound.dart';
 import '../sounds/play_sound_semantics.dart';
 import 'audio_game_menu.dart';
 import 'audio_game_menu_item.dart';
@@ -13,7 +14,6 @@ class AudioGameMenuItemListTile extends StatelessWidget {
     this.selectSound,
     this.activateSound,
     this.autofocus = false,
-    this.looping = false,
     super.key,
   });
 
@@ -24,22 +24,16 @@ class AudioGameMenuItemListTile extends StatelessWidget {
   ///
   /// If [selectSound] is not `null`, then [selectSound] will be heard when this
   /// [AudioGameMenuItemListTile] receives focus.
-  final LoadedSound? selectSound;
+  final Sound? selectSound;
 
   /// The activate sound.
   ///
   /// If [activateSound] is not `null`, [activateSound] will play when this
   /// [AudioGameMenuItemListTile] is activated.
-  final LoadedSound? activateSound;
+  final Sound? activateSound;
 
   /// Whether or not the [ListTile] should be autofocused.
   final bool autofocus;
-
-  /// Whether or not [selectSound] should loop.
-  ///
-  /// If [looping] is `true`, [selectSound] will loop when this
-  /// [AudioGameMenuItemListTile] receives focus.
-  final bool looping;
 
   /// Build the widget.
   @override
@@ -48,10 +42,7 @@ class AudioGameMenuItemListTile extends StatelessWidget {
       autofocus: autofocus,
       title: Text(menuItem.title),
       onTap: () {
-        activateSound?.play(
-          destroy: true,
-          looping: looping,
-        );
+        context.maybePlaySound(activateSound);
         menuItem.onActivate(context);
       },
     );
@@ -71,7 +62,6 @@ class AudioGameMenuItemListTile extends StatelessWidget {
     }
     return PlaySoundSemantics(
       sound: sound,
-      looping: looping,
       child: child,
     );
   }

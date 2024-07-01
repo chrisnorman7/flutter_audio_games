@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../../extensions.dart';
-import '../../../sounds/loaded_sound.dart';
+import '../../../sounds/sound.dart';
 
 /// A widget which plays [ambiances].
 class AmbiancesBuilder extends StatefulWidget {
@@ -17,7 +17,7 @@ class AmbiancesBuilder extends StatefulWidget {
   });
 
   /// The ambiances to play.
-  final List<LoadedSound> ambiances;
+  final List<Sound> ambiances;
 
   /// The widget below this widget in the tree.
   final Widget Function(BuildContext context, List<SoundHandle> handles)
@@ -54,15 +54,15 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
     handles.clear();
     final fadeInTime = widget.fadeInTime;
     for (final ambiance in widget.ambiances) {
-      final handle = await ambiance.play(
-        destroy: false,
-        gain: fadeInTime == null ? null : 0.0,
-        looping: true,
-      );
       if (mounted) {
-        handles.add(handle);
-      } else {
-        await handle.stop();
+        final handle = await context.playSound(
+          ambiance.copyWith(gain: fadeInTime == null ? null : 0.0),
+        );
+        if (mounted) {
+          handles.add(handle);
+        } else {
+          await handle.stop();
+        }
       }
     }
   }

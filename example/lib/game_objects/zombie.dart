@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
@@ -18,13 +19,13 @@ class Zombie {
   Point<double> coordinates;
 
   /// The ambiance of this zombie.
-  final LoadedSound ambiance;
+  final Sound ambiance;
 
   /// The handle to use for the [ambiance].
   final SoundHandle ambianceHandle;
 
   /// The sound this zombie will emit.
-  final LoadedSound saying;
+  final Sound saying;
 
   /// The hit points of this zombie.
   int hitPoints;
@@ -47,14 +48,12 @@ class Zombie {
 
   /// Play a sound.
   Future<SoundHandle> playSound({
-    required final LoadedSound sound,
-    required final bool destroy,
-    final bool looping = false,
+    required final BuildContext context,
+    required final Sound sound,
   }) =>
-      sound.play3d(
-        destroy: destroy,
-        looping: looping,
-        x: coordinates.x,
-        y: coordinates.y,
+      context.playSound(
+        sound.copyWith(
+          position: SoundPosition3d(coordinates.x, coordinates.y, 0),
+        ),
       );
 }

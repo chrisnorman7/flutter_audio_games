@@ -2,7 +2,7 @@ import 'package:backstreets_widgets/screens.dart';
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-import '../../sounds/loaded_sound.dart';
+import '../../sounds/sound.dart';
 import '../sounds/play_sound.dart';
 
 /// A cut scene.
@@ -18,7 +18,7 @@ class CutScene extends StatelessWidget {
   });
 
   /// The sound to play for the scene.
-  final LoadedSound? sound;
+  final Sound? sound;
 
   /// The title of the scene.
   final String sceneTitle;

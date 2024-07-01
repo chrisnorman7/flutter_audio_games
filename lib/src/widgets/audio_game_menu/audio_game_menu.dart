@@ -1,7 +1,7 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:flutter/material.dart';
 
-import '../../sounds/loaded_sound.dart';
+import '../../sounds/sound.dart';
 import '../sounds/music/maybe_music.dart';
 import '../sounds/music/music.dart';
 import 'audio_game_menu_item.dart';
@@ -16,7 +16,6 @@ class AudioGameMenu extends StatelessWidget {
     this.music,
     this.selectItemSound,
     this.activateItemSound,
-    this.selectItemSoundLooping = false,
     this.musicFadeInTime,
     this.musicFadeOutTime,
     super.key,
@@ -34,27 +33,20 @@ class AudioGameMenu extends StatelessWidget {
   ///
   /// If [music] is not `null`, then a [Music] widget will be added to the
   /// widget tree.
-  final LoadedSound? music;
+  final Sound? music;
 
   /// The sound to play when selecting an item in this menu.
   ///
   /// If [selectItemSound] is not `null`, then the sound will be heard
   /// when moving to a menu item with the keyboard, or touching it on the
   /// screen.
-  final LoadedSound? selectItemSound;
-
-  /// Whether or not select sounds should loop.
-  ///
-  /// If [selectItemSoundLooping] is `true`, and [selectItemSound] is
-  /// not `null`, then the sound which is heard when moving to a menu item will
-  /// loop.
-  final bool selectItemSoundLooping;
+  final Sound? selectItemSound;
 
   /// The sound to play when activating an item in this menu.
   ///
   /// If [activateItemSound] is not `null`, the sound will be heard
   /// when activating menu items.
-  final LoadedSound? activateItemSound;
+  final Sound? activateItemSound;
 
   /// The fade in time for [music].
   ///
@@ -91,7 +83,6 @@ class AudioGameMenu extends StatelessWidget {
           selectSound: selectItemSound,
           activateSound: activateItemSound,
           autofocus: index == 0,
-          looping: selectItemSoundLooping,
         ),
         itemCount: menuItems.length,
         shrinkWrap: true,

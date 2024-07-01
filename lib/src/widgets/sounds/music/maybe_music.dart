@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../sounds/loaded_sound.dart';
+import '../../../sounds/sound.dart';
 import 'music.dart';
 
 /// A widget that possibly plays music.
@@ -17,7 +17,7 @@ class MaybeMusic extends StatelessWidget {
   /// The music to possibly play.
   ///
   /// If [music] is `null`, then no music will be played.
-  final LoadedSound? music;
+  final Sound? music;
 
   /// The widget below this one in the tree.
   final WidgetBuilder builder;

@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../gen/assets.gen.dart';
 import '../menus/main_menu.dart';
-import '../providers.dart';
 
 /// The intro screen.
 class IntroScreen extends ConsumerWidget {
@@ -17,23 +16,15 @@ class IntroScreen extends ConsumerWidget {
   /// Build a widget.
   @override
   Widget build(final BuildContext context, final WidgetRef ref) {
-    final value = ref.watch(
-      loadedSoundProvider(
-        Assets.sounds.music.intro.asSound(
-          soundType: SoundType.asset,
-          gain: 1.0,
-        ),
-      ),
+    final sound = Assets.sounds.music.intro.asSound(
+      destroy: true,
+      soundType: SoundType.asset,
     );
-    return value.when(
-      data: (final sound) => TransitionSoundBuilder(
-        duration: const Duration(seconds: 2),
-        builder: (final context) => const MainMenu(),
-        sound: sound,
-        loadingBuilder: LoadingScreen.new,
-      ),
-      error: ErrorScreen.withPositional,
-      loading: LoadingScreen.new,
+    return TransitionSoundBuilder(
+      duration: const Duration(seconds: 2),
+      builder: (final context) => const MainMenu(),
+      sound: sound,
+      loadingBuilder: LoadingScreen.new,
     );
   }
 }

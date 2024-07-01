@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../../extensions.dart';
-import '../../../sounds/loaded_sound.dart';
+import '../../../sounds/sound.dart';
 import 'inherited_music.dart';
 
 /// A widget that plays music.
@@ -24,7 +24,7 @@ class Music extends StatefulWidget {
   static InheritedMusic of(final BuildContext context) => maybeOf(context)!;
 
   /// The loaded sound.
-  final LoadedSound sound;
+  final Sound sound;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -53,7 +53,7 @@ class MusicState extends State<Music> {
     _faded = false;
     handle?.maybeFade(
       fadeTime: widget.fadeInTime,
-      to: widget.sound.sound.gain,
+      to: widget.sound.gain,
     );
   }
 
@@ -66,10 +66,8 @@ class MusicState extends State<Music> {
   /// Load the music.
   Future<void> _loadMusic() async {
     final soLoud = SoLoud.instance;
-    final h = await widget.sound.play(
-      destroy: false,
-      looping: true,
-      gain: widget.fadeInTime == null ? null : 0.0,
+    final h = await context.playSound(
+      widget.sound.copyWith(gain: widget.fadeInTime == null ? null : 0.0),
     );
     if (mounted) {
       handle = h;
@@ -107,7 +105,7 @@ class MusicState extends State<Music> {
     if (!_faded) {
       final h = handle;
       if (h != null) {
-        soLoud.setVolume(h, widget.sound.sound.gain);
+        soLoud.setVolume(h, widget.sound.gain);
       }
     }
     return InheritedMusic(

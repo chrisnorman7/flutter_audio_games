@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'screens/intro_screen.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
 }
 

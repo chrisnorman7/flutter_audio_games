@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../extensions.dart';
-import '../../sounds/loaded_sound.dart';
+import '../../sounds/sound.dart';
 import 'music/music.dart';
 
 /// A widget which plays a sound when built.
@@ -18,7 +18,7 @@ class PlaySound extends StatefulWidget {
   });
 
   /// The loaded sound.
-  final LoadedSound sound;
+  final Sound sound;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -42,7 +42,7 @@ class PlaySoundState extends State<PlaySound> {
 
   /// Load the sound.
   Future<void> loadSound() async {
-    final h = await widget.sound.play(destroy: false);
+    final h = await context.playSound(widget.sound);
     if (mounted) {
       handle = h;
     } else {

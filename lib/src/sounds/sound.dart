@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:http/http.dart';
-
-import 'loaded_sound.dart';
+import 'sound_position.dart';
 import 'sound_type.dart';
 
 /// A single sound to play.
@@ -11,7 +7,12 @@ class Sound {
   const Sound({
     required this.path,
     required this.soundType,
+    required this.destroy,
     this.gain = 0.7,
+    this.looping = false,
+    this.loopingStart = Duration.zero,
+    this.paused = false,
+    this.position = unpanned,
   });
 
   /// The asset path to use.
@@ -23,35 +24,50 @@ class Sound {
   /// The gain to play [path] at.
   final double gain;
 
-  /// Load this sound into memory.
-  Future<LoadedSound> load({
-    final AssetBundle? assetBundle,
-    final LoadMode loadMode = LoadMode.memory,
-    final Client? httpClient,
-  }) async {
-    final soLoud = SoLoud.instance;
-    final AudioSource source;
-    switch (soundType) {
-      case SoundType.asset:
-        source = await soLoud.loadAsset(
-          path,
-          assetBundle: assetBundle,
-          mode: loadMode,
-        );
-      case SoundType.file:
-        source = await soLoud.loadFile(
-          path,
-          mode: loadMode,
-        );
-      case SoundType.url:
-        source = await soLoud.loadUrl(
-          path,
-          mode: loadMode,
-          httpClient: httpClient,
-        );
-      case SoundType.tts:
-        source = await soLoud.speechText(path);
+  /// Whether or not this sound should be destroyed after playing.
+  final bool destroy;
+
+  /// Whether this sound should loop.
+  final bool looping;
+
+  /// The point where this sound should start loading.
+  final Duration loopingStart;
+
+  /// The position for this sound.
+  final SoundPosition position;
+
+  /// Whether this sound should start paused.
+  final bool paused;
+
+  /// Get a hash code which can safely be used to check equality.
+  @override
+  int get hashCode => '$path${soundType.name}'.hashCode;
+
+  @override
+  bool operator ==(final Object other) {
+    if (other is Sound) {
+      return other.path == path && other.soundType == soundType;
     }
-    return LoadedSound(sound: this, source: source);
+    return super == other;
   }
+
+  /// Copy this sound to a new instance.
+  Sound copyWith({
+    final bool? destroy,
+    final double? gain,
+    final bool? looping,
+    final Duration? loopingStart,
+    final bool? paused,
+    final SoundPosition? position,
+  }) =>
+      Sound(
+        path: path,
+        soundType: soundType,
+        destroy: destroy ?? this.destroy,
+        gain: gain ?? this.gain,
+        looping: looping ?? this.looping,
+        loopingStart: loopingStart ?? this.loopingStart,
+        paused: paused ?? this.paused,
+        position: position ?? this.position,
+      );
 }

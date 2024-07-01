@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../extensions.dart';
-import '../../sounds/loaded_sound.dart';
+import '../../sounds/sound.dart';
 
 /// A [Semantics] widget which plays a sound when focused.
 ///
@@ -13,18 +13,14 @@ class PlaySoundSemantics extends StatefulWidget {
   const PlaySoundSemantics({
     required this.sound,
     required this.child,
-    this.looping = false,
     super.key,
   });
 
   /// The sound to play.
-  final LoadedSound sound;
+  final Sound sound;
 
   /// The widget below this widget in the tree.
   final Widget child;
-
-  /// Whether or not the sound should loop.
-  final bool looping;
 
   /// Create state for this widget.
   @override
@@ -56,7 +52,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
 
   /// Play the sound.
   Future<void> play() async {
-    final h = await widget.sound.play(destroy: false, looping: widget.looping);
+    final h = await context.playSound(widget.sound);
     if (mounted) {
       handle = h;
       await context.findAncestorStateOfType<PlaySoundSemanticsState>()?.play();

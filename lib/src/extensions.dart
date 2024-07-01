@@ -59,6 +59,58 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
   /// Stop a sound playing with this context.
   void stopPlaySoundSemantics() =>
       findAncestorStateOfType<PlaySoundSemanticsState>()?.stop();
+
+  /// Get the so loud instance.
+  SoLoud get soLoud => SoLoud.instance;
+
+  /// Get a so loud scope state.
+  SoLoudScopeState get soLoudScope => SoLoudScope.of(this);
+
+  /// Get the source loader attached to this context.
+  SourceLoader get sourceLoader => soLoudScope.sourceLoader;
+
+  /// Play [sound].
+  Future<SoundHandle> playSound(final Sound sound) async {
+    final audio = soLoud;
+    final source = await sourceLoader.loadSound(sound);
+    final SoundHandle handle;
+    final position = sound.position;
+    switch (position) {
+      case SoundPositionPanned():
+        handle = await audio.play(
+          source,
+          looping: sound.looping,
+          loopingStartAt: sound.loopingStart,
+          pan: position.pan,
+          paused: sound.paused,
+          volume: sound.gain,
+        );
+      case SoundPosition3d():
+        handle = await audio.play3d(
+          source,
+          position.x,
+          position.y,
+          position.z,
+          looping: sound.looping,
+          loopingStartAt: sound.loopingStart,
+          paused: sound.paused,
+          volume: sound.gain,
+        );
+    }
+    if (sound.destroy) {
+      final length = audio.getLength(source);
+      audio.scheduleStop(handle, length);
+    }
+    return handle;
+  }
+
+  /// If [sound] is not `null`, call [playSound].
+  Future<SoundHandle>? maybePlaySound(final Sound? sound) {
+    if (sound == null) {
+      return null;
+    }
+    return playSound(sound);
+  }
 }
 
 /// Useful methods on generic points.
@@ -135,31 +187,52 @@ extension FlutterAudioGamesListExtension<E> on List<E> {
 extension FlutterAudioGamesStringExtension on String {
   /// Return a sound, using this string as the path.
   ///
-  /// If you want to turn a [List] of [String]s into a [SoundList], use the
-  /// [FlutterAudioGamesListStringExtension.asSoundList] method.
+  /// If you want to turn a [List] of [String]s into a [List] of [Sound]s, use
+  /// the [FlutterAudioGamesListStringExtension.asSoundList] method.
   Sound asSound({
+    required final bool destroy,
     required final SoundType soundType,
     final double gain = 0.7,
+    final bool looping = false,
+    final Duration loopingStart = Duration.zero,
+    final bool paused = false,
+    final SoundPosition position = unpanned,
   }) =>
       Sound(
         path: this,
         soundType: soundType,
         gain: gain,
+        destroy: destroy,
+        looping: looping,
+        loopingStart: loopingStart,
+        paused: paused,
+        position: position,
       );
 }
 
 /// Useful methods on string lists.
 extension FlutterAudioGamesListStringExtension on List<String> {
   /// Return a sound list.
-  SoundList asSoundList({
+  List<Sound> asSoundList({
+    required final bool destroy,
     required final SoundType soundType,
     final double gain = 0.7,
+    final bool looping = false,
+    final Duration loopingStart = Duration.zero,
+    final bool paused = false,
+    final SoundPosition position = unpanned,
   }) =>
-      SoundList(
-        paths: this,
-        soundType: soundType,
-        gain: gain,
-      );
+      map(
+        (final path) => path.asSound(
+          destroy: destroy,
+          soundType: soundType,
+          gain: gain,
+          looping: looping,
+          loopingStart: loopingStart,
+          paused: paused,
+          position: position,
+        ),
+      ).toList();
 }
 
 /// Useful methods on sound handles.

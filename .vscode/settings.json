@@ -3,6 +3,7 @@
     "analyzer",
     "Behavior",
     "bools",
+    "cealed",
     "chrisnorman",
     "Colors",
     "deinit",
@@ -23,7 +24,9 @@
     "synthizer",
     "todos",
     "tts",
+    "typedefs",
     "unawaited",
+    "unpanned",
     "vel",
     "wasd"
   ]
