@@ -40,10 +40,16 @@ class MainMenuState extends ConsumerState<MainMenu> {
             ),
           ),
         ],
-        music: Assets.sounds.music.mainTheme
-            .asSound(destroy: false, soundType: SoundType.asset, looping: true),
-        activateItemSound: Assets.sounds.menus.activate
-            .asSound(destroy: true, soundType: SoundType.asset),
+        music: Assets.sounds.music.mainTheme.asSound(
+          destroy: false,
+          soundType: SoundType.asset,
+          looping: true,
+          volume: 0.3,
+        ),
+        activateItemSound: Assets.sounds.menus.activate.asSound(
+          destroy: true,
+          soundType: SoundType.asset,
+        ),
         selectItemSound: Assets.sounds.menus.select
             .asSound(destroy: false, soundType: SoundType.asset),
         musicFadeInTime: const Duration(seconds: 3),

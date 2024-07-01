@@ -83,7 +83,7 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
           loopingStartAt: sound.loopingStart,
           pan: position.pan,
           paused: sound.paused,
-          volume: sound.gain,
+          volume: sound.volume,
         );
       case SoundPosition3d():
         handle = await audio.play3d(
@@ -94,7 +94,7 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
           looping: sound.looping,
           loopingStartAt: sound.loopingStart,
           paused: sound.paused,
-          volume: sound.gain,
+          volume: sound.volume,
         );
     }
     if (sound.destroy) {
@@ -192,7 +192,7 @@ extension FlutterAudioGamesStringExtension on String {
   Sound asSound({
     required final bool destroy,
     required final SoundType soundType,
-    final double gain = 0.7,
+    final double volume = 0.7,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,
     final bool paused = false,
@@ -201,7 +201,7 @@ extension FlutterAudioGamesStringExtension on String {
       Sound(
         path: this,
         soundType: soundType,
-        gain: gain,
+        volume: volume,
         destroy: destroy,
         looping: looping,
         loopingStart: loopingStart,
@@ -216,7 +216,7 @@ extension FlutterAudioGamesListStringExtension on List<String> {
   List<Sound> asSoundList({
     required final bool destroy,
     required final SoundType soundType,
-    final double gain = 0.7,
+    final double volume = 0.7,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,
     final bool paused = false,
@@ -226,7 +226,7 @@ extension FlutterAudioGamesListStringExtension on List<String> {
         (final path) => path.asSound(
           destroy: destroy,
           soundType: soundType,
-          gain: gain,
+          volume: volume,
           looping: looping,
           loopingStart: loopingStart,
           paused: paused,

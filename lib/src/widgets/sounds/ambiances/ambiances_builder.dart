@@ -56,7 +56,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
     for (final ambiance in widget.ambiances) {
       if (mounted) {
         final handle = await context.playSound(
-          ambiance.copyWith(gain: fadeInTime == null ? null : 0.0),
+          ambiance.copyWith(volume: fadeInTime == null ? null : 0.0),
         );
         if (mounted) {
           handles.add(handle);

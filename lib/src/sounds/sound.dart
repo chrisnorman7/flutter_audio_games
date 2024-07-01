@@ -8,7 +8,7 @@ class Sound {
     required this.path,
     required this.soundType,
     required this.destroy,
-    this.gain = 0.7,
+    this.volume = 0.7,
     this.looping = false,
     this.loopingStart = Duration.zero,
     this.paused = false,
@@ -21,8 +21,8 @@ class Sound {
   /// The type of the sound to play.
   final SoundType soundType;
 
-  /// The gain to play [path] at.
-  final double gain;
+  /// The volume to play [path] at.
+  final double volume;
 
   /// Whether or not this sound should be destroyed after playing.
   final bool destroy;
@@ -54,7 +54,7 @@ class Sound {
   /// Copy this sound to a new instance.
   Sound copyWith({
     final bool? destroy,
-    final double? gain,
+    final double? volume,
     final bool? looping,
     final Duration? loopingStart,
     final bool? paused,
@@ -64,7 +64,7 @@ class Sound {
         path: path,
         soundType: soundType,
         destroy: destroy ?? this.destroy,
-        gain: gain ?? this.gain,
+        volume: volume ?? this.volume,
         looping: looping ?? this.looping,
         loopingStart: loopingStart ?? this.loopingStart,
         paused: paused ?? this.paused,

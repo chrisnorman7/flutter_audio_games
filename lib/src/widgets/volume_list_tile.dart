@@ -4,28 +4,28 @@ import 'package:flutter/material.dart';
 import '../extensions.dart';
 import '../sounds/sound.dart';
 
-/// A [ListTile] for editing [gain].
-class GainListTile extends StatelessWidget {
+/// A [ListTile] for editing [volume].
+class VolumeListTile extends StatelessWidget {
   /// Create an instance.
-  const GainListTile({
+  const VolumeListTile({
     required this.title,
-    required this.gain,
+    required this.volume,
     required this.onChanged,
     required this.volumeChangeSound,
     this.autofocus = false,
-    this.minGain = 0.0,
-    this.maxGain = 10.0,
-    this.gainAdjustment = 0.1,
+    this.minVolume = 0.0,
+    this.maxVolume = 10.0,
+    this.volumeAdjustment = 0.1,
     super.key,
   });
 
   /// The title of the [ListTile].
   final String title;
 
-  /// The gain to use.
-  final double gain;
+  /// The current volume.
+  final double volume;
 
-  /// The function to call when [gain] changes.
+  /// The function to call when [volume] changes.
   final ValueChanged<double> onChanged;
 
   /// The sound to play when the volume changes.
@@ -34,29 +34,29 @@ class GainListTile extends StatelessWidget {
   /// Whether the [ListTile] should be autofocused.
   final bool autofocus;
 
-  /// The minimum gain.
-  final double minGain;
+  /// The minimum volume.
+  final double minVolume;
 
-  /// The maximum gain.
-  final double maxGain;
+  /// The maximum volume.
+  final double maxVolume;
 
   /// The volume adjustment to use.
-  final double gainAdjustment;
+  final double volumeAdjustment;
 
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => DoubleListTile(
-        value: gain,
+        value: volume,
         onChanged: (final value) {
-          context.playSound(volumeChangeSound.copyWith(gain: value));
+          context.playSound(volumeChangeSound.copyWith(volume: value));
           onChanged(value);
         },
         title: title,
         autofocus: autofocus,
         decimalPlaces: 1,
-        min: minGain,
-        max: maxGain,
-        modifier: gainAdjustment,
-        subtitle: '${(gain * 100).floor()}%',
+        min: minVolume,
+        max: maxVolume,
+        modifier: volumeAdjustment,
+        subtitle: '${(volume * 100).floor()}%',
       );
 }

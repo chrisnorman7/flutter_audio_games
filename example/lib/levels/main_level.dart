@@ -76,7 +76,7 @@ class MainLevelState extends ConsumerState<MainLevel> {
         Assets.sounds.ambiances.fire.asSound(
           destroy: false,
           soundType: SoundType.asset,
-          gain: 1.0,
+          volume: 1.0,
           looping: true,
           position: const SoundPosition3d(5, 2, 0),
         ),

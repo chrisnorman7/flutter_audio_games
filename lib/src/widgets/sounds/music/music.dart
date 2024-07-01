@@ -53,7 +53,7 @@ class MusicState extends State<Music> {
     _faded = false;
     handle?.maybeFade(
       fadeTime: widget.fadeInTime,
-      to: widget.sound.gain,
+      to: widget.sound.volume,
     );
   }
 
@@ -67,7 +67,7 @@ class MusicState extends State<Music> {
   Future<void> _loadMusic() async {
     final soLoud = SoLoud.instance;
     final h = await context.playSound(
-      widget.sound.copyWith(gain: widget.fadeInTime == null ? null : 0.0),
+      widget.sound.copyWith(volume: widget.fadeInTime == null ? null : 0.0),
     );
     if (mounted) {
       handle = h;
@@ -105,7 +105,7 @@ class MusicState extends State<Music> {
     if (!_faded) {
       final h = handle;
       if (h != null) {
-        soLoud.setVolume(h, widget.sound.gain);
+        soLoud.setVolume(h, widget.sound.volume);
       }
     }
     return InheritedMusic(
