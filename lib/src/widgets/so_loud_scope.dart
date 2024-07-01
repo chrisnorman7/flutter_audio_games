@@ -5,6 +5,9 @@ import 'package:http/http.dart';
 import '../sounds/source_loader.dart';
 
 /// Manage the life cycle of [SoLoud].
+///
+/// This widget should be placed as close to the top of the widget tree as
+/// possible, preferably above [MaterialApp].
 class SoLoudScope extends StatefulWidget {
   /// Create an instance.
   const SoLoudScope({
