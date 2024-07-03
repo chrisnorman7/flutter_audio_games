@@ -58,7 +58,8 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
         final handle = await context.playSound(
           ambiance.copyWith(volume: fadeInTime == null ? null : 0.0),
         );
-        if (handle != null && mounted) {
+        if (mounted) {
+          handle.maybeFade(fadeTime: fadeInTime, to: ambiance.volume);
           handles.add(handle);
         } else {
           await handle?.stop();
