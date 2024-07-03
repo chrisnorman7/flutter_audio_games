@@ -57,7 +57,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
       handle = h;
       await context.findAncestorStateOfType<PlaySoundSemanticsState>()?.play();
     } else {
-      await h.stop();
+      await h?.stop();
     }
   }
 

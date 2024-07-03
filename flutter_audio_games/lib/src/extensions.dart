@@ -70,8 +70,19 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
   SourceLoader get sourceLoader => soLoudScope.sourceLoader;
 
   /// Play [sound].
-  Future<SoundHandle> playSound(final Sound sound) async {
+  ///
+  /// If [sound] is `null`, or has its `soundType` set to [SoundType.tts],
+  /// `null` will be returned. Otherwise, a valid [SoundHandle] will be
+  /// returned.
+  Future<SoundHandle?> playSound(final Sound? sound) async {
+    if (sound == null) {
+      return null;
+    }
     final audio = soLoud;
+    if (sound.soundType == SoundType.tts) {
+      await audio.speechText(sound.path);
+      return null;
+    }
     final source = await sourceLoader.loadSound(sound);
     final SoundHandle handle;
     final position = sound.position;
@@ -105,14 +116,6 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
       audio.scheduleStop(handle, length);
     }
     return handle;
-  }
-
-  /// If [sound] is not `null`, call [playSound].
-  Future<SoundHandle>? maybePlaySound(final Sound? sound) {
-    if (sound == null) {
-      return null;
-    }
-    return playSound(sound);
   }
 }
 

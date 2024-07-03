@@ -46,7 +46,7 @@ class PlaySoundState extends State<PlaySound> {
     if (mounted) {
       handle = h;
     } else {
-      await h.stop();
+      await h?.stop();
     }
   }
 

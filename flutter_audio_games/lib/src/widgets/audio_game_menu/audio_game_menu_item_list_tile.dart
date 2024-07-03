@@ -42,7 +42,7 @@ class AudioGameMenuItemListTile extends StatelessWidget {
       autofocus: autofocus,
       title: Text(menuItem.title),
       onTap: () {
-        context.maybePlaySound(activateSound);
+        context.playSound(activateSound);
         menuItem.onActivate(context);
       },
     );

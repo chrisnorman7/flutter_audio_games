@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
@@ -128,18 +127,28 @@ class TouchMenuState extends State<TouchMenu> {
           if (menuItem != currentMenuItem) {
             stopSounds();
             currentMenuItem = menuItem;
-            for (final sound in [menuItem.earcon, widget.selectItemSound]) {
-              if (sound != null && mounted) {
-                soundHandles.add(await context.playSound(sound));
+            for (final sound in [
+              menuItem.earcon,
+              widget.selectItemSound,
+              Sound(
+                path: menuItem.title,
+                soundType: SoundType.tts,
+                destroy: true,
+              ),
+            ]) {
+              if (mounted) {
+                final handle = await context.playSound(sound);
+                if (handle != null) {
+                  soundHandles.add(handle);
+                }
               }
             }
-            await SoLoud.instance.speechText(menuItem.title);
             setState(() {});
           }
         },
         child: GestureDetector(
           onDoubleTap: () {
-            innerContext.maybePlaySound(widget.activateItemSound);
+            innerContext.playSound(widget.activateItemSound);
             currentMenuItem?.onActivate(innerContext);
           },
           child: Text(currentMenuItem?.title ?? widget.title),
