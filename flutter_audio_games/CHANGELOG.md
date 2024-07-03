@@ -1,5 +1,9 @@
 # Changes
 
+## 0.22.0
+
+- Many bug fixes.
+
 ## 0.21.0
 
 - Improvements to `SourceLoader`.
