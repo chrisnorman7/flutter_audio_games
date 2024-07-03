@@ -52,6 +52,7 @@ class SoLoudScopeState extends State<SoLoudScope> {
     super.initState();
     soLoud = SoLoud.instance;
     sourceLoader = SourceLoader(
+      soLoud: soLoud,
       assetBundle: DefaultAssetBundle.of(context),
       loadMode: widget.loadMode,
       httpClient: widget.httpClient,

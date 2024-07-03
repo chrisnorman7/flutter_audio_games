@@ -51,7 +51,7 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
     );
     final inheritedMusic = Music.maybeOf(this);
     if (restartMusic) {
-      inheritedMusic?.setPlaybackPosition(0.0);
+      inheritedMusic?.setPlaybackPosition(Duration.zero);
     }
     inheritedMusic?.fadeIn();
   }
@@ -74,15 +74,8 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
   /// If [sound] is `null`, or has its `soundType` set to [SoundType.tts],
   /// `null` will be returned. Otherwise, a valid [SoundHandle] will be
   /// returned.
-  Future<SoundHandle?> playSound(final Sound? sound) async {
-    if (sound == null) {
-      return null;
-    }
+  Future<SoundHandle> playSound(final Sound sound) async {
     final audio = soLoud;
-    if (sound.soundType == SoundType.tts) {
-      await audio.speechText(sound.path);
-      return null;
-    }
     final source = await sourceLoader.loadSound(sound);
     final SoundHandle handle;
     final position = sound.position;
@@ -114,8 +107,16 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
     if (sound.destroy) {
       final length = audio.getLength(source);
       audio.scheduleStop(handle, length);
-    }
+    } else {}
     return handle;
+  }
+
+  /// Play [sound], if it is not `null`.
+  Future<SoundHandle?> maybePlaySound(final Sound? sound) {
+    if (sound == null) {
+      return Future.value();
+    }
+    return playSound(sound);
   }
 }
 

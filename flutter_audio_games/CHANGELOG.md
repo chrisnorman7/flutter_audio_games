@@ -3,9 +3,6 @@
 ## 0.21.0
 
 - Improvements to `SourceLoader`.
-- Remove the `maybePlay` extension method.
-- Handle text to speech more gracefully.
-- Change the return type of the `playSound` extension method.
 - Add touch-friendly widgets.
 
 ## 0.20.0

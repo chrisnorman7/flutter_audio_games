@@ -127,16 +127,8 @@ class TouchMenuState extends State<TouchMenu> {
           if (menuItem != currentMenuItem) {
             stopSounds();
             currentMenuItem = menuItem;
-            for (final sound in [
-              menuItem.earcon,
-              widget.selectItemSound,
-              Sound(
-                path: menuItem.title,
-                soundType: SoundType.tts,
-                destroy: true,
-              ),
-            ]) {
-              if (mounted) {
+            for (final sound in [menuItem.earcon, widget.selectItemSound]) {
+              if (sound != null && mounted) {
                 final handle = await context.playSound(sound);
                 if (handle != null) {
                   soundHandles.add(handle);
@@ -148,7 +140,7 @@ class TouchMenuState extends State<TouchMenu> {
         },
         child: GestureDetector(
           onDoubleTap: () {
-            innerContext.playSound(widget.activateItemSound);
+            innerContext.maybePlaySound(widget.activateItemSound);
             currentMenuItem?.onActivate(innerContext);
           },
           child: Text(currentMenuItem?.title ?? widget.title),

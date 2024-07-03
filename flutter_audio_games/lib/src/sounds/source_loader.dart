@@ -9,11 +9,15 @@ import 'sound_type.dart';
 class SourceLoader {
   /// Create an instance.
   SourceLoader({
+    required this.soLoud,
     required this.assetBundle,
     this.loadMode = LoadMode.memory,
     this.httpClient,
   })  : _sounds = [],
         _sources = {};
+
+  /// The so loud instance to work with.
+  final SoLoud soLoud;
 
   /// The asset bundle to use.
   final AssetBundle assetBundle;
@@ -36,7 +40,6 @@ class SourceLoader {
     if (s != null) {
       return s;
     }
-    final soLoud = SoLoud.instance;
     final AudioSource source;
     try {
       switch (sound.soundType) {
@@ -58,7 +61,9 @@ class SourceLoader {
             httpClient: httpClient,
           );
         case SoundType.tts:
-          source = await soLoud.speechText(sound.path);
+          throw UnsupportedError(
+            'You must use `soLoud` directly to convert text to speech.',
+          );
       }
     } on SoLoudNotInitializedException {
       await soLoud.init();
@@ -72,7 +77,6 @@ class SourceLoader {
 
   /// Prune all unused sources.
   Future<void> disposeUnusedSources() async {
-    final soLoud = SoLoud.instance;
     for (final sound in List<Sound>.from(_sounds)) {
       final source = _sources[sound]!;
       if (source.handles.isEmpty) {

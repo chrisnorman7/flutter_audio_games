@@ -23,7 +23,7 @@ class InheritedMusic extends InheritedWidget {
   final VoidCallback fadeOut;
 
   /// The function to call to set the playback position.
-  final ValueChanged<double> setPlaybackPosition;
+  final ValueChanged<Duration> setPlaybackPosition;
 
   /// Whether to notify listeners.
   @override

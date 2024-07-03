@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
@@ -65,16 +67,18 @@ class MusicState extends State<Music> {
 
   /// Load the music.
   Future<void> _loadMusic() async {
-    final h = await context.playSound(
-      widget.sound.copyWith(volume: widget.fadeInTime == null ? null : 0.0),
+    final sound = widget.sound.copyWith(
+      volume: widget.fadeInTime == null ? null : 0.0,
     );
+    final h = await context.playSound(sound);
     if (mounted) {
       handle = h;
       if (widget.fadeInTime != null) {
         fadeIn();
       }
     } else {
-      await handle?.stop();
+      await h?.stop();
+      handle = null;
     }
   }
 
@@ -100,12 +104,10 @@ class MusicState extends State<Music> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
-    final soLoud = SoLoud.instance;
-    if (!_faded) {
-      final h = handle;
-      if (h != null) {
-        soLoud.setVolume(h, widget.sound.volume);
-      }
+    final soLoud = context.soLoud;
+    final h = handle;
+    if (h != null && !_faded) {
+      soLoud.setVolume(h, widget.sound.volume);
     }
     return InheritedMusic(
       fadeIn: fadeIn,
@@ -113,7 +115,7 @@ class MusicState extends State<Music> {
       setPlaybackPosition: (final position) {
         final h = handle;
         if (h != null) {
-          soLoud.seek(h, position as Duration);
+          soLoud.seek(h, position);
         }
       },
       child: widget.child,
