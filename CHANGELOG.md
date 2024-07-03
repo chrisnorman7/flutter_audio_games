@@ -1,5 +1,9 @@
 # Changes
 
+## 0.21.0
+
+- Improvements to `SourceLoader`.
+
 ## 0.20.0
 
 - Added `velX`, `velY`, and `velZ` properties to `SoundPosition3d`.

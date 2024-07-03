@@ -12,7 +12,8 @@ class SourceLoader {
     required this.assetBundle,
     this.loadMode = LoadMode.memory,
     this.httpClient,
-  }) : _sources = {};
+  })  : _sounds = [],
+        _sources = {};
 
   /// The asset bundle to use.
   final AssetBundle assetBundle;
@@ -22,6 +23,9 @@ class SourceLoader {
 
   /// The HTTP client to use.
   final Client? httpClient;
+
+  /// The list of sounds which have been loaded, from oldest to newest.
+  final List<Sound> _sounds;
 
   /// The loaded audio sources.
   final Map<Sound, AudioSource> _sources;
@@ -60,6 +64,8 @@ class SourceLoader {
       await soLoud.init();
       return loadSound(sound);
     }
+    await disposeUnusedSources();
+    _sounds.add(sound);
     _sources[sound] = source;
     return source;
   }
@@ -67,10 +73,11 @@ class SourceLoader {
   /// Prune all unused sources.
   Future<void> disposeUnusedSources() async {
     final soLoud = SoLoud.instance;
-    for (final MapEntry(key: sound, value: source)
-        in _sources.entries.toList()) {
+    for (final sound in List<Sound>.from(_sounds)) {
+      final source = _sources[sound]!;
       if (source.handles.isEmpty) {
         await soLoud.disposeSource(source);
+        _sounds.remove(sound);
         _sources.remove(sound);
       }
     }
