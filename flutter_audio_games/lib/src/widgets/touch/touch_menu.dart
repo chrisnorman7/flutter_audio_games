@@ -115,7 +115,7 @@ class TouchMenuState extends State<TouchMenu> {
         columns: widget.orientation == Orientation.landscape
             ? widget.menuItems.length
             : 1,
-        onMove: (final coordinates) async {
+        onStart: (final coordinates) async {
           final int index;
           switch (widget.orientation) {
             case Orientation.portrait:

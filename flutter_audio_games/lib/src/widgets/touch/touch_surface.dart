@@ -8,8 +8,9 @@ class TouchSurface extends StatelessWidget {
   const TouchSurface({
     required this.rows,
     required this.columns,
-    required this.onMove,
     required this.child,
+    this.onStart,
+    this.onEnd,
     this.canPop = false,
     super.key,
   }) : assert(
@@ -23,8 +24,12 @@ class TouchSurface extends StatelessWidget {
   /// The number of columns to use.
   final int columns;
 
-  /// The function to call when the player moves around the screen.
-  final void Function(Point<int> coordinates) onMove;
+  /// The function to call when the player enters different parts of the screen.
+  final void Function(Point<int> coordinates)? onStart;
+
+  /// The function to call when the player lifts their finger or releases the
+  /// mouse.
+  final void Function(Point<int> coordinates)? onEnd;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -48,9 +53,18 @@ class TouchSurface extends StatelessWidget {
   }
 
   /// The player is moving around the screen.
-  Future<void> _onMove(final Offset position, final Size size) async {
+  Future<void> _onMove(
+    final Offset position,
+    final Size size, {
+    final bool end = false,
+  }) async {
     final x = (position.dx / size.width) * rows;
     final y = (position.dy / size.height) * columns;
-    return onMove(Point(x.floor(), y.floor()));
+    final point = Point(x.floor(), y.floor());
+    if (end) {
+      onEnd?.call(point);
+    } else {
+      onStart?.call(point);
+    }
   }
 }
