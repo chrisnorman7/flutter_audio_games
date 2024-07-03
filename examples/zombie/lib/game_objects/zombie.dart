@@ -47,7 +47,7 @@ class Zombie {
   }
 
   /// Play a sound.
-  Future<SoundHandle> playSound({
+  Future<SoundHandle?> playSound({
     required final BuildContext context,
     required final Sound sound,
   }) =>

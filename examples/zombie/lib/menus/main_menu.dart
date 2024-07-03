@@ -22,37 +22,41 @@ class MainMenu extends ConsumerStatefulWidget {
 class MainMenuState extends ConsumerState<MainMenu> {
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => AudioGameMenu(
-        title: 'Main Menu',
-        menuItems: [
-          AudioGameMenuItem(
-            title: 'Play Game',
-            onActivate: (final innerContext) {
-              innerContext.fadeMusicAndPushWidget(
-                (final context) => const MainLevel(),
-              );
-            },
-          ),
-          AudioGameMenuItem(
-            title: 'Visit chrisnorman7 on GitHub',
-            onActivate: (final innerContext) => launchUrl(
-              Uri.parse('https://github.com/chrisnorman7/'),
-            ),
-          ),
-        ],
-        music: Assets.sounds.music.mainTheme.asSound(
-          destroy: false,
-          soundType: SoundType.asset,
-          looping: true,
-          volume: 0.3,
+  Widget build(final BuildContext context) {
+    final music = Assets.sounds.music.mainTheme.asSound(
+      destroy: false,
+      soundType: SoundType.asset,
+      looping: true,
+    );
+    return AudioGameMenu(
+      title: 'Main Menu',
+      menuItems: [
+        AudioGameMenuItem(
+          title: 'Play Game',
+          onActivate: (final innerContext) {
+            innerContext.fadeMusicAndPushWidget(
+              (final context) => const MainLevel(),
+            );
+          },
         ),
-        activateItemSound: Assets.sounds.menus.activate.asSound(
-          destroy: true,
-          soundType: SoundType.asset,
+        AudioGameMenuItem(
+          title: 'Visit chrisnorman7 on GitHub',
+          onActivate: (final innerContext) => launchUrl(
+            Uri.parse('https://github.com/chrisnorman7/'),
+          ),
         ),
-        selectItemSound: Assets.sounds.menus.select
-            .asSound(destroy: false, soundType: SoundType.asset),
-        musicFadeInTime: const Duration(seconds: 3),
-        musicFadeOutTime: const Duration(seconds: 4),
-      );
+      ],
+      music: music,
+      activateItemSound: Assets.sounds.menus.activate.asSound(
+        destroy: true,
+        soundType: SoundType.asset,
+      ),
+      selectItemSound: Assets.sounds.menus.select.asSound(
+        destroy: false,
+        soundType: SoundType.asset,
+      ),
+      musicFadeInTime: const Duration(seconds: 3),
+      musicFadeOutTime: const Duration(seconds: 4),
+    );
+  }
 }

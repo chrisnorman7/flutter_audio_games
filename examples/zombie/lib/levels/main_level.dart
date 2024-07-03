@@ -312,13 +312,13 @@ class MainLevelState extends ConsumerState<MainLevel> {
       final zombie = Zombie(
         coordinates: coordinates,
         ambiance: breath,
-        ambianceHandle: ambianceHandle,
+        ambianceHandle: ambianceHandle!,
         saying: zombieSayings.randomElement(random),
         hitPoints: random.nextInt(50),
       );
       zombies.add(zombie);
     } else {
-      await ambianceHandle.stop();
+      await ambianceHandle?.stop();
     }
   }
 
