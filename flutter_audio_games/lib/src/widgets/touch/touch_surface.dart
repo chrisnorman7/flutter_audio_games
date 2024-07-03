@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 /// A surface which is split into distinct touch surfaces.
-class TouchSurface extends StatelessWidget {
+class TouchSurface extends StatefulWidget {
   /// Create an instance.
   const TouchSurface({
     required this.rows,
@@ -37,12 +37,20 @@ class TouchSurface extends StatelessWidget {
   /// Allows the blocking of back gestures.
   final bool canPop;
 
+  @override
+  State<TouchSurface> createState() => _TouchSurfaceState();
+}
+
+class _TouchSurfaceState extends State<TouchSurface> {
+  /// The last point to be sent.
+  Point<int>? lastPoint;
+
   /// Build the widget.
   @override
   Widget build(final BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return PopScope(
-      canPop: canPop,
+      canPop: widget.canPop,
       child: GestureDetector(
         onPanDown: (final details) => _onMove(details.globalPosition, size),
         onPanUpdate: (final details) => _onMove(details.globalPosition, size),
@@ -51,7 +59,7 @@ class TouchSurface extends StatelessWidget {
           size,
           end: true,
         ),
-        child: child,
+        child: widget.child,
       ),
     );
   }
@@ -62,13 +70,17 @@ class TouchSurface extends StatelessWidget {
     final Size size, {
     final bool end = false,
   }) async {
-    final x = (position.dx / size.width) * rows;
-    final y = (position.dy / size.height) * columns;
+    final x = (position.dx / size.width) * widget.rows;
+    final y = (position.dy / size.height) * widget.columns;
     final point = Point(x.floor(), y.floor());
     if (end) {
-      onEnd?.call(point);
+      lastPoint = null;
+      widget.onEnd?.call(point);
     } else {
-      onStart?.call(point);
+      if (point != lastPoint) {
+        lastPoint = point;
+        widget.onStart?.call(point);
+      }
     }
   }
 }
