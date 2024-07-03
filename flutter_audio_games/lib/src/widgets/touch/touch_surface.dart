@@ -46,7 +46,11 @@ class TouchSurface extends StatelessWidget {
       child: GestureDetector(
         onPanDown: (final details) => _onMove(details.globalPosition, size),
         onPanUpdate: (final details) => _onMove(details.globalPosition, size),
-        onPanEnd: (final details) => _onMove(details.globalPosition, size),
+        onPanEnd: (final details) => _onMove(
+          details.globalPosition,
+          size,
+          end: true,
+        ),
         child: child,
       ),
     );
