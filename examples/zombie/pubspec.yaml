@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_audio_games:
-    path: ../flutter_audio_games
+    path: ../../flutter_audio_games
   flutter_riverpod: ^2.5.1
   flutter_soloud: ^2.0.2
   riverpod_annotation: ^2.3.5
