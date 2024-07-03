@@ -107,8 +107,10 @@ class MainLevelState extends State<MainLevel> {
         ),
       ],
       child: AmbiancesBuilder(
-        ambiances: [ambiance],
-        fadeInTime: const Duration(seconds: 2),
+        ambiances: [
+          ambiance,
+        ],
+        fadeInTime: const Duration(seconds: 3),
         fadeOutTime: const Duration(seconds: 3),
         builder: (final ambiancesContext, final handles) => TouchSurface(
           rows: 2,

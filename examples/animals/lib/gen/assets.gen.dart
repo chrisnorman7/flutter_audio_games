@@ -28,6 +28,9 @@ class $SoundsGen {
   /// Directory path: sounds/music
   $SoundsMusicGen get music => const $SoundsMusicGen();
 
+  /// Directory path: sounds/speech
+  $SoundsSpeechGen get speech => const $SoundsSpeechGen();
+
   /// Directory path: sounds/weapons
   $SoundsWeaponsGen get weapons => const $SoundsWeaponsGen();
 }
@@ -157,6 +160,19 @@ class $SoundsMusicGen {
 
   /// List of all assets
   List<String> get values => [mainTheme];
+}
+
+class $SoundsSpeechGen {
+  const $SoundsSpeechGen();
+
+  /// File path: sounds/speech/play_game.wav
+  String get playGame => 'sounds/speech/play_game.wav';
+
+  /// File path: sounds/speech/visit_github.wav
+  String get visitGithub => 'sounds/speech/visit_github.wav';
+
+  /// List of all assets
+  List<String> get values => [playGame, visitGithub];
 }
 
 class $SoundsWeaponsGen {

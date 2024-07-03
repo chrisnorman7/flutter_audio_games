@@ -38,11 +38,19 @@ class MainMenu extends StatelessWidget {
               innerContext.fadeMusicAndPushWidget(
             (final context) => const MainLevel(),
           ),
+          earcon: Assets.sounds.speech.playGame.asSound(
+            destroy: false,
+            soundType: SoundType.asset,
+          ),
         ),
         AudioGameMenuItem(
           title: 'Visit GitHub',
           onActivate: (final innerContext) => launchUrl(
             Uri.parse('https://github.com/chrisnorman7/flutter_audio_games'),
+          ),
+          earcon: Assets.sounds.speech.visitGithub.asSound(
+            destroy: false,
+            soundType: SoundType.asset,
           ),
         ),
       ],
