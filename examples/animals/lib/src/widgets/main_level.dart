@@ -59,6 +59,16 @@ class MainLevelState extends State<MainLevel> {
     animals = [];
   }
 
+  /// Dispose of the widget.
+  @override
+  void dispose() {
+    super.dispose();
+    for (final animal in animals) {
+      animal.soundHandle.stop();
+    }
+    animals.clear();
+  }
+
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
