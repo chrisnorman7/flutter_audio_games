@@ -38,4 +38,5 @@ export 'src/widgets/sounds/music/maybe_music.dart';
 export 'src/widgets/sounds/music/music.dart';
 export 'src/widgets/sounds/play_sound.dart';
 export 'src/widgets/sounds/play_sound_semantics.dart';
+export 'src/widgets/touch/touch_area.dart';
 export 'src/widgets/volume_list_tile.dart';
