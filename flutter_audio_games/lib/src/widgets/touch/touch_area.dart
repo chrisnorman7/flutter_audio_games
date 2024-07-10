@@ -22,7 +22,7 @@ class TouchArea extends StatelessWidget {
   final String description;
 
   /// The function to call when touch starts.
-  final void Function(TouchAreaEvent) onTouch;
+  final void Function(TouchAreaEvent event) onTouch;
 
   /// Build the widget.
   @override
