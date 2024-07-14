@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'touch_area.dart';
 
 /// A surface which is split into distinct touch surfaces.
-class TouchSurface extends StatefulWidget {
+class TouchSurface extends StatelessWidget {
   /// Create an instance.
   const TouchSurface({
     required this.rows,
     required this.columns,
     required this.onTouch,
     this.canPop = false,
+    this.areaDescriptions = const {},
     super.key,
   }) : assert(
           columns > 0 && rows > 0,
@@ -31,28 +32,27 @@ class TouchSurface extends StatefulWidget {
   /// Allows the blocking of back gestures.
   final bool canPop;
 
-  @override
-  State<TouchSurface> createState() => _TouchSurfaceState();
-}
+  /// The description for areas on this surface.
+  final Map<Point<int>, String> areaDescriptions;
 
-class _TouchSurfaceState extends State<TouchSurface> {
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => PopScope(
-        canPop: widget.canPop,
+        canPop: canPop,
         child: Material(
           child: Column(
             children: [
-              for (var x = 0; x < widget.columns; x++)
+              for (var x = 0; x < columns; x++)
                 Expanded(
                   child: Row(
                     children: [
-                      for (var y = 0; y < widget.rows; y++)
+                      for (var y = 0; y < rows; y++)
                         TouchArea(
-                          description: '$x, $y',
+                          description:
+                              areaDescriptions[Point(x, y)] ?? '$x, $y',
                           onTouch: (final event) {
                             final point = Point(x, y);
-                            widget.onTouch(point, event);
+                            onTouch(point, event);
                           },
                         ),
                     ],

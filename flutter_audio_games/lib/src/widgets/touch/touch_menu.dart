@@ -160,6 +160,13 @@ class TouchMenuState extends State<TouchMenu> {
                 }
                 await setCurrentMenuItem(index);
               },
+              areaDescriptions: {
+                for (var i = 0; i < widget.menuItems.length; i++)
+                  Point(
+                    orientation == Orientation.portrait ? i : 0,
+                    orientation == Orientation.portrait ? 0 : i,
+                  ): widget.menuItems[i].title,
+              },
             ),
           ),
         ),
