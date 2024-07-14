@@ -111,6 +111,12 @@ class TouchMenuState extends State<TouchMenu> {
       builder: (final _) => OrientationBuilder(
         builder: (final orientationContext, final orientation) => GameShortcuts(
           shortcuts: [
+            if (widget.canPop)
+              const GameShortcut(
+                title: 'Close the menu',
+                shortcut: GameShortcutsShortcut.escape,
+                onStart: Navigator.maybePop,
+              ),
             GameShortcut(
               title: 'Move up in the menu',
               shortcut: GameShortcutsShortcut.arrowUp,
@@ -141,7 +147,10 @@ class TouchMenuState extends State<TouchMenu> {
               rows: orientation == Orientation.landscape
                   ? widget.menuItems.length
                   : 1,
-              onStart: (final coordinates) async {
+              onTouch: (final coordinates, final event) async {
+                if (event == TouchAreaEvent.release) {
+                  return;
+                }
                 final int index;
                 switch (orientation) {
                   case Orientation.portrait:

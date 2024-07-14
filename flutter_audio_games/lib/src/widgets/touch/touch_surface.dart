@@ -10,8 +10,7 @@ class TouchSurface extends StatefulWidget {
   const TouchSurface({
     required this.rows,
     required this.columns,
-    this.onStart,
-    this.onEnd,
+    required this.onTouch,
     this.canPop = false,
     super.key,
   }) : assert(
@@ -25,12 +24,9 @@ class TouchSurface extends StatefulWidget {
   /// The number of columns to use.
   final int columns;
 
-  /// The function to call when the player enters different parts of the screen.
-  final void Function(Point<int> coordinates)? onStart;
-
-  /// The function to call when the player lifts their finger or releases the
-  /// mouse.
-  final void Function(Point<int> coordinates)? onEnd;
+  /// The function to call when the player touches or releases different parts
+  /// of the screen.
+  final void Function(Point<int> coordinates, TouchAreaEvent event) onTouch;
 
   /// Allows the blocking of back gestures.
   final bool canPop;
@@ -56,12 +52,7 @@ class _TouchSurfaceState extends State<TouchSurface> {
                           description: '$x, $y',
                           onTouch: (final event) {
                             final point = Point(x, y);
-                            switch (event) {
-                              case TouchAreaEvent.touch:
-                                widget.onStart?.call(point);
-                              case TouchAreaEvent.release:
-                                widget.onEnd?.call(point);
-                            }
+                            widget.onTouch(point, event);
                           },
                         ),
                     ],
