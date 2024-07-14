@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:math';
 
 import 'package:backstreets_widgets/widgets.dart';
@@ -146,9 +144,7 @@ class MainLevelState extends State<MainLevel> {
                     await context.playSound(laughs.randomElement(random));
                   }
                   break;
-                } else {
-                  print('Distance: ${distanceTo.floor()}');
-                }
+                } else {}
               }
             }
           },
@@ -164,15 +160,11 @@ class MainLevelState extends State<MainLevel> {
                 return;
               }
               final animal = animals.randomElement(random);
-              print(
-                'Old distance: ${coordinates.distanceTo(animal.coordinates)}',
-              );
               final angle = animal.coordinates.angleBetween(coordinates);
               final newCoordinates = animal.coordinates.pointInDirection(
                 angle,
                 random.nextDouble() * 3,
               );
-              print('New distance: ${coordinates.distanceTo(newCoordinates)}');
               animal.coordinates = newCoordinates;
               audio.set3dSourcePosition(
                 animal.soundHandle,
@@ -234,9 +226,8 @@ class MainLevelState extends State<MainLevel> {
           fadeInTime: const Duration(seconds: 3),
           fadeOutTime: const Duration(seconds: 3),
           builder: (final ambiancesContext, final handles) => TouchSurface(
-            rows: 2,
-            columns: 3,
-            child: const Text('Shoot some animals!'),
+            rows: 3,
+            columns: 2,
             onStart: (final zone) {
               if (zone == forwardZone) {
                 movingDirection = MovingDirection.forwards;

@@ -2,13 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'touch_area.dart';
+
 /// A surface which is split into distinct touch surfaces.
 class TouchSurface extends StatefulWidget {
   /// Create an instance.
   const TouchSurface({
     required this.rows,
     required this.columns,
-    required this.child,
     this.onStart,
     this.onEnd,
     this.canPop = false,
@@ -31,9 +32,6 @@ class TouchSurface extends StatefulWidget {
   /// mouse.
   final void Function(Point<int> coordinates)? onEnd;
 
-  /// The widget below this widget in the tree.
-  final Widget child;
-
   /// Allows the blocking of back gestures.
   final bool canPop;
 
@@ -42,45 +40,35 @@ class TouchSurface extends StatefulWidget {
 }
 
 class _TouchSurfaceState extends State<TouchSurface> {
-  /// The last point to be sent.
-  Point<int>? lastPoint;
-
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    return PopScope(
-      canPop: widget.canPop,
-      child: GestureDetector(
-        onPanDown: (final details) => _onMove(details.globalPosition, size),
-        onPanUpdate: (final details) => _onMove(details.globalPosition, size),
-        onPanEnd: (final details) => _onMove(
-          details.globalPosition,
-          size,
-          end: true,
+  Widget build(final BuildContext context) => PopScope(
+        canPop: widget.canPop,
+        child: Material(
+          child: Column(
+            children: [
+              for (var x = 0; x < widget.columns; x++)
+                Expanded(
+                  child: Row(
+                    children: [
+                      for (var y = 0; y < widget.rows; y++)
+                        TouchArea(
+                          description: '$x, $y',
+                          onTouch: (final event) {
+                            final point = Point(x, y);
+                            switch (event) {
+                              case TouchAreaEvent.touch:
+                                widget.onStart?.call(point);
+                              case TouchAreaEvent.release:
+                                widget.onEnd?.call(point);
+                            }
+                          },
+                        ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
         ),
-        child: widget.child,
-      ),
-    );
-  }
-
-  /// The player is moving around the screen.
-  Future<void> _onMove(
-    final Offset position,
-    final Size size, {
-    final bool end = false,
-  }) async {
-    final x = (position.dx / size.width) * widget.rows;
-    final y = (position.dy / size.height) * widget.columns;
-    final point = Point(x.floor(), y.floor());
-    if (end) {
-      lastPoint = null;
-      widget.onEnd?.call(point);
-    } else {
-      if (point != lastPoint) {
-        lastPoint = point;
-        widget.onStart?.call(point);
-      }
-    }
-  }
+      );
 }

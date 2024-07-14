@@ -16,7 +16,6 @@ class TouchMenu extends StatefulWidget {
     this.musicFadeInTime,
     this.musicFadeOutTime,
     this.canPop = false,
-    this.orientation = Orientation.landscape,
     super.key,
   });
 
@@ -65,9 +64,6 @@ class TouchMenu extends StatefulWidget {
   /// Allows the blocking of back gestures.
   final bool canPop;
 
-  /// The orientation of this menu.
-  final Orientation orientation;
-
   /// Create state for this widget.
   @override
   TouchMenuState createState() => TouchMenuState();
@@ -106,48 +102,49 @@ class TouchMenuState extends State<TouchMenu> {
   @override
   Widget build(final BuildContext context) {
     final musicSound = widget.music;
-    return MaybeMusic(
-      music: musicSound,
-      builder: (final innerContext) => TouchSurface(
-        rows: widget.orientation == Orientation.portrait
-            ? widget.menuItems.length
-            : 1,
-        columns: widget.orientation == Orientation.landscape
-            ? widget.menuItems.length
-            : 1,
-        onStart: (final coordinates) async {
-          final int index;
-          switch (widget.orientation) {
-            case Orientation.portrait:
-              index = coordinates.x;
-            case Orientation.landscape:
-              index = coordinates.y;
-          }
-          final menuItem = widget.menuItems[index];
-          if (menuItem != currentMenuItem) {
-            stopSounds();
-            currentMenuItem = menuItem;
-            for (final sound in [menuItem.earcon, widget.selectItemSound]) {
-              if (sound != null && mounted) {
-                final handle = await context.playSound(sound);
-                if (handle != null) {
-                  soundHandles.add(handle);
-                }
-              }
-            }
-            setState(() {});
-          }
-        },
-        child: GestureDetector(
+    return OrientationBuilder(
+      builder: (final context, final orientation) => MaybeMusic(
+        music: musicSound,
+        builder: (final innerContext) => GestureDetector(
           onDoubleTap: () {
             innerContext.maybePlaySound(widget.activateItemSound);
             currentMenuItem?.onActivate(innerContext);
           },
-          child: Text(currentMenuItem?.title ?? widget.title),
+          child: TouchSurface(
+            columns: orientation == Orientation.portrait
+                ? widget.menuItems.length
+                : 1,
+            rows: orientation == Orientation.landscape
+                ? widget.menuItems.length
+                : 1,
+            onStart: (final coordinates) async {
+              final int index;
+              switch (orientation) {
+                case Orientation.portrait:
+                  index = coordinates.x;
+                case Orientation.landscape:
+                  index = coordinates.y;
+              }
+              final menuItem = widget.menuItems[index];
+              if (menuItem != currentMenuItem) {
+                stopSounds();
+                currentMenuItem = menuItem;
+                for (final sound in [menuItem.earcon, widget.selectItemSound]) {
+                  if (sound != null && mounted) {
+                    final handle = await context.playSound(sound);
+                    if (handle != null) {
+                      soundHandles.add(handle);
+                    }
+                  }
+                }
+                setState(() {});
+              }
+            },
+          ),
         ),
+        fadeInTime: widget.musicFadeInTime,
+        fadeOutTime: widget.musicFadeOutTime,
       ),
-      fadeInTime: widget.musicFadeInTime,
-      fadeOutTime: widget.musicFadeOutTime,
     );
   }
 }
