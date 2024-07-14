@@ -228,26 +228,28 @@ class MainLevelState extends State<MainLevel> {
           builder: (final ambiancesContext, final handles) => TouchSurface(
             rows: 3,
             columns: 2,
-            onStart: (final zone) {
-              if (zone == forwardZone) {
-                movingDirection = MovingDirection.forwards;
-              } else if (zone == backwardsZone) {
-                movingDirection = MovingDirection.backwards;
-              } else if (zone == leftZone) {
-                movingDirection = MovingDirection.left;
-              } else if (zone == rightZone) {
-                movingDirection = MovingDirection.right;
-              } else if (zone == fireZone) {
-                firing = true;
-              } else {
-                Navigator.pop(ambiancesContext);
-              }
-            },
-            onEnd: (final zone) {
-              if (zone == fireZone) {
-                firing = false;
-              } else {
-                movingDirection = null;
+            onTouch: (final zone, final event) {
+              switch (event) {
+                case TouchAreaEvent.touch:
+                  if (zone == forwardZone) {
+                    movingDirection = MovingDirection.forwards;
+                  } else if (zone == backwardsZone) {
+                    movingDirection = MovingDirection.backwards;
+                  } else if (zone == leftZone) {
+                    movingDirection = MovingDirection.left;
+                  } else if (zone == rightZone) {
+                    movingDirection = MovingDirection.right;
+                  } else if (zone == fireZone) {
+                    firing = true;
+                  } else {
+                    Navigator.maybePop(ambiancesContext);
+                  }
+                case TouchAreaEvent.release:
+                  if (zone == fireZone) {
+                    firing = false;
+                  } else {
+                    movingDirection = null;
+                  }
               }
             },
           ),
