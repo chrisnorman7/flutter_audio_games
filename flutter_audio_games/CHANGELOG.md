@@ -1,5 +1,13 @@
 # Changes
 
+## 0.23.0
+
+- Use proper text for `TouchSurface` widgets.
+- Allow multiple touches in a `TouchSurface`.
+- Add the `TouchArea` widget.
+- Add keyboard shortcuts to `TouchMenu` widgets.
+- Allow keyboard shortcuts in `TouchSurface` widgets.
+
 ## 0.22.0
 
 - Many bug fixes.
