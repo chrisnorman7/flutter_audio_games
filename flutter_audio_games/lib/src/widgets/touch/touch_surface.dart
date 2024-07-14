@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'touch_area.dart';
@@ -13,6 +14,7 @@ class TouchSurface extends StatelessWidget {
     required this.onTouch,
     this.canPop = false,
     this.areaDescriptions = const {},
+    this.areaShortcuts = const {},
     super.key,
   }) : assert(
           columns > 0 && rows > 0,
@@ -35,30 +37,47 @@ class TouchSurface extends StatelessWidget {
   /// The description for areas on this surface.
   final Map<Point<int>, String> areaDescriptions;
 
+  /// Area shortcut keys.
+  final Map<GameShortcutsShortcut, Point<int>> areaShortcuts;
+
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => PopScope(
-        canPop: canPop,
-        child: Material(
-          child: Column(
-            children: [
-              for (var x = 0; x < columns; x++)
-                Expanded(
-                  child: Row(
-                    children: [
-                      for (var y = 0; y < rows; y++)
-                        TouchArea(
-                          description:
-                              areaDescriptions[Point(x, y)] ?? '$x, $y',
-                          onTouch: (final event) {
-                            final point = Point(x, y);
-                            onTouch(point, event);
-                          },
-                        ),
-                    ],
+  Widget build(final BuildContext context) => GameShortcuts(
+        shortcuts: areaShortcuts.entries.map((final entry) {
+          final shortcut = entry.key;
+          final point = entry.value;
+          return GameShortcut(
+            title: areaDescriptions[point] ?? '${point.x}, ${point.y}',
+            shortcut: shortcut,
+            onStart: (final innerContext) =>
+                onTouch(point, TouchAreaEvent.touch),
+            onStop: (final innerContext) =>
+                onTouch(point, TouchAreaEvent.release),
+          );
+        }).toList(),
+        child: PopScope(
+          canPop: canPop,
+          child: Material(
+            child: Column(
+              children: [
+                for (var x = 0; x < columns; x++)
+                  Expanded(
+                    child: Row(
+                      children: [
+                        for (var y = 0; y < rows; y++)
+                          TouchArea(
+                            description:
+                                areaDescriptions[Point(x, y)] ?? '$x, $y',
+                            onTouch: (final event) {
+                              final point = Point(x, y);
+                              onTouch(point, event);
+                            },
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       );
