@@ -84,16 +84,14 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder>
   @override
   void didChangeAppLifecycleState(final AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    final bool pause;
     if (state == AppLifecycleState.paused) {
-      pause = true;
+      for (final handle in handles) {
+        handle.pause();
+      }
     } else if (state == AppLifecycleState.resumed) {
-      pause = false;
-    } else {
-      return; // Don't do anything.
-    }
-    for (final handle in handles) {
-      context.soLoud.setPause(handle, pause);
+      for (final handle in handles) {
+        handle.unpause();
+      }
     }
   }
 

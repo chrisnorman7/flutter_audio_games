@@ -268,6 +268,18 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
       soLoud.setVolume(this, to);
     }
   }
+
+  /// Pause this sound.
+  void pause() => SoLoud.instance.setPause(this, true);
+
+  /// Resume this sound.
+  void unpause() => SoLoud.instance.setPause(this, false);
+
+  /// Seek to a new [position] in this sound.
+  ///
+  /// If [position] is `null`, return to the start.
+  void seek({final Duration position = Duration.zero}) =>
+      SoLoud.instance.seek(this, position);
 }
 
 /// Useful methods.

@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
@@ -71,8 +74,8 @@ class TouchMenu extends StatefulWidget {
 
 /// State for [TouchMenu].
 class TouchMenuState extends State<TouchMenu> {
-  /// The currently-selected menu item.
-  AudioGameMenuItem? currentMenuItem;
+  /// The index of the currently-selected menu item.
+  late int menuItemIndex;
 
   /// The sounds that are playing.
   late final List<SoundHandle> soundHandles;
@@ -81,6 +84,7 @@ class TouchMenuState extends State<TouchMenu> {
   @override
   void initState() {
     super.initState();
+    menuItemIndex = -1;
     soundHandles = [];
   }
 
@@ -94,7 +98,7 @@ class TouchMenuState extends State<TouchMenu> {
   /// Stop all the currently playing [soundHandles].
   void stopSounds() {
     soundHandles
-      ..forEach(SoLoud.instance.stop)
+      ..forEach(context.soLoud.stop)
       ..clear();
   }
 
@@ -102,49 +106,95 @@ class TouchMenuState extends State<TouchMenu> {
   @override
   Widget build(final BuildContext context) {
     final musicSound = widget.music;
-    return OrientationBuilder(
-      builder: (final context, final orientation) => MaybeMusic(
-        music: musicSound,
-        builder: (final innerContext) => GestureDetector(
-          onDoubleTap: () {
-            innerContext.maybePlaySound(widget.activateItemSound);
-            currentMenuItem?.onActivate(innerContext);
-          },
-          child: TouchSurface(
-            columns: orientation == Orientation.portrait
-                ? widget.menuItems.length
-                : 1,
-            rows: orientation == Orientation.landscape
-                ? widget.menuItems.length
-                : 1,
-            onStart: (final coordinates) async {
-              final int index;
-              switch (orientation) {
-                case Orientation.portrait:
-                  index = coordinates.x;
-                case Orientation.landscape:
-                  index = coordinates.y;
-              }
-              final menuItem = widget.menuItems[index];
-              if (menuItem != currentMenuItem) {
-                stopSounds();
-                currentMenuItem = menuItem;
-                for (final sound in [menuItem.earcon, widget.selectItemSound]) {
-                  if (sound != null && mounted) {
-                    final handle = await context.playSound(sound);
-                    if (handle != null) {
-                      soundHandles.add(handle);
-                    }
-                  }
+    return MaybeMusic(
+      music: musicSound,
+      builder: (final _) => OrientationBuilder(
+        builder: (final orientationContext, final orientation) => GameShortcuts(
+          shortcuts: [
+            GameShortcut(
+              title: 'Move up in the menu',
+              shortcut: GameShortcutsShortcut.arrowUp,
+              onStart: (final innerContext) => moveUp(),
+            ),
+            GameShortcut(
+              title: 'Move down in the menu',
+              shortcut: GameShortcutsShortcut.arrowDown,
+              onStart: (final innerContext) => moveDown(),
+            ),
+            GameShortcut(
+              title: 'Activate the current menu item',
+              shortcut: GameShortcutsShortcut.enter,
+              onStart: activateItem,
+            ),
+            GameShortcut(
+              title: 'Activate the current menu item',
+              shortcut: GameShortcutsShortcut.space,
+              onStart: activateItem,
+            ),
+          ],
+          child: GestureDetector(
+            onDoubleTap: () => activateItem(orientationContext),
+            child: TouchSurface(
+              columns: orientation == Orientation.portrait
+                  ? widget.menuItems.length
+                  : 1,
+              rows: orientation == Orientation.landscape
+                  ? widget.menuItems.length
+                  : 1,
+              onStart: (final coordinates) async {
+                final int index;
+                switch (orientation) {
+                  case Orientation.portrait:
+                    index = coordinates.x;
+                  case Orientation.landscape:
+                    index = coordinates.y;
                 }
-                setState(() {});
-              }
-            },
+                await setCurrentMenuItem(index);
+              },
+            ),
           ),
         ),
-        fadeInTime: widget.musicFadeInTime,
-        fadeOutTime: widget.musicFadeOutTime,
       ),
+      fadeInTime: widget.musicFadeInTime,
+      fadeOutTime: widget.musicFadeOutTime,
     );
+  }
+
+  /// Activate the current menu item.
+  void activateItem(final BuildContext innerContext) {
+    if (menuItemIndex < 0) {
+      return;
+    }
+    final menuItem = widget.menuItems[menuItemIndex];
+    innerContext.maybePlaySound(widget.activateItemSound);
+    menuItem.onActivate(innerContext);
+  }
+
+  /// Change the current menu item.
+  Future<void> setCurrentMenuItem(final int index) async {
+    if (index != menuItemIndex) {
+      stopSounds();
+      menuItemIndex = index;
+      final menuItem = widget.menuItems[index];
+      for (final sound in [menuItem.earcon, widget.selectItemSound]) {
+        if (sound != null && mounted) {
+          final handle = await context.playSound(sound);
+          soundHandles.add(handle);
+        }
+      }
+      setState(() {});
+    }
+  }
+
+  /// Move up through the menu.
+  Future<void> moveUp() async {
+    final index = max(0, menuItemIndex - 1);
+    await setCurrentMenuItem(index);
+  }
+
+  /// Move down through the menu.
+  Future<void> moveDown() async {
+    final index = min(menuItemIndex + 1, widget.menuItems.length - 1);
+    await setCurrentMenuItem(index);
   }
 }

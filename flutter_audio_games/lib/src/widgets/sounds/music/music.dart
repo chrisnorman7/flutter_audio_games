@@ -43,7 +43,7 @@ class Music extends StatefulWidget {
 }
 
 /// State for [Music].
-class MusicState extends State<Music> {
+class MusicState extends State<Music> with WidgetsBindingObserver {
   /// The playing sound.
   SoundHandle? handle;
 
@@ -88,6 +88,7 @@ class MusicState extends State<Music> {
     super.initState();
     _faded = false;
     _loadMusic();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   /// Dispose of the widget.
@@ -99,6 +100,18 @@ class MusicState extends State<Music> {
       h.stop(fadeOutTime: widget.fadeOutTime);
     }
     handle = null;
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  /// Pause and resume music.
+  @override
+  void didChangeAppLifecycleState(final AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      handle?.pause();
+    } else if (state == AppLifecycleState.resumed) {
+      handle?.unpause();
+    }
   }
 
   /// Build a widget.
