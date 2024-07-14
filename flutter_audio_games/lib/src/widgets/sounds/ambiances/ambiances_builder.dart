@@ -35,7 +35,8 @@ class AmbiancesBuilder extends StatefulWidget {
 }
 
 /// State for [AmbiancesBuilder].
-class AmbiancesBuilderState extends State<AmbiancesBuilder> {
+class AmbiancesBuilderState extends State<AmbiancesBuilder>
+    with WidgetsBindingObserver {
   /// The ambiance handles.
   late final List<SoundHandle> handles;
 
@@ -44,6 +45,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
   void initState() {
     super.initState();
     handles = [];
+    WidgetsBinding.instance.addObserver(this);
   }
 
   /// Load the ambiances.
@@ -72,8 +74,26 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
   @override
   void dispose() {
     super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     for (final handle in handles) {
       handle.stop(fadeOutTime: widget.fadeOutTime);
+    }
+  }
+
+  /// Respond to the app changing state.
+  @override
+  void didChangeAppLifecycleState(final AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    final bool pause;
+    if (state == AppLifecycleState.paused) {
+      pause = true;
+    } else if (state == AppLifecycleState.resumed) {
+      pause = false;
+    } else {
+      return; // Don't do anything.
+    }
+    for (final handle in handles) {
+      context.soLoud.setPause(handle, pause);
     }
   }
 
