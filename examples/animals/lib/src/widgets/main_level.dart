@@ -252,6 +252,15 @@ class MainLevelState extends State<MainLevel> {
                   }
               }
             },
+            canPop: true,
+            areaDescriptions: {
+              forwardZone: ' Move forwards',
+              backwardsZone: 'Move backwards',
+              leftZone: 'Move left',
+              rightZone: 'Move right',
+              fireZone: 'Fire weapon',
+              mainMenuZone: 'Return to main menu',
+            },
           ),
         ),
       ),
