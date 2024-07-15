@@ -1,5 +1,9 @@
 # Changes
 
+## 0.23.1
+
+- Fixed a bug with touch surfaces.
+
 ## 0.23.0
 
 - Use proper text for `TouchSurface` widgets.
