@@ -60,11 +60,11 @@ class TouchSurface extends StatelessWidget {
           child: Material(
             child: Column(
               children: [
-                for (var x = 0; x < rows; x++)
+                for (var y = 0; y < rows; y++)
                   Expanded(
                     child: Row(
                       children: [
-                        for (var y = 0; y < columns; y++)
+                        for (var x = 0; x < columns; x++)
                           TouchArea(
                             description:
                                 areaDescriptions[Point(x, y)] ?? '$x, $y',

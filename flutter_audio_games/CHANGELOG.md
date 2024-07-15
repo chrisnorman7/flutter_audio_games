@@ -1,5 +1,9 @@
 # Changes
 
+## 0.23.2
+
+- Fix `TouchSurface` coordinates.
+
 ## 0.23.1
 
 - Fixed a bug with touch surfaces.
