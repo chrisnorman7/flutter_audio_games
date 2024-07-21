@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../../../flutter_audio_games.dart';
@@ -171,33 +172,47 @@ class TouchMenuState extends State<TouchMenu> {
             builder: (final orientationContext, final orientation) {
               final size = MediaQuery.of(orientationContext).size;
               final ruler = size.longestSide;
-              return Stack(
-                children: [
-                  switch (orientation) {
-                    Orientation.portrait => Column(
-                        children: texts,
-                      ),
-                    Orientation.landscape => Row(
-                        children: texts,
-                      ),
-                  },
-                  TouchMenuArea(
-                    onDoubleTap: () => activateItem(orientationContext),
-                    onPan: (final point) {
-                      final double coordinate;
-                      switch (orientation) {
-                        case Orientation.portrait:
-                          coordinate = point.y;
-                        case Orientation.landscape:
-                          coordinate = point.x;
-                      }
-                      final scale = coordinate / ruler;
-                      final index =
-                          (scale * (widget.menuItems.length - 1)).round();
-                      setCurrentMenuItem(index);
+              return Semantics(
+                excludeSemantics: true,
+                label: 'Swipe up and down to move through items in the menu or '
+                    'turn off your screen reader.',
+                customSemanticsActions: {
+                  for (final menuItem in widget.menuItems)
+                    CustomSemanticsAction(label: menuItem.title): () {
+                      orientationContext.maybePlaySound(
+                        widget.activateItemSound,
+                      );
+                      menuItem.onActivate(orientationContext);
                     },
-                  ),
-                ],
+                },
+                child: Stack(
+                  children: [
+                    switch (orientation) {
+                      Orientation.portrait => Column(
+                          children: texts,
+                        ),
+                      Orientation.landscape => Row(
+                          children: texts,
+                        ),
+                    },
+                    TouchMenuArea(
+                      onDoubleTap: () => activateItem(orientationContext),
+                      onPan: (final point) {
+                        final double coordinate;
+                        switch (orientation) {
+                          case Orientation.portrait:
+                            coordinate = point.y;
+                          case Orientation.landscape:
+                            coordinate = point.x;
+                        }
+                        final scale = coordinate / ruler;
+                        final index =
+                            (scale * (widget.menuItems.length - 1)).round();
+                        setCurrentMenuItem(index);
+                      },
+                    ),
+                  ],
+                ),
               );
             },
           ),
