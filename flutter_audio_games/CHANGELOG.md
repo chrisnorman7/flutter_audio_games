@@ -3,6 +3,7 @@
 ## 0.23.3
 
 - Make touch menus more usable.
+- Add custom accessibility actions to touch menus.
 
 ## 0.23.2
 
