@@ -7,6 +7,7 @@
 - Add the `SourceLoader.disposeSound` method.
 - Stop automatically disposing of sounds.
 - Allow load mode to be set on a per-sound basis.
+- Add extension methods to allow calling soloud methods on `AudioSource`s and `SoundHandle`s.
 
 ## 0.23.2
 

@@ -260,16 +260,19 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
     }
   }
 
+  /// Fade the volume of this sound.
+  void fadeVolume(final double to, final Duration time) =>
+      SoLoud.instance.fadeVolume(this, to, time);
+
   /// Maybe fade to [to].
   void maybeFade({
     required final Duration? fadeTime,
     required final double to,
   }) {
-    final soLoud = SoLoud.instance;
     if (fadeTime != null) {
-      soLoud.fadeVolume(this, to, fadeTime);
+      fadeVolume(to, fadeTime);
     } else {
-      soLoud.setVolume(this, to);
+      volume = to;
     }
   }
 
@@ -279,11 +282,179 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   /// Resume this sound.
   void unpause() => SoLoud.instance.setPause(this, false);
 
+  /// Fade the pan of this sound.
+  void fadePan(final double to, final Duration time) =>
+      SoLoud.instance.fadePan(this, to, time);
+
+  /// Fade the relative speed of this sound.
+  void fadeRelativePlaySpeed(final double to, final Duration time) =>
+      SoLoud.instance.fadeRelativePlaySpeed(this, to, time);
+
+  /// Check if the handle to this sound is still valid.
+  bool get isValidVoiceHandle => SoLoud.instance.getIsValidVoiceHandle(this);
+
+  /// Returns `true` if this sound is looping.
+  bool get looping => SoLoud.instance.getLooping(this);
+
+  /// Get the loop point for this sound.
+  Duration get loopPoint => SoLoud.instance.getLoopPoint(this);
+
+  /// Returns `true` if this sound is paused.
+  bool get paused => SoLoud.instance.getPause(this);
+
+  /// Get the current seek position of this sound.
+  Duration get seek => SoLoud.instance.getPosition(this);
+
+  /// Returns `true` if this sound is protected.
+  bool get protectVoice => SoLoud.instance.getProtectVoice(this);
+
+  /// Get the relative play speed of this sound.
+  double get relativePlaySpeed => SoLoud.instance.getRelativePlaySpeed(this);
+
+  /// Get the volume of this sound.
+  double get volume => SoLoud.instance.getVolume(this);
+
+  /// Oscillate pan for this sound.
+  void oscillatePan(final double from, final double to, final Duration time) =>
+      SoLoud.instance.oscillatePan(this, from, to, time);
+
+  /// Oscillate the relative play speed of this sound.
+  void oscillateRelativePlaySpeed(
+    final double from,
+    final double to,
+    final Duration time,
+  ) =>
+      SoLoud.instance.oscillateRelativePlaySpeed(this, from, to, time);
+
+  /// Oscillate the volume of this sound.
+  void oscillateVolume(
+    final double from,
+    final double to,
+    final Duration time,
+  ) =>
+      SoLoud.instance.oscillateVolume(this, from, to, time);
+
+  /// Switch the [paused] state of this sound.
+  void pauseSwitch() => SoLoud.instance.pauseSwitch(this);
+
+  /// Schedule [pause] for this sound.
+  void schedulePause(final Duration time) =>
+      SoLoud.instance.schedulePause(this, time);
+
+  /// Schedule [stop] for this sound.
+  void scheduleStop(final Duration time) =>
+      SoLoud.instance.scheduleStop(this, time);
+
   /// Seek to a new [position] in this sound.
-  ///
-  /// If [position] is `null`, return to the start.
-  void seek({final Duration position = Duration.zero}) =>
-      SoLoud.instance.seek(this, position);
+  set seek(final Duration position) => SoLoud.instance.seek(this, position);
+
+  /// Set 3d source attenuation for this sound.
+  void setSourceAttenuation(
+    final int attenuationModel,
+    final double attenuationRolloffFactor,
+  ) =>
+      SoLoud.instance.set3dSourceAttenuation(
+        this,
+        attenuationModel,
+        attenuationRolloffFactor,
+      );
+
+  /// Set the doppler factor for this sound.
+  set dopplerFactor(final double dopplerFactor) =>
+      SoLoud.instance.set3dSourceDopplerFactor(this, dopplerFactor);
+
+  /// Set the minimum and maximum distance this source can be heard at.
+  void setMinMaxDistance(final double minDistance, final double maxDistance) =>
+      SoLoud.instance.set3dSourceMinMaxDistance(this, minDistance, maxDistance);
+
+  /// Set the source parameters for this sound.
+  void setSourceParameters(
+    final double posX,
+    final double posY,
+    final double posZ,
+    final double velocityX,
+    final double velocityY,
+    final double velocityZ,
+  ) =>
+      SoLoud.instance.set3dSourceParameters(
+        this,
+        posX,
+        posY,
+        posZ,
+        velocityX,
+        velocityY,
+        velocityZ,
+      );
+
+  /// Set the source position of this sound.
+  void setSourcePosition(
+    final double posX,
+    final double posY,
+    final double posZ,
+  ) =>
+      SoLoud.instance.set3dSourcePosition(this, posX, posY, posZ);
+
+  /// Get the source velocity for this sound.
+  void setSourceVelocity(
+    final double velocityX,
+    final double velocityY,
+    final double velocityZ,
+  ) =>
+      SoLoud.instance
+          .set3dSourceVelocity(this, velocityX, velocityY, velocityZ);
+
+  /// Set [looping] for this sound.
+  set looping(final bool enable) => SoLoud.instance.setLooping(this, enable);
+
+  /// Set the [loopPoint] for this sound.
+  set loopPoint(final Duration time) =>
+      SoLoud.instance.setLoopPoint(this, time);
+
+  /// Set [paused] for this sound.
+  set paused(final bool pause) => SoLoud.instance.setPause(this, pause);
+
+  /// Set [protectVoice] for this sound.
+  set setProtectVoice(final bool protect) =>
+      SoLoud.instance.setProtectVoice(this, protect);
+
+  /// Set the [relativePlaySpeed] for this sound.
+  set relativePlaySpeed(final double speed) =>
+      SoLoud.instance.setRelativePlaySpeed(this, speed);
+
+  /// Set the [volume] of this sound.
+  set volume(final double volume) => SoLoud.instance.setVolume(this, volume);
+}
+
+/// Useful methods for sources.
+extension FlutterAudioGamesAudioSourceExtension on AudioSource {
+  /// Returns the number of concurrent sounds that are playing from this source.
+  int get countSounds => SoLoud.instance.countAudioSource(this);
+
+  /// Dispose of this source.
+  Future<void> dispose() => SoLoud.instance.disposeSource(this);
+
+  /// Get the length of this source.
+  Duration get length => SoLoud.instance.getLength(this);
+
+  /// Set the waveform for this source.
+  set waveform(final WaveForm newWaveform) =>
+      SoLoud.instance.setWaveform(this, newWaveform);
+
+  /// Set the waveform detuning for this sound.
+  set waveformDetuning(final double newDetuning) =>
+      SoLoud.instance.setWaveformDetune(this, newDetuning);
+
+  /// Set the waveform frequency.
+  set waveformFreq(final double newFrequency) =>
+      SoLoud.instance.setWaveformFreq(this, newFrequency);
+
+  /// Set the waveform scale.
+  set waveformScale(final double newScale) =>
+      SoLoud.instance.setWaveformScale(this, newScale);
+
+  /// Set whether this source represents a super wave.
+  set superwave(final bool superwave) =>
+      SoLoud.instance.setWaveformSuperWave(this, superwave);
 }
 
 /// Useful methods.
