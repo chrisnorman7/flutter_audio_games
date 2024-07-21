@@ -69,8 +69,9 @@ class Sound {
     final double? volume,
     final bool? looping,
     final Duration? loopingStart,
-    final bool? paused,
     final SoundPosition? position,
+    final bool? paused,
+    final LoadMode? loadMode,
   }) =>
       Sound(
         path: path,
@@ -79,7 +80,8 @@ class Sound {
         volume: volume ?? this.volume,
         looping: looping ?? this.looping,
         loopingStart: loopingStart ?? this.loopingStart,
-        paused: paused ?? this.paused,
         position: position ?? this.position,
+        paused: paused ?? this.paused,
+        loadMode: loadMode ?? this.loadMode,
       );
 }

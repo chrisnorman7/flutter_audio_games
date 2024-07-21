@@ -202,8 +202,9 @@ extension FlutterAudioGamesStringExtension on String {
     final double volume = 0.7,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,
-    final bool paused = false,
     final SoundPosition position = unpanned,
+    final bool paused = false,
+    final LoadMode loadMode = LoadMode.memory,
   }) =>
       Sound(
         path: this,
@@ -212,8 +213,9 @@ extension FlutterAudioGamesStringExtension on String {
         destroy: destroy,
         looping: looping,
         loopingStart: loopingStart,
-        paused: paused,
         position: position,
+        paused: paused,
+        loadMode: loadMode,
       );
 }
 
@@ -226,8 +228,9 @@ extension FlutterAudioGamesListStringExtension on List<String> {
     final double volume = 0.7,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,
-    final bool paused = false,
     final SoundPosition position = unpanned,
+    final bool paused = false,
+    final LoadMode loadMode = LoadMode.memory,
   }) =>
       map(
         (final path) => path.asSound(
@@ -236,8 +239,9 @@ extension FlutterAudioGamesListStringExtension on List<String> {
           volume: volume,
           looping: looping,
           loopingStart: loopingStart,
-          paused: paused,
           position: position,
+          paused: paused,
+          loadMode: loadMode,
         ),
       ).toList();
 }
