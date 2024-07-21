@@ -115,6 +115,17 @@ class TouchMenuState extends State<TouchMenu> {
   void dispose() {
     super.dispose();
     stopSounds();
+    final loader = context.sourceLoader;
+    for (final menuItem in widget.menuItems) {
+      final sound = menuItem.earcon;
+      if (sound != null) {
+        loader.disposeSound(sound);
+      }
+    }
+    final music = widget.music;
+    if (music != null) {
+      loader.disposeSound(music);
+    }
   }
 
   /// Stop all the currently playing [soundHandles].

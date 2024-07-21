@@ -1,9 +1,12 @@
 # Changes
 
-## 0.23.3
+## 0.24.0
 
 - Make touch menus more usable.
 - Add custom accessibility actions to touch menus.
+- Add the `SourceLoader.disposeSound` method.
+- Stop automatically disposing of sounds.
+- Allow load mode to be set on a per-sound basis.
 
 ## 0.23.2
 

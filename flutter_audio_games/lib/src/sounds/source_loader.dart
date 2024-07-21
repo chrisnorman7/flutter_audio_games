@@ -11,7 +11,6 @@ class SourceLoader {
   SourceLoader({
     required this.soLoud,
     required this.assetBundle,
-    this.loadMode = LoadMode.memory,
     this.httpClient,
   })  : _sounds = [],
         _sources = {};
@@ -21,9 +20,6 @@ class SourceLoader {
 
   /// The asset bundle to use.
   final AssetBundle assetBundle;
-
-  /// The loading mode to use.
-  final LoadMode loadMode;
 
   /// The HTTP client to use.
   final Client? httpClient;
@@ -47,17 +43,17 @@ class SourceLoader {
           source = await soLoud.loadAsset(
             sound.path,
             assetBundle: assetBundle,
-            mode: loadMode,
+            mode: sound.loadMode,
           );
         case SoundType.file:
           source = await soLoud.loadFile(
             sound.path,
-            mode: loadMode,
+            mode: sound.loadMode,
           );
         case SoundType.url:
           source = await soLoud.loadUrl(
             sound.path,
-            mode: loadMode,
+            mode: sound.loadMode,
             httpClient: httpClient,
           );
         case SoundType.tts:
@@ -69,20 +65,29 @@ class SourceLoader {
       await soLoud.init();
       return loadSound(sound);
     }
-    await disposeUnusedSources();
     _sounds.add(sound);
     _sources[sound] = source;
     return source;
   }
 
+  /// Dispose of a single [sound].
+  Future<void> disposeSound(final Sound sound) async {
+    final source = _sources[sound]!;
+    await soLoud.disposeSource(source);
+    _sounds.remove(sound);
+    _sources.remove(sound);
+  }
+
   /// Prune all unused sources.
+  ///
+  /// **Note**: This method may (and probably will) dispose of sources you don't
+  /// want it to, like earcons for example. It is best to dispose of these
+  /// yourself by using the [disposeSound] method.
   Future<void> disposeUnusedSources() async {
     for (final sound in List<Sound>.from(_sounds)) {
       final source = _sources[sound]!;
       if (source.handles.isEmpty) {
-        await soLoud.disposeSource(source);
-        _sounds.remove(sound);
-        _sources.remove(sound);
+        await disposeSound(sound);
       }
     }
   }

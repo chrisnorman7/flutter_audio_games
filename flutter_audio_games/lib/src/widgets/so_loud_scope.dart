@@ -12,7 +12,6 @@ class SoLoudScope extends StatefulWidget {
   /// Create an instance.
   const SoLoudScope({
     required this.child,
-    this.loadMode = LoadMode.memory,
     this.httpClient,
     super.key,
   });
@@ -23,9 +22,6 @@ class SoLoudScope extends StatefulWidget {
 
   /// Get the nearest state.
   static SoLoudScopeState of(final BuildContext context) => maybeOf(context)!;
-
-  /// The load mode to use when loading sounds.
-  final LoadMode loadMode;
 
   /// The HTTP client to use when loading sounds from urls.
   final Client? httpClient;
@@ -54,7 +50,6 @@ class SoLoudScopeState extends State<SoLoudScope> {
     sourceLoader = SourceLoader(
       soLoud: soLoud,
       assetBundle: DefaultAssetBundle.of(context),
-      loadMode: widget.loadMode,
       httpClient: widget.httpClient,
     );
   }
@@ -63,6 +58,7 @@ class SoLoudScopeState extends State<SoLoudScope> {
   @override
   void dispose() {
     super.dispose();
+    sourceLoader.disposeUnusedSources();
     SoLoud.instance.deinit();
   }
 

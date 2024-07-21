@@ -1,3 +1,5 @@
+import 'package:flutter_soloud/flutter_soloud.dart';
+
 import 'sound_position.dart';
 import 'sound_type.dart';
 
@@ -11,8 +13,9 @@ class Sound {
     this.volume = 0.7,
     this.looping = false,
     this.loopingStart = Duration.zero,
-    this.paused = false,
     this.position = unpanned,
+    this.paused = false,
+    this.loadMode = LoadMode.memory,
   });
 
   /// The asset path to use.
@@ -39,9 +42,18 @@ class Sound {
   /// Whether this sound should start paused.
   final bool paused;
 
+  /// The mode to use when loading this sound.
+  final LoadMode loadMode;
+
   /// Get a hash code which can safely be used to check equality.
   @override
-  int get hashCode => '$path${soundType.name}'.hashCode;
+  int get hashCode => internalUri.hashCode;
+
+  /// Get an internal URI for this sound.
+  ///
+  /// The only value of [internalUri] is to generate a suitable [hashCode], and
+  /// for pretty printing.
+  String get internalUri => '${soundType.name}: $path';
 
   @override
   bool operator ==(final Object other) {
