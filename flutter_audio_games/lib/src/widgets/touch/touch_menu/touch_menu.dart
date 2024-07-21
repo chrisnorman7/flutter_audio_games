@@ -4,8 +4,8 @@ import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
-import '../../../flutter_audio_games.dart';
-import '../../../touch.dart';
+import '../../../../flutter_audio_games.dart';
+import 'touch_menu_area.dart';
 
 /// An [AudioGameMenu] which responds to touch.
 class TouchMenu extends StatefulWidget {
@@ -19,6 +19,10 @@ class TouchMenu extends StatefulWidget {
     this.musicFadeInTime,
     this.musicFadeOutTime,
     this.canPop = false,
+    this.backShortcut = GameShortcutsShortcut.escape,
+    this.downShortcut = GameShortcutsShortcut.arrowDown,
+    this.upShortcut = GameShortcutsShortcut.arrowUp,
+    this.activateShortcut = GameShortcutsShortcut.enter,
     super.key,
   });
 
@@ -67,6 +71,23 @@ class TouchMenu extends StatefulWidget {
   /// Allows the blocking of back gestures.
   final bool canPop;
 
+  /// The shortcut for popping this menu.
+  ///
+  /// If [canPop] is `false`, [backShortcut] will have no effect.
+  final GameShortcutsShortcut backShortcut;
+
+  /// The shortcut to move down in the menu.
+  final GameShortcutsShortcut downShortcut;
+
+  /// The shortcut to move up in the menu.
+  final GameShortcutsShortcut upShortcut;
+
+  /// The shortcut to activate a menu item.
+  ///
+  /// The current menu item can always be activated with
+  /// [GameShortcutsShortcut.space].
+  final GameShortcutsShortcut activateShortcut;
+
   /// Create state for this widget.
   @override
   TouchMenuState createState() => TouchMenuState();
@@ -105,69 +126,80 @@ class TouchMenuState extends State<TouchMenu> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
+    final texts = widget.menuItems
+        .map(
+          (final menuItem) => Text(
+            menuItem.title,
+            style: const TextStyle(fontSize: 20),
+          ),
+        )
+        .toList();
     final musicSound = widget.music;
     return MaybeMusic(
       music: musicSound,
-      builder: (final _) => OrientationBuilder(
-        builder: (final orientationContext, final orientation) => GameShortcuts(
-          shortcuts: [
-            if (widget.canPop)
-              const GameShortcut(
-                title: 'Close the menu',
-                shortcut: GameShortcutsShortcut.escape,
-                onStart: Navigator.maybePop,
-              ),
+      builder: (final musicContext) => GameShortcuts(
+        shortcuts: [
+          if (widget.canPop)
             GameShortcut(
-              title: 'Move up in the menu',
-              shortcut: GameShortcutsShortcut.arrowUp,
-              onStart: (final innerContext) => moveUp(),
+              title: 'Close the menu',
+              shortcut: widget.backShortcut,
+              onStart: Navigator.maybePop,
             ),
-            GameShortcut(
-              title: 'Move down in the menu',
-              shortcut: GameShortcutsShortcut.arrowDown,
-              onStart: (final innerContext) => moveDown(),
-            ),
-            GameShortcut(
-              title: 'Activate the current menu item',
-              shortcut: GameShortcutsShortcut.enter,
-              onStart: activateItem,
-            ),
-            GameShortcut(
-              title: 'Activate the current menu item',
-              shortcut: GameShortcutsShortcut.space,
-              onStart: activateItem,
-            ),
-          ],
-          child: GestureDetector(
-            onDoubleTap: () => activateItem(orientationContext),
-            child: TouchSurface(
-              columns: orientation == Orientation.portrait
-                  ? widget.menuItems.length
-                  : 1,
-              rows: orientation == Orientation.landscape
-                  ? widget.menuItems.length
-                  : 1,
-              onTouch: (final coordinates, final event) async {
-                if (event == TouchAreaEvent.release) {
-                  return;
-                }
-                final int index;
-                switch (orientation) {
-                  case Orientation.portrait:
-                    index = coordinates.x;
-                  case Orientation.landscape:
-                    index = coordinates.y;
-                }
-                await setCurrentMenuItem(index);
-              },
-              areaDescriptions: {
-                for (var i = 0; i < widget.menuItems.length; i++)
-                  Point(
-                    orientation == Orientation.portrait ? i : 0,
-                    orientation == Orientation.portrait ? 0 : i,
-                  ): widget.menuItems[i].title,
-              },
-            ),
+          GameShortcut(
+            title: 'Move up in the menu',
+            shortcut: widget.upShortcut,
+            onStart: (final innerContext) => moveUp(),
+          ),
+          GameShortcut(
+            title: 'Move down in the menu',
+            shortcut: widget.downShortcut,
+            onStart: (final innerContext) => moveDown(),
+          ),
+          GameShortcut(
+            title: 'Activate the current menu item',
+            shortcut: widget.activateShortcut,
+            onStart: activateItem,
+          ),
+          GameShortcut(
+            title: 'Activate the current menu item',
+            shortcut: GameShortcutsShortcut.space,
+            onStart: activateItem,
+          ),
+        ],
+        child: Material(
+          child: OrientationBuilder(
+            builder: (final orientationContext, final orientation) {
+              final size = MediaQuery.of(orientationContext).size;
+              final ruler = size.longestSide;
+              return Stack(
+                children: [
+                  switch (orientation) {
+                    Orientation.portrait => Column(
+                        children: texts,
+                      ),
+                    Orientation.landscape => Row(
+                        children: texts,
+                      ),
+                  },
+                  TouchMenuArea(
+                    onDoubleTap: () => activateItem(orientationContext),
+                    onPan: (final point) {
+                      final double coordinate;
+                      switch (orientation) {
+                        case Orientation.portrait:
+                          coordinate = point.y;
+                        case Orientation.landscape:
+                          coordinate = point.x;
+                      }
+                      final scale = coordinate / ruler;
+                      final index =
+                          (scale * (widget.menuItems.length - 1)).round();
+                      setCurrentMenuItem(index);
+                    },
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

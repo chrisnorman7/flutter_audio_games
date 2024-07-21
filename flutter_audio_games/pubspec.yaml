@@ -1,5 +1,5 @@
 name: flutter_audio_games
-version: 0.23.2
+version: 0.23.3
 description: "Widgets useful for creating audio games."
 repository: https://github.com/chrisnorman7/flutter_audio_games
 environment:
