@@ -15,6 +15,7 @@ class TouchSurface extends StatelessWidget {
     this.canPop = false,
     this.areaDescriptions = const {},
     this.areaShortcuts = const {},
+    this.textStyle = const TextStyle(fontSize: 20),
     super.key,
   }) : assert(
           columns > 0 && rows > 0,
@@ -39,6 +40,9 @@ class TouchSurface extends StatelessWidget {
 
   /// Area shortcut keys.
   final Map<GameShortcutsShortcut, Point<int>> areaShortcuts;
+
+  /// The text style to use.
+  final TextStyle? textStyle;
 
   /// Build the widget.
   @override
@@ -72,6 +76,7 @@ class TouchSurface extends StatelessWidget {
                               final point = Point(x, y);
                               onTouch(point, event);
                             },
+                            textStyle: textStyle,
                           ),
                       ],
                     ),

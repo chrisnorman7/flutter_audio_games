@@ -15,6 +15,7 @@ class TouchArea extends StatelessWidget {
   const TouchArea({
     required this.description,
     required this.onTouch,
+    this.textStyle = const TextStyle(fontSize: 20),
     super.key,
   });
 
@@ -23,6 +24,9 @@ class TouchArea extends StatelessWidget {
 
   /// The function to call when touch starts.
   final void Function(TouchAreaEvent event) onTouch;
+
+  /// The text style to use.
+  final TextStyle? textStyle;
 
   /// Build the widget.
   @override
@@ -40,7 +44,10 @@ class TouchArea extends StatelessWidget {
                     onTouch.call(TouchAreaEvent.release),
               ),
               IgnorePointer(
-                child: Text(description),
+                child: Text(
+                  description,
+                  style: textStyle,
+                ),
               ),
             ],
           ),
