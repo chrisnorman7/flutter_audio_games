@@ -9,6 +9,8 @@
 - Allow load mode to be set on a per-sound basis.
 - Add extension methods to allow calling soloud methods on `AudioSource`s and `SoundHandle`s.
 - Allow setting the text style for `Text`s used throughout the package.
+- Removed the unused `SoundType.tts` member.
+- Added logging to `SourceLoader`.
 
 ## 0.23.2
 
