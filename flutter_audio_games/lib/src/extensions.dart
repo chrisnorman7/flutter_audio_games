@@ -118,6 +118,10 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
     }
     return playSound(sound);
   }
+
+  /// Convert [text] to speech via [soLoud].
+  Future<AudioSource> textToSpeech(final String text) =>
+      soLoud.speechText(text);
 }
 
 /// Useful methods on generic points.
