@@ -10,7 +10,4 @@ enum SoundType {
 
   /// The sound should be loaded from a url.
   url,
-
-  /// A sound will be created by converting the path to speech.
-  tts,
 }

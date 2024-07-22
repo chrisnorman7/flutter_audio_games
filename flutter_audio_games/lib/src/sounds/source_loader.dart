@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:http/http.dart';
+import 'package:logging/logging.dart';
 
 import 'sound.dart';
 import 'sound_type.dart';
@@ -12,8 +13,10 @@ class SourceLoader {
     required this.soLoud,
     required this.assetBundle,
     this.httpClient,
+    final String loggerName = 'SourceLoader',
   })  : _sounds = [],
-        _sources = {};
+        _sources = {},
+        _logger = Logger(loggerName);
 
   /// The so loud instance to work with.
   final SoLoud soLoud;
@@ -30,10 +33,16 @@ class SourceLoader {
   /// The loaded audio sources.
   final Map<Sound, AudioSource> _sources;
 
+  /// The logger to use.
+  late final Logger _logger;
+
   /// Load [sound] into memory.
   Future<AudioSource> loadSound(final Sound sound) async {
+    final uri = sound.internalUri;
+    _logger.info('Loading $uri.');
     final s = _sources[sound];
     if (s != null) {
+      _logger.info('$uri has already been loaded as $s.');
       return s;
     }
     final AudioSource source;
@@ -56,12 +65,10 @@ class SourceLoader {
             mode: sound.loadMode,
             httpClient: httpClient,
           );
-        case SoundType.tts:
-          throw UnsupportedError(
-            'You must use `soLoud` directly to convert text to speech.',
-          );
       }
+      _logger.info('Loaded $uri as $source.');
     } on SoLoudNotInitializedException {
+      _logger.warning('The SoLoud library has not yet been initialised.');
       await soLoud.init();
       return loadSound(sound);
     }
@@ -72,10 +79,17 @@ class SourceLoader {
 
   /// Dispose of a single [sound].
   Future<void> disposeSound(final Sound sound) async {
+    _logger.info('Disposing of ${sound.internalUri}.');
     final source = _sources[sound]!;
     await soLoud.disposeSource(source);
     _sounds.remove(sound);
-    _sources.remove(sound);
+    final s = _sources.remove(sound);
+    if (s != null) {
+      _logger.info('Disposing of source $s.');
+      await SoLoud.instance.disposeSource(s);
+    } else {
+      _logger.warning('No source found.');
+    }
   }
 
   /// Prune all unused sources.
@@ -84,6 +98,7 @@ class SourceLoader {
   /// want it to, like earcons for example. It is best to dispose of these
   /// yourself by using the [disposeSound] method.
   Future<void> disposeUnusedSources() async {
+    _logger.info('Disposing of unused sources.');
     for (final sound in List<Sound>.from(_sounds)) {
       final source = _sources[sound]!;
       if (source.handles.isEmpty) {
