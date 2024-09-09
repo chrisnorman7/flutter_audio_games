@@ -3,6 +3,7 @@
 ## 0.25.0
 
 - Upgraded dependencies so games should work on the web.
+- Allow custom sound sources.
 
 ## 0.24.0
 
