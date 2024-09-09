@@ -65,6 +65,7 @@ class Sound {
 
   /// Copy this sound to a new instance.
   Sound copyWith({
+    final String? path,
     final bool? destroy,
     final SoundType? soundType,
     final double? volume,
@@ -75,7 +76,7 @@ class Sound {
     final LoadMode? loadMode,
   }) =>
       Sound(
-        path: path,
+        path: path ?? this.path,
         soundType: soundType ?? this.soundType,
         destroy: destroy ?? this.destroy,
         volume: volume ?? this.volume,

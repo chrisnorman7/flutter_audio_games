@@ -1,5 +1,9 @@
 # Changes
 
+## 0.28.0
+
+- Allow copying a sound with a new path.
+
 ## 0.27.0
 
 - Allow modifying the sound type of a copied sound.
