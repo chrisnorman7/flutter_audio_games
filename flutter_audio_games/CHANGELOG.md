@@ -1,5 +1,9 @@
 # Changes
 
+## 0.25.0
+
+- Upgraded dependencies so games should work on the web.
+
 ## 0.24.0
 
 - Make touch menus more usable.

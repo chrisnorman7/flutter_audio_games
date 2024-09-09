@@ -6,6 +6,14 @@ import 'package:logging/logging.dart';
 import 'sound.dart';
 import 'sound_type.dart';
 
+/// The type for functions which load sources from sounds.
+typedef LoadSound = Future<AudioSource> Function(Sound sound);
+
+/// The default custom loader.
+Future<AudioSource> defaultLoadCustomSound(final Sound sound) async {
+  throw UnimplementedError('No custom sound loader has been set.');
+}
+
 /// A class for creating [AudioSource]s from [Sound]s.
 class SourceLoader {
   /// Create an instance.
@@ -13,6 +21,7 @@ class SourceLoader {
     required this.soLoud,
     required this.assetBundle,
     this.httpClient,
+    this.loadCustomSound = defaultLoadCustomSound,
     final String loggerName = 'SourceLoader',
   })  : _sounds = [],
         _sources = {},
@@ -26,6 +35,9 @@ class SourceLoader {
 
   /// The HTTP client to use.
   final Client? httpClient;
+
+  /// The function to use to load custom sounds.
+  final LoadSound loadCustomSound;
 
   /// The list of sounds which have been loaded, from oldest to newest.
   final List<Sound> _sounds;
@@ -65,6 +77,8 @@ class SourceLoader {
             mode: sound.loadMode,
             httpClient: httpClient,
           );
+        case SoundType.custom:
+          source = await loadCustomSound(sound);
       }
       _logger.info('Loaded $uri as $source.');
     } on SoLoudNotInitializedException {

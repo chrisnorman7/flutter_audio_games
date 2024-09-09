@@ -10,4 +10,9 @@ enum SoundType {
 
   /// The sound should be loaded from a url.
   url,
+
+  /// The sound should be loaded in a custom way.
+  ///
+  /// How this sound will be loaded is up to `SourceLoader.loadCustomSound`.
+  custom,
 }
