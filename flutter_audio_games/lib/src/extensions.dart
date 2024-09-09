@@ -302,6 +302,9 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   /// Get the loop point for this sound.
   Duration get loopPoint => SoLoud.instance.getLoopPoint(this);
 
+  /// Get the pan for this sound.
+  double get pan => SoLoud.instance.getPan(this);
+
   /// Returns `true` if this sound is paused.
   bool get paused => SoLoud.instance.getPause(this);
 
@@ -316,6 +319,12 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
 
   /// Get the volume of this sound.
   double get volume => SoLoud.instance.getVolume(this);
+
+  /// Returns `true` if this is a valid voice group.
+  bool get isValidVoiceGroup => SoLoud.instance.isVoiceGroup(this);
+
+  /// Returns `true` of this voice group is empty.
+  bool get isVoiceGroupEmpty => SoLoud.instance.isVoiceGroupEmpty(this);
 
   /// Oscillate pan for this sound.
   void oscillatePan(final double from, final double to, final Duration time) =>
@@ -397,7 +406,7 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   ) =>
       SoLoud.instance.set3dSourcePosition(this, posX, posY, posZ);
 
-  /// Get the source velocity for this sound.
+  /// Set the source velocity for this sound.
   void setSourceVelocity(
     final double velocityX,
     final double velocityY,
@@ -412,6 +421,13 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   /// Set the [loopPoint] for this sound.
   set loopPoint(final Duration time) =>
       SoLoud.instance.setLoopPoint(this, time);
+
+  /// Set the [pan] of this sound.
+  set pan(final double value) => SoLoud.instance.setPan(this, value);
+
+  /// Set the absolute pan of this sound.
+  void setPanAbsolute(final double left, final double right) =>
+      SoLoud.instance.setPanAbsolute(this, left, right);
 
   /// Set [paused] for this sound.
   set paused(final bool pause) => SoLoud.instance.setPause(this, pause);
@@ -443,17 +459,17 @@ extension FlutterAudioGamesAudioSourceExtension on AudioSource {
   set waveform(final WaveForm newWaveform) =>
       SoLoud.instance.setWaveform(this, newWaveform);
 
-  /// Set the waveform detuning for this sound.
-  set waveformDetuning(final double newDetuning) =>
-      SoLoud.instance.setWaveformDetune(this, newDetuning);
+  /// Set the waveform detune for this sound.
+  set waveformDetune(final double detune) =>
+      SoLoud.instance.setWaveformDetune(this, detune);
 
   /// Set the waveform frequency.
-  set waveformFreq(final double newFrequency) =>
-      SoLoud.instance.setWaveformFreq(this, newFrequency);
+  set waveformFreq(final double frequency) =>
+      SoLoud.instance.setWaveformFreq(this, frequency);
 
   /// Set the waveform scale.
-  set waveformScale(final double newScale) =>
-      SoLoud.instance.setWaveformScale(this, newScale);
+  set waveformScale(final double scale) =>
+      SoLoud.instance.setWaveformScale(this, scale);
 
   /// Set whether this source represents a super wave.
   set superwave(final bool superwave) =>

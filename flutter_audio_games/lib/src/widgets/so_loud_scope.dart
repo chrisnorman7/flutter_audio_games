@@ -45,7 +45,7 @@ class SoLoudScope extends StatefulWidget {
 /// State for [SoLoudScope].
 class SoLoudScopeState extends State<SoLoudScope> {
   /// The so loud instance to use.
-  late final SoLoud soLoud;
+  SoLoud get soLoud => sourceLoader.soLoud;
 
   /// The source loader to use.
   late final SourceLoader sourceLoader;
@@ -54,9 +54,7 @@ class SoLoudScopeState extends State<SoLoudScope> {
   @override
   void initState() {
     super.initState();
-    soLoud = SoLoud.instance;
     sourceLoader = SourceLoader(
-      soLoud: soLoud,
       assetBundle: DefaultAssetBundle.of(context),
       httpClient: widget.httpClient,
       loadCustomSound: widget.loadCustomSound,

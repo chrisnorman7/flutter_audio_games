@@ -4,6 +4,8 @@
 
 - Upgraded dependencies so games should work on the web.
 - Allow custom sound sources.
+- Add more methods from So Loud.
+- Stop pretending we can ever have more than 1 instance of `SoLoud`.
 
 ## 0.24.0
 

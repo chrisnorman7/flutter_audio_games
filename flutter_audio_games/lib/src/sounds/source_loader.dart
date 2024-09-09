@@ -18,7 +18,6 @@ Future<AudioSource> defaultLoadCustomSound(final Sound sound) async {
 class SourceLoader {
   /// Create an instance.
   SourceLoader({
-    required this.soLoud,
     required this.assetBundle,
     this.httpClient,
     this.loadCustomSound = defaultLoadCustomSound,
@@ -26,9 +25,6 @@ class SourceLoader {
   })  : _sounds = [],
         _sources = {},
         _logger = Logger(loggerName);
-
-  /// The so loud instance to work with.
-  final SoLoud soLoud;
 
   /// The asset bundle to use.
   final AssetBundle assetBundle;
@@ -47,6 +43,9 @@ class SourceLoader {
 
   /// The logger to use.
   late final Logger _logger;
+
+  /// The So Loud instance to work with.
+  SoLoud get soLoud => SoLoud.instance;
 
   /// Load [sound] into memory.
   Future<AudioSource> loadSound(final Sound sound) async {
