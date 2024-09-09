@@ -69,7 +69,7 @@ class SoLoudScopeState extends State<SoLoudScope> {
   void dispose() {
     super.dispose();
     sourceLoader.disposeUnusedSources();
-    SoLoud.instance.deinit();
+    sourceLoader.soLoud.deinit();
   }
 
   /// Build a widget.
