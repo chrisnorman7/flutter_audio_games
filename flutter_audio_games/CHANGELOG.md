@@ -1,5 +1,9 @@
 # Changes
 
+## 0.26.0
+
+- Give `loadCustomSound` access to the calling `SourceLoader`.
+
 ## 0.25.0
 
 - Upgraded dependencies so games should work on the web.
