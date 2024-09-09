@@ -1,5 +1,9 @@
 # Changes
 
+## 0.27.0
+
+- Allow modifying the sound type of a copied sound.
+
 ## 0.26.0
 
 - Give `loadCustomSound` access to the calling `SourceLoader`.
