@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'touch_menu.dart';
 
-/// A touch are which reports back to a [TouchMenu].
+/// A touch area which reports back to a [TouchMenu].
 class TouchMenuArea extends StatelessWidget {
   /// Create an instance.
   const TouchMenuArea({
