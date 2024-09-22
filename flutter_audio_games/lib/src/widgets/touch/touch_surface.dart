@@ -63,10 +63,12 @@ class TouchSurface extends StatelessWidget {
           canPop: canPop,
           child: Material(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for (var y = 0; y < rows; y++)
                   Expanded(
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         for (var x = 0; x < columns; x++)
                           TouchArea(
