@@ -30,7 +30,7 @@ class SourceLoader {
     final String loggerName = 'SourceLoader',
   })  : _sounds = [],
         _sources = {},
-        _logger = Logger(loggerName);
+        logger = Logger(loggerName);
 
   /// The asset bundle to use.
   final AssetBundle assetBundle;
@@ -48,7 +48,7 @@ class SourceLoader {
   final Map<Sound, AudioSource> _sources;
 
   /// The logger to use.
-  late final Logger _logger;
+  late final Logger logger;
 
   /// The So Loud instance to work with.
   SoLoud get soLoud => SoLoud.instance;
@@ -56,10 +56,10 @@ class SourceLoader {
   /// Load [sound] into memory.
   Future<AudioSource> loadSound(final Sound sound) async {
     final uri = sound.internalUri;
-    _logger.info('Loading $uri.');
+    logger.info('Loading $uri.');
     final s = _sources[sound];
     if (s != null) {
-      _logger.info('$uri has already been loaded as $s.');
+      logger.info('$uri has already been loaded as $s.');
       return s;
     }
     final AudioSource source;
@@ -85,9 +85,9 @@ class SourceLoader {
         case SoundType.custom:
           source = await loadCustomSound(this, sound);
       }
-      _logger.info('Loaded $uri as $source.');
+      logger.info('Loaded $uri as $source.');
     } on SoLoudNotInitializedException {
-      _logger.warning('The SoLoud library has not yet been initialised.');
+      logger.warning('The SoLoud library has not yet been initialised.');
       await soLoud.init();
       return loadSound(sound);
     }
@@ -98,16 +98,16 @@ class SourceLoader {
 
   /// Dispose of a single [sound].
   Future<void> disposeSound(final Sound sound) async {
-    _logger.info('Disposing of ${sound.internalUri}.');
+    logger.info('Disposing of ${sound.internalUri}.');
     final source = _sources[sound]!;
     await soLoud.disposeSource(source);
     _sounds.remove(sound);
     final s = _sources.remove(sound);
     if (s != null) {
-      _logger.info('Disposing of source $s.');
+      logger.info('Disposing of source $s.');
       await SoLoud.instance.disposeSource(s);
     } else {
-      _logger.warning('No source found.');
+      logger.warning('No source found.');
     }
   }
 
@@ -117,7 +117,7 @@ class SourceLoader {
   /// want it to, like earcons for example. It is best to dispose of these
   /// yourself by using the [disposeSound] method.
   Future<void> disposeUnusedSources() async {
-    _logger.info('Disposing of unused sources.');
+    logger.info('Disposing of unused sources.');
     for (final sound in List<Sound>.from(_sounds)) {
       final source = _sources[sound]!;
       if (source.handles.isEmpty) {

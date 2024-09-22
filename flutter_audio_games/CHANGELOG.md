@@ -1,5 +1,11 @@
 # Changes
 
+## 0.29.0
+
+- Fixed a spelling mistake.
+- Added extension methods to files and directories to create sounds from them.
+- Exposed `SourceLoader` logger.
+
 ## 0.28.0
 
 - Allow copying a sound with a new path.

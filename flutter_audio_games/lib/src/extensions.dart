@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:backstreets_widgets/widgets.dart';
@@ -485,5 +486,61 @@ extension FlutterAudioGamesSoLoudExtension on SoLoud {
     final y = sin(rads);
     const z = -1.0;
     set3dListenerAt(x, y, z);
+  }
+}
+
+/// Useful methods to turn [File]s into [Sound]s.
+extension FileX on File {
+  /// Create a sound from `this` file.
+  Sound asSound({
+    required final bool destroy,
+    final double volume = 0.7,
+    final bool looping = false,
+    final Duration loopingStart = Duration.zero,
+    final SoundPosition position = unpanned,
+    final bool paused = false,
+    final LoadMode loadMode = LoadMode.memory,
+  }) =>
+      Sound(
+        path: path,
+        soundType: SoundType.file,
+        destroy: destroy,
+        loadMode: loadMode,
+        looping: looping,
+        loopingStart: loopingStart,
+        paused: paused,
+        position: position,
+        volume: volume,
+      );
+}
+
+/// Useful extensions to turn [Directory] instances into [Sound]s.
+extension DirectoryX on Directory {
+  /// Create a sound from a file in `this` directory.
+  Sound asSound({
+    required final Random random,
+    required final bool destroy,
+    required final SoundType soundType,
+    final double volume = 0.7,
+    final bool looping = false,
+    final Duration loopingStart = Duration.zero,
+    final SoundPosition position = unpanned,
+    final bool paused = false,
+    final LoadMode loadMode = LoadMode.memory,
+  }) {
+    final files = listSync().whereType<File>().toList();
+    if (files.isEmpty) {
+      throw StateError('Empty directory found at $path.');
+    }
+    final file = files.randomElement(random);
+    return file.asSound(
+      destroy: destroy,
+      loadMode: loadMode,
+      looping: looping,
+      loopingStart: loopingStart,
+      paused: paused,
+      position: position,
+      volume: volume,
+    );
   }
 }
