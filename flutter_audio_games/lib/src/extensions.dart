@@ -520,7 +520,6 @@ extension DirectoryX on Directory {
   Sound asSound({
     required final Random random,
     required final bool destroy,
-    required final SoundType soundType,
     final double volume = 0.7,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,

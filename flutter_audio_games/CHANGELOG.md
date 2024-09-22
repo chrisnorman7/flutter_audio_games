@@ -1,5 +1,9 @@
 # Changes
 
+## 0.29.1
+
+- Removed unused argument to `Directory.asSound`.
+
 ## 0.29.0
 
 - Fixed a spelling mistake.
