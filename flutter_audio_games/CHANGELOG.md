@@ -1,5 +1,10 @@
 # Changes
 
+## 0.30.0
+
+- Allow loading sounds from buffers.
+- Updated `backstreets_widgets`.
+
 ## 0.29.1
 
 - Removed unused argument to `Directory.asSound`.

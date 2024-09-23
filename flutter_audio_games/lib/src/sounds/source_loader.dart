@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:http/http.dart';
@@ -52,6 +54,23 @@ class SourceLoader {
 
   /// The So Loud instance to work with.
   SoLoud get soLoud => SoLoud.instance;
+
+  /// Load [sound] from [buffer].
+  ///
+  /// This method uses `SoLoud.instance.loadMem`.
+  Future<AudioSource> loadSoundBuffer(
+    final Sound sound,
+    final Uint8List buffer,
+  ) async {
+    final uri = sound.internalUri;
+    logger.info('Loading $uri.');
+    final s = _sources[sound];
+    if (s != null) {
+      logger.info('$uri has already been loaded as $s.');
+      return s;
+    }
+    return soLoud.loadMem(sound.path, buffer);
+  }
 
   /// Load [sound] into memory.
   Future<AudioSource> loadSound(final Sound sound) async {

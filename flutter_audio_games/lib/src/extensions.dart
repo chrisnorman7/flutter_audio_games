@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -72,13 +73,20 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
 
   /// Play [sound].
   Future<SoundHandle> playSound(final Sound sound) async {
-    final audio = soLoud;
     final source = await sourceLoader.loadSound(sound);
+    return playSoundSource(sound, source);
+  }
+
+  /// Play [sound] from [source].
+  Future<SoundHandle> playSoundSource(
+    final Sound sound,
+    final AudioSource source,
+  ) async {
     final SoundHandle handle;
     final position = sound.position;
     switch (position) {
       case SoundPositionPanned():
-        handle = await audio.play(
+        handle = await soLoud.play(
           source,
           looping: sound.looping,
           loopingStartAt: sound.loopingStart,
@@ -87,7 +95,7 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
           volume: sound.volume,
         );
       case SoundPosition3d():
-        handle = await audio.play3d(
+        handle = await soLoud.play3d(
           source,
           position.x,
           position.y,
@@ -102,10 +110,19 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
         );
     }
     if (sound.destroy) {
-      final length = audio.getLength(source);
-      audio.scheduleStop(handle, length);
+      final length = soLoud.getLength(source);
+      soLoud.scheduleStop(handle, length);
     } else {}
     return handle;
+  }
+
+  /// Play [sound] [buffer].
+  Future<SoundHandle> playSoundBuffer(
+    final Sound sound,
+    final Uint8List buffer,
+  ) async {
+    final source = await sourceLoader.loadSoundBuffer(sound, buffer);
+    return playSoundSource(sound, source);
   }
 
   /// Play [sound], if it is not `null`.
