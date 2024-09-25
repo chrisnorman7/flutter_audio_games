@@ -71,6 +71,15 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
   /// Get the source loader attached to this context.
   SourceLoader get sourceLoader => soLoudScope.sourceLoader;
 
+  /// Play a random sound from [soundList].
+  Future<SoundHandle> playRandomSound(
+    final List<Sound> soundList, {
+    final Random? random,
+  }) {
+    final sound = soundList.randomElement(random ?? Random());
+    return playSound(sound);
+  }
+
   /// Play [sound].
   Future<SoundHandle> playSound(final Sound sound) async {
     final source = await sourceLoader.loadSound(sound);
