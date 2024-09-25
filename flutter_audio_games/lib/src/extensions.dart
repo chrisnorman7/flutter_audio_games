@@ -73,10 +73,10 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
 
   /// Play a random sound from [soundList].
   Future<SoundHandle> playRandomSound(
-    final List<Sound> soundList, {
-    final Random? random,
-  }) {
-    final sound = soundList.randomElement(random ?? Random());
+    final List<Sound> soundList,
+    final Random random,
+  ) {
+    final sound = soundList.randomElement(random);
     return playSound(sound);
   }
 
