@@ -8,15 +8,33 @@ import 'package:flutter/material.dart';
 /// This widget is used for handling commands like player movement or firing
 /// weapons, where you want commands to be invoked at at least a certain
 /// interval, but for it to not be possible to spam.
+///
+/// ```
+/// Widget build(final BuildContext context) {
+///   return TimedCommands(
+///     builder: (final context, final state) {
+///       _timedCommandsState = state;
+///       state.registerCommand(movePlayer, playerMoveSpeed);
+///       return GameShortcuts(
+///         autofocus: widget.autofocus,
+///         shortcuts: [...],
+///         child: Text(
+///           'Keyboard area',
+///         ),
+///       );
+///     },
+///   );
+/// }
+/// ```
 class TimedCommands extends StatefulWidget {
   /// Create an instance.
   const TimedCommands({
-    required this.child,
+    required this.builder,
     super.key,
   });
 
   /// The widget below this widget in the tree.
-  final Widget Function(BuildContext context, TimedCommandsState state) child;
+  final Widget Function(BuildContext context, TimedCommandsState state) builder;
 
   /// Create state for this widget.
   @override
@@ -44,11 +62,25 @@ class TimedCommandsState extends State<TimedCommands> {
     _commands = [];
     _intervals = [];
     _running = [];
+    _timers = [];
+  }
+
+  /// Cancel all the timers.
+  /// Dispose of the widget.
+  @override
+  void dispose() {
+    super.dispose();
+    for (final timer in _timers) {
+      timer?.cancel();
+    }
+    for (final list in [_commands, _running, _timers, _intervals]) {
+      list.clear();
+    }
   }
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => widget.child(context, this);
+  Widget build(final BuildContext context) => widget.builder(context, this);
 
   /// Get the index for [command].
   int _getCommandIndex(final VoidCallback command) {
@@ -74,9 +106,19 @@ class TimedCommandsState extends State<TimedCommands> {
   bool commandIsRegistered(final VoidCallback command) =>
       _commands.contains(command);
 
-  /// Returns a boolean indicating whether [command] is running or not.
+  /// Returns a boolean indicating whether [command] is running.
+  ///
+  /// This is different from [commandIsScheduled], as it will only return `true`
+  /// if the player has indicated a desire to run [command] next cycle.
   bool commandIsRunning(final VoidCallback command) =>
       _running[_getCommandIndex(command)];
+
+  /// Returns a boolean indicating whether [command] is scheduled.
+  ///
+  /// This is different from [commandIsRunning], as [command] may be scheduled,
+  /// but may not run if [stopCommand] has been called.
+  bool commandIsScheduled(final VoidCallback command) =>
+      _timers[_getCommandIndex(command)] != null;
 
   /// Start a command.
   ///
@@ -87,13 +129,21 @@ class TimedCommandsState extends State<TimedCommands> {
       return false;
     }
     _running[index] = true;
-    command();
+    if (!commandIsScheduled(command)) {
+      command();
+      _startCommandTimer(command);
+    }
+    return true;
+  }
+
+  /// Start the timer for [command].
+  void _startCommandTimer(final VoidCallback command) {
+    final index = _getCommandIndex(command);
     final interval = _intervals[index];
     _timers[index] = Timer.periodic(
       interval,
       (final timer) => _runCommand(timer, command, interval),
     );
-    return true;
   }
 
   /// Stop [command].
@@ -111,10 +161,14 @@ class TimedCommandsState extends State<TimedCommands> {
   }
 
   /// Change the [interval] that [command] runs at.
-  ///
-  /// The new [interval] will not take effect until the next cycle.
   void setCommandInterval(final VoidCallback command, final Duration interval) {
-    _intervals[_getCommandIndex(command)] = interval;
+    final index = _getCommandIndex(command);
+    _intervals[index] = interval;
+    final oldTimer = _timers[index];
+    if (oldTimer != null) {
+      oldTimer.cancel();
+      _startCommandTimer(command);
+    }
   }
 
   /// Run [command].
@@ -133,10 +187,7 @@ class TimedCommandsState extends State<TimedCommands> {
       final newInterval = _intervals[index];
       if (newInterval != interval) {
         timer.cancel();
-        _timers[index] = Timer.periodic(
-          newInterval,
-          (final timer) => _runCommand(timer, command, newInterval),
-        );
+        _startCommandTimer(command);
       }
     } else {
       timer.cancel();

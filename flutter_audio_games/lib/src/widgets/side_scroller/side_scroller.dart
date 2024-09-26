@@ -4,8 +4,7 @@ import 'dart:math';
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'side_scroller_direction.dart';
-import 'side_scroller_surface.dart';
+import '../../../flutter_audio_games.dart';
 
 /// A widget for showing a side scroller.
 class SideScroller extends StatefulWidget {
@@ -13,8 +12,7 @@ class SideScroller extends StatefulWidget {
   const SideScroller({
     required this.surfaces,
     this.playerCoordinates = const Point(0, 0),
-    this.playerDirection = SideScrollerDirection.right,
-    this.playerMoving = false,
+    this.playerDirection,
     this.textStyle,
     this.extraShortcuts = const [],
     this.onWall,
@@ -33,10 +31,7 @@ class SideScroller extends StatefulWidget {
   final Point<int> playerCoordinates;
 
   /// The direction the player starts facing in.
-  final SideScrollerDirection playerDirection;
-
-  /// Whether the player is moving when the level starts.
-  final bool playerMoving;
+  final SideScrollerDirection? playerDirection;
 
   /// The text style to use.
   final TextStyle? textStyle;
@@ -69,6 +64,9 @@ class SideScroller extends StatefulWidget {
 
 /// State for [SideScroller].
 class SideScrollerState extends State<SideScroller> {
+  /// The state of the [TimedCommands] widget.
+  late TimedCommandsState _timedCommandsState;
+
   /// The player's coordinates.
   late Point<int> coordinates;
 
@@ -79,16 +77,7 @@ class SideScrollerState extends State<SideScroller> {
   SideScrollerSurface get currentSurface => tiles[coordinates.x];
 
   /// The direction the player is moving.
-  late SideScrollerDirection playerMovingDirection;
-
-  /// Whether the player is moving.
-  bool get playerMoving => _playerMoveTimer != null;
-
-  /// The movement timer.
-  Timer? _playerMoveTimer;
-
-  /// The time the player can next moved.
-  DateTime? _playerNextMoved;
+  SideScrollerDirection? playerMovingDirection;
 
   /// Initialise state.
   @override
@@ -103,16 +92,13 @@ class SideScrollerState extends State<SideScroller> {
       }
     }
     currentSurface.onPlayerEnter?.call(this);
-    if (widget.playerMoving) {
-      startPlayerMoving(widget.playerDirection);
-    }
+    playerMovingDirection = widget.playerDirection;
   }
 
   /// Dispose of the widget.
   @override
   void dispose() {
     super.dispose();
-    _playerMoveTimer?.cancel();
   }
 
   /// Build a widget.
@@ -152,14 +138,36 @@ class SideScrollerState extends State<SideScroller> {
         ),
       ),
     ];
-    return GameShortcuts(
-      autofocus: widget.autofocus,
-      shortcuts: shortcuts,
-      child: Text(
-        'Keyboard area',
-        style: widget.textStyle,
-      ),
+    return TimedCommands(
+      builder: (final context, final state) {
+        _timedCommandsState = state;
+        state.registerCommand(movePlayer, currentSurface.playerMoveSpeed);
+        final direction = playerMovingDirection;
+        if (direction != null) {
+          startPlayerMoving(direction);
+        }
+        return GameShortcuts(
+          autofocus: widget.autofocus,
+          shortcuts: shortcuts,
+          child: Text(
+            'Keyboard area',
+            style: widget.textStyle,
+          ),
+        );
+      },
     );
+  }
+
+  /// Start the player moving.
+  void startPlayerMoving(final SideScrollerDirection direction) {
+    playerMovingDirection = direction;
+    _timedCommandsState.startCommand(movePlayer);
+  }
+
+  /// Stop the player from moving.
+  void stopPlayerMoving() {
+    _timedCommandsState.stopCommand(movePlayer);
+    playerMovingDirection = null;
   }
 
   /// Move the player.
@@ -168,6 +176,10 @@ class SideScrollerState extends State<SideScroller> {
     final y = coordinates.y;
     final direction = playerMovingDirection;
     switch (direction) {
+      case null:
+        throw StateError(
+          'Why is this command moving when there is no direction to move in?',
+        );
       case SideScrollerDirection.left:
         x = coordinates.x - 1;
       case SideScrollerDirection.right:
@@ -185,11 +197,13 @@ class SideScrollerState extends State<SideScroller> {
       if (oldSurface == newSurface) {
         newSurface.onPlayerMove?.call(this);
       } else {
-        stopPlayerMoving();
         await oldSurface.onPlayerLeave?.call(this);
         await newSurface.onPlayerMove?.call(this);
         await newSurface.onPlayerEnter?.call(this);
-        await startPlayerMoving(playerMovingDirection);
+        _timedCommandsState.setCommandInterval(
+          movePlayer,
+          newSurface.playerMoveSpeed,
+        );
       }
       await adjustSounds();
     }
@@ -197,38 +211,4 @@ class SideScrollerState extends State<SideScroller> {
 
   /// Adjust all the playing sounds.
   Future<void> adjustSounds() async {}
-
-  /// Start the player moving in the given [direction].
-  Future<void> startPlayerMoving(final SideScrollerDirection direction) async {
-    final now = DateTime.now();
-    final nextMove = _playerNextMoved;
-    if (nextMove != null && nextMove.isAfter(now)) {
-      _playerNextMoved = null;
-      print('Will wait ${nextMove.difference(now)}.');
-      await Future.delayed(nextMove.difference(now));
-      if (_playerNextMoved != null) {
-        return;
-      }
-    }
-    playerMovingDirection = direction;
-    if (playerMoving) {
-      return;
-    }
-    await movePlayer();
-    if (!playerMoving) {
-      _playerMoveTimer = Timer.periodic(
-        currentSurface.playerMoveSpeed,
-        (final _) => movePlayer(),
-      );
-    }
-  }
-
-  /// Stop the player moving.
-  void stopPlayerMoving() {
-    _playerNextMoved ??= DateTime.now().add(currentSurface.playerMoveSpeed);
-    print(_playerNextMoved);
-    print(DateTime.now().isBefore(_playerNextMoved!));
-    _playerMoveTimer?.cancel();
-    _playerMoveTimer = null;
-  }
 }
