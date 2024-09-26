@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'side_scroller.dart';
+import 'side_scroller_surface_object.dart';
 
 /// The type of side scroller move functions for players.
 typedef SideScrollerSurfaceAction = FutureOr<void> Function(
@@ -18,6 +19,7 @@ class SideScrollerSurface {
     this.onPlayerEnter,
     this.onPlayerLeave,
     this.onPlayerActivate,
+    this.objects = const [],
   }) : assert(width > 0, 'Surface `width`s must be positive.');
 
   /// The name of this surface.
@@ -42,4 +44,7 @@ class SideScrollerSurface {
 
   /// The function to call when the player activates this level.
   final SideScrollerSurfaceAction? onPlayerActivate;
+
+  /// The objects that start off on this surface.
+  final List<SideScrollerSurfaceObject> objects;
 }

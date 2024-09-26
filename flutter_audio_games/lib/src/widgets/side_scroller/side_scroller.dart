@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../../../flutter_audio_games.dart';
 
@@ -11,6 +12,7 @@ class SideScroller extends StatefulWidget {
   /// Create an instance.
   const SideScroller({
     required this.surfaces,
+    this.loading = LoadingWidget.new,
     this.playerCoordinates = const Point(0, 0),
     this.playerDirection,
     this.textStyle,
@@ -21,11 +23,18 @@ class SideScroller extends StatefulWidget {
     this.movePlayerLeftKey = GameShortcutsShortcut.arrowLeft,
     this.playerJumpKey = GameShortcutsShortcut.arrowUp,
     this.playerActivateKey = GameShortcutsShortcut.enter,
+    this.panDistance = 10,
+    this.muteDistance = 20,
     super.key,
-  }) : assert(surfaces.length > 0, 'The `surfaces` list must not be empty.');
+  })  : assert(surfaces.length > 0, 'The `surfaces` list must not be empty.'),
+        assert(panDistance > 0, '`panDistance` must be greater than 0.'),
+        assert(muteDistance > 0, '`muteDistance` must be greater than 0.');
 
   /// The surfaces the player can move on.
   final List<SideScrollerSurface> surfaces;
+
+  /// The function to call to show a loading widget.
+  final Widget Function() loading;
 
   /// The initial coordinates for the player.
   final Point<int> playerCoordinates;
@@ -57,6 +66,16 @@ class SideScroller extends StatefulWidget {
   /// The key which will activate the current surface.
   final GameShortcutsShortcut playerActivateKey;
 
+  /// The distance between the player and a sound when the sound will be panned,
+  /// rather than attenuated.
+  final double panDistance;
+
+  /// The distance before a sound will be muted.
+  ///
+  /// The [muteDistance] will only be taken into account after the distance
+  /// between the player and the sound is greater than [panDistance].
+  final double muteDistance;
+
   /// Create state for this widget.
   @override
   SideScrollerState createState() => SideScrollerState();
@@ -73,11 +92,20 @@ class SideScrollerState extends State<SideScroller> {
   /// The tiles for this surface.
   late final List<SideScrollerSurface> tiles;
 
+  /// The coordinates of the objects.
+  late final List<Point<int>> _objectCoordinates;
+
+  /// The sounds made by the objects on this level.
+  late final List<SoundHandle> _objectSounds;
+
   /// Get the current surface.
   SideScrollerSurface get currentSurface => tiles[coordinates.x];
 
   /// The direction the player is moving.
   SideScrollerDirection? playerMovingDirection;
+
+  /// Whether the sounds have been initialised.
+  late bool _initSoundsCalled;
 
   /// Initialise state.
   @override
@@ -93,6 +121,73 @@ class SideScrollerState extends State<SideScroller> {
     }
     currentSurface.onPlayerEnter?.call(this);
     playerMovingDirection = widget.playerDirection;
+    _objectCoordinates = widget.objects
+        .map((final object) => object.initialCoordinates)
+        .toList();
+    _objectSounds = [];
+    _initSoundsCalled = false;
+  }
+
+  /// Returns the difference between `start.x`, and `end.x`.
+  int distanceBetween(final Point<int> start, final Point<int> end) =>
+      max(start.x, end.x) - min(start.x, end.x);
+
+  /// Get a suitable pan for a sound at [position].
+  double getSoundPan(final Point<int> position) {
+    if (position == coordinates) {
+      return 0.0;
+    }
+    final distance = distanceBetween(coordinates, position);
+    if (distance <= widget.panDistance) {
+      final panAdjust = 1.0 / widget.panDistance;
+      final newPan = panAdjust * distance;
+      if (position.x < coordinates.x) {
+        return -newPan;
+      }
+      return newPan;
+    }
+    return 0.0;
+  }
+
+  /// Get a volume suitable for playing [sound] at [position].
+  double getSoundVolume(final Sound sound, final Point<int> position) {
+    if (position == coordinates) {
+      return sound.volume;
+    }
+    final distance = distanceBetween(coordinates, position);
+    if (distance <= widget.panDistance || distance >= widget.muteDistance) {
+      return sound.volume;
+    }
+    return sound.volume / widget.muteDistance * (distance - widget.panDistance);
+  }
+
+  /// Initialise object sounds.
+  Future<void> initSounds() async {
+    final c = context;
+    for (final soundHandle in _objectSounds) {
+      await soundHandle.stop();
+    }
+    _objectSounds.clear();
+    for (final object in widget.objects) {
+      if (c.mounted) {
+        final soundHandle = await c.playSound(
+          object.ambiance.copyWith(
+            volume: getSoundVolume(object.ambiance, object.initialCoordinates),
+            position: SoundPositionPanned(
+              getSoundPan(object.initialCoordinates),
+            ),
+          ),
+        );
+        if (c.mounted) {
+          _objectSounds.add(soundHandle);
+        } else {
+          await soundHandle.stop();
+          return;
+        }
+      } else {
+        return;
+      }
+    }
   }
 
   /// Dispose of the widget.
@@ -104,6 +199,14 @@ class SideScrollerState extends State<SideScroller> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
+    if (!_initSoundsCalled) {
+      initSounds().then(
+        (final _) => setState(() {
+          _initSoundsCalled = true;
+        }),
+      );
+      return widget.loading();
+    }
     final shortcuts = <GameShortcut>[
       ...widget.extraShortcuts,
       GameShortcut(
@@ -210,5 +313,15 @@ class SideScrollerState extends State<SideScroller> {
   }
 
   /// Adjust all the playing sounds.
-  Future<void> adjustSounds() async {}
+  Future<void> adjustSounds() async {
+    for (var i = 0; i < _objectCoordinates.length; i++) {
+      final object = widget.objects[i];
+      final soundHandle = _objectSounds[i];
+      final position = _objectCoordinates[i];
+      final sound = object.ambiance;
+      soundHandle
+        ..pan = getSoundPan(position)
+        ..volume = getSoundVolume(sound, position);
+    }
+  }
 }

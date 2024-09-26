@@ -34,6 +34,7 @@ export 'src/widgets/scenes/transition_sound_builder.dart';
 export 'src/widgets/side_scroller/side_scroller.dart';
 export 'src/widgets/side_scroller/side_scroller_direction.dart';
 export 'src/widgets/side_scroller/side_scroller_surface.dart';
+export 'src/widgets/side_scroller/side_scroller_surface_object.dart';
 export 'src/widgets/so_loud_scope.dart';
 export 'src/widgets/sounds/ambiances/ambiances_builder.dart';
 export 'src/widgets/sounds/music/inherited_music.dart';

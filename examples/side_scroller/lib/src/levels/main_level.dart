@@ -64,7 +64,24 @@ class MainLevel extends StatelessWidget {
                     state.context.playRandomSound(footstepSounds, random);
                   }
                 },
-                width: 50,
+                width: 20,
+              ),
+              SideScrollerSurface(
+                name: 'Doorway to next level.',
+                onPlayerActivate: (final state) => speak(
+                  'You move through the door.',
+                ),
+                onPlayerEnter: (final state) => speak(
+                  'You walk up to the door.',
+                ),
+                onPlayerMove: (final state) => state.context.playRandomSound(
+                  Assets.sounds.footsteps.porch.values.asSoundList(
+                    destroy: true,
+                    soundType: SoundType.asset,
+                  ),
+                  random,
+                ),
+                width: 1,
               ),
             ],
             extraShortcuts: [
