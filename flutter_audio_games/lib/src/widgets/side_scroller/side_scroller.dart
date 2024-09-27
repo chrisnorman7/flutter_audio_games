@@ -87,6 +87,9 @@ class SideScroller extends StatefulWidget {
 
 /// State for [SideScroller].
 class SideScrollerState extends State<SideScroller> {
+  /// The random number generator to use.
+  late final Random random;
+
   /// The state of the [TimedCommands] widget.
   late TimedCommandsState _timedCommandsState;
 
@@ -106,7 +109,7 @@ class SideScrollerState extends State<SideScroller> {
   late final List<SoundHandle> _objectSounds;
 
   /// Get the current surface.
-  SideScrollerSurface get currentSurface => tiles[coordinates.x];
+  SideScrollerSurface get currentSurface => getSurfaceAt(coordinates);
 
   /// The direction the player is moving.
   SideScrollerDirection? playerMovingDirection;
@@ -118,6 +121,7 @@ class SideScrollerState extends State<SideScroller> {
   @override
   void initState() {
     super.initState();
+    random = Random();
     coordinates = widget.playerCoordinates;
     playerMovingDirection = widget.playerDirection;
     tiles = [];
@@ -336,6 +340,7 @@ class SideScrollerState extends State<SideScroller> {
     coordinates = Point(x, y);
     final newSurface = currentSurface;
     if (context.mounted) {
+      await context.playRandomSound(newSurface.footstepSounds, random);
       if (oldSurface == newSurface) {
         newSurface.onPlayerMove?.call(this);
       } else {
@@ -383,4 +388,8 @@ class SideScrollerState extends State<SideScroller> {
     _objectCoordinates[_objects.indexOf(object)] = position;
     adjustSounds();
   }
+
+  /// Get the surface at [position].
+  SideScrollerSurface getSurfaceAt(final Point<int> position) =>
+      tiles[position.x];
 }

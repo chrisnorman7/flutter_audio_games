@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../../sounds/sound.dart';
 import 'side_scroller.dart';
 import 'side_scroller_surface_object.dart';
 
@@ -13,6 +14,7 @@ class SideScrollerSurface {
   /// Create an instance.
   const SideScrollerSurface({
     required this.name,
+    required this.footstepSounds,
     this.width = 10,
     this.playerMoveSpeed = const Duration(milliseconds: 500),
     this.onPlayerMove,
@@ -20,10 +22,17 @@ class SideScrollerSurface {
     this.onPlayerLeave,
     this.onPlayerActivate,
     this.objects = const [],
-  }) : assert(width > 0, 'Surface `width`s must be positive.');
+  })  : assert(width > 0, 'Surface `width`s must be positive.'),
+        assert(
+          footstepSounds.length > 0,
+          'You must include at least one footstep sound.',
+        );
 
   /// The name of this surface.
   final String name;
+
+  /// The footstep sounds to use for this surface.
+  final List<Sound> footstepSounds;
 
   /// The width of this surface.
   ///
