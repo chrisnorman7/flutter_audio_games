@@ -278,7 +278,7 @@ class SideScrollerState extends State<SideScroller> {
     return TimedCommands(
       builder: (final context, final state) {
         _timedCommandsState = state;
-        state.registerCommand(movePlayer, currentSurface.playerMoveSpeed);
+        state.registerCommand(_movePlayer, currentSurface.playerMoveSpeed);
         final direction = playerMovingDirection;
         if (direction != null) {
           startPlayerMoving(direction);
@@ -296,19 +296,24 @@ class SideScrollerState extends State<SideScroller> {
   }
 
   /// Start the player moving.
+  ///
+  /// This method should be called in response to the player wanting to move
+  /// themselves.
   void startPlayerMoving(final SideScrollerDirection direction) {
     playerMovingDirection = direction;
-    _timedCommandsState.startCommand(movePlayer);
+    _timedCommandsState.startCommand(_movePlayer);
   }
 
   /// Stop the player from moving.
   void stopPlayerMoving() {
-    _timedCommandsState.stopCommand(movePlayer);
+    _timedCommandsState.stopCommand(_movePlayer);
     playerMovingDirection = null;
   }
 
   /// Move the player.
-  Future<void> movePlayer() async {
+  ///
+  /// This method is called by the [TimedCommands] widget.
+  Future<void> _movePlayer() async {
     final int x;
     final y = coordinates.y;
     final direction = playerMovingDirection;
@@ -338,7 +343,7 @@ class SideScrollerState extends State<SideScroller> {
         await newSurface.onPlayerMove?.call(this);
         await newSurface.onPlayerEnter?.call(this);
         _timedCommandsState.setCommandInterval(
-          movePlayer,
+          _movePlayer,
           newSurface.playerMoveSpeed,
         );
       }
@@ -361,5 +366,21 @@ class SideScrollerState extends State<SideScroller> {
           object.fadeVolume ?? time,
         );
     }
+  }
+
+  /// Get the coordinates for [object].
+  Point<int> getObjectCoordinates(final SideScrollerSurfaceObject object) {
+    assert(_objects.contains(object), 'Object ${object.name} was not found.');
+    return _objectCoordinates[_objects.indexOf(object)];
+  }
+
+  /// Move [object] to the new [position].
+  void moveObject(
+    final SideScrollerSurfaceObject object,
+    final Point<int> position,
+  ) {
+    assert(_objects.contains(object), 'Object ${object.name} was not found.');
+    _objectCoordinates[_objects.indexOf(object)] = position;
+    adjustSounds();
   }
 }
