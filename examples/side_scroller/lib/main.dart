@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 
-import 'src/levels/main_level.dart';
+import 'src/widgets/game_levels.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MainLevel(),
+        home: const GameLevels(),
       ),
     );
   }

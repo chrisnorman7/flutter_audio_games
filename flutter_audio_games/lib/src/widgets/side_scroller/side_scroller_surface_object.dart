@@ -11,6 +11,8 @@ class SideScrollerSurfaceObject {
     required this.name,
     required this.ambiance,
     this.initialCoordinates = const Point(0, 0),
+    this.fadeVolume,
+    this.fadePan,
   });
 
   /// The name of this object.
@@ -27,4 +29,18 @@ class SideScrollerSurfaceObject {
   /// this object in the [SideScroller] level, relative to the start of the
   /// parent [SideScrollerSurface]. The `y` value is not currently used.
   final Point<int> initialCoordinates;
+
+  /// How fast the [ambiance] volume should fade.
+  ///
+  /// If [fadeVolume] is `null`, then `surface.playerMoveSpeed` will be used.
+  ///
+  /// To have no fade, use [Duration.zero].
+  final Duration? fadeVolume;
+
+  /// How fast the [ambiance] pan should fade.
+  ///
+  /// If [fadePan] is `null`, then `surface.playerMoveSpeed` will be used.
+  ///
+  /// To have no fade, use [Duration.zero].
+  final Duration? fadePan;
 }

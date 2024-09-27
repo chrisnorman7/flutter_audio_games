@@ -25,6 +25,7 @@ flutter:
   uses-material-design: true
   assets:
     - sounds/ambiances/
+    - sounds/doors/
     - sounds/footsteps/porch/
     - sounds/footsteps/stone/
     - sounds/weapons/

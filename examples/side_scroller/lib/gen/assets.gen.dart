@@ -13,6 +13,9 @@ class $SoundsGen {
   /// Directory path: sounds/ambiances
   $SoundsAmbiancesGen get ambiances => const $SoundsAmbiancesGen();
 
+  /// Directory path: sounds/doors
+  $SoundsDoorsGen get doors => const $SoundsDoorsGen();
+
   /// Directory path: sounds/footsteps
   $SoundsFootstepsGen get footsteps => const $SoundsFootstepsGen();
 
@@ -37,6 +40,19 @@ class $SoundsAmbiancesGen {
 
   /// List of all assets
   List<String> get values => [door, fire, forest, prison];
+}
+
+class $SoundsDoorsGen {
+  const $SoundsDoorsGen();
+
+  /// File path: sounds/doors/door.mp3
+  String get door => 'sounds/doors/door.mp3';
+
+  /// File path: sounds/doors/wall.mp3
+  String get wall => 'sounds/doors/wall.mp3';
+
+  /// List of all assets
+  List<String> get values => [door, wall];
 }
 
 class $SoundsFootstepsGen {

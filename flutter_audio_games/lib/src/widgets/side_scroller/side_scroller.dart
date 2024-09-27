@@ -220,6 +220,9 @@ class SideScrollerState extends State<SideScroller> {
   @override
   void dispose() {
     super.dispose();
+    for (final soundHandle in _objectSounds) {
+      soundHandle.stop();
+    }
   }
 
   /// Build a widget.
@@ -335,20 +338,24 @@ class SideScrollerState extends State<SideScroller> {
           newSurface.playerMoveSpeed,
         );
       }
-      await adjustSounds();
+      adjustSounds();
     }
   }
 
   /// Adjust all the playing sounds.
-  Future<void> adjustSounds() async {
+  void adjustSounds() {
     for (var i = 0; i < _objects.length; i++) {
       final object = _objects[i];
       final soundHandle = _objectSounds[i];
       final position = _objectCoordinates[i];
       final sound = object.ambiance;
+      final time = currentSurface.playerMoveSpeed;
       soundHandle
-        ..pan = getSoundPan(position)
-        ..volume = getSoundVolume(sound, position);
+        ..fadePan(getSoundPan(position), object.fadePan ?? time)
+        ..fadeVolume(
+          getSoundVolume(sound, position),
+          object.fadeVolume ?? time,
+        );
     }
   }
 }
