@@ -49,6 +49,16 @@ class MainLevel extends StatelessWidget {
                 ),
               ),
               SideScrollerSurface(
+                objects: [
+                  SideScrollerSurfaceObject(
+                    name: 'Audible alert',
+                    ambiance: Assets.sounds.ambiances.door.asSound(
+                      destroy: false,
+                      soundType: SoundType.asset,
+                      looping: true,
+                    ),
+                  ),
+                ],
                 name: 'Path',
                 playerMoveSpeed: const Duration(seconds: 1),
                 onPlayerEnter: (final state) => speak(

@@ -10,7 +10,7 @@ class SideScrollerSurfaceObject {
   const SideScrollerSurfaceObject({
     required this.name,
     required this.ambiance,
-    required this.initialCoordinates,
+    this.initialCoordinates = const Point(0, 0),
   });
 
   /// The name of this object.

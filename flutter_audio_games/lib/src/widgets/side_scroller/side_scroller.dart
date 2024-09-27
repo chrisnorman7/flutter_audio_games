@@ -92,6 +92,9 @@ class SideScrollerState extends State<SideScroller> {
   /// The tiles for this surface.
   late final List<SideScrollerSurface> tiles;
 
+  /// The surface objects.
+  late final List<SideScrollerSurfaceObject> _objects;
+
   /// The coordinates of the objects.
   late final List<Point<int>> _objectCoordinates;
 
@@ -114,17 +117,30 @@ class SideScrollerState extends State<SideScroller> {
     coordinates = widget.playerCoordinates;
     playerMovingDirection = widget.playerDirection;
     tiles = [];
+    _objects = [];
+    _objectCoordinates = [];
+    _objectSounds = [];
     for (final surface in widget.surfaces) {
+      for (final object in surface.objects) {
+        assert(
+          object.initialCoordinates.x <= surface.width,
+          'Object `x` coordinates cannot exceed the `width` of the '
+          'surface they are part of.',
+        );
+        _objects.add(object);
+        _objectCoordinates.add(
+          Point(
+            tiles.length + object.initialCoordinates.x,
+            object.initialCoordinates.y,
+          ),
+        );
+      }
       for (var i = 0; i < surface.width; i++) {
         tiles.add(surface);
       }
     }
     currentSurface.onPlayerEnter?.call(this);
     playerMovingDirection = widget.playerDirection;
-    _objectCoordinates = widget.objects
-        .map((final object) => object.initialCoordinates)
-        .toList();
-    _objectSounds = [];
     _initSoundsCalled = false;
   }
 
@@ -134,7 +150,7 @@ class SideScrollerState extends State<SideScroller> {
 
   /// Get a suitable pan for a sound at [position].
   double getSoundPan(final Point<int> position) {
-    if (position == coordinates) {
+    if (position.x == coordinates.x) {
       return 0.0;
     }
     final distance = distanceBetween(coordinates, position);
@@ -146,19 +162,27 @@ class SideScrollerState extends State<SideScroller> {
       }
       return newPan;
     }
-    return 0.0;
+    if (position.x < coordinates.x) {
+      // The object is to the left of the player.
+      return -1;
+    }
+    // The object is to the right of the player.
+    return 1;
   }
 
   /// Get a volume suitable for playing [sound] at [position].
   double getSoundVolume(final Sound sound, final Point<int> position) {
-    if (position == coordinates) {
+    if (position.x == coordinates.x) {
       return sound.volume;
     }
     final distance = distanceBetween(coordinates, position);
-    if (distance <= widget.panDistance || distance >= widget.muteDistance) {
+    if (distance >= widget.muteDistance) {
+      return 0.0;
+    } else if (distance <= widget.panDistance) {
       return sound.volume;
     }
-    return sound.volume / widget.muteDistance * (distance - widget.panDistance);
+    final remainingDistance = distance - widget.panDistance;
+    return sound.volume / remainingDistance;
   }
 
   /// Initialise object sounds.
@@ -168,13 +192,15 @@ class SideScrollerState extends State<SideScroller> {
       await soundHandle.stop();
     }
     _objectSounds.clear();
-    for (final object in widget.objects) {
+    for (var i = 0; i < _objects.length; i++) {
+      final object = _objects[i];
       if (c.mounted) {
+        final position = _objectCoordinates[i];
         final soundHandle = await c.playSound(
           object.ambiance.copyWith(
-            volume: getSoundVolume(object.ambiance, object.initialCoordinates),
+            volume: getSoundVolume(object.ambiance, position),
             position: SoundPositionPanned(
-              getSoundPan(object.initialCoordinates),
+              getSoundPan(position),
             ),
           ),
         );
@@ -207,6 +233,7 @@ class SideScrollerState extends State<SideScroller> {
       );
       return widget.loading();
     }
+    adjustSounds();
     final shortcuts = <GameShortcut>[
       ...widget.extraShortcuts,
       GameShortcut(
@@ -314,8 +341,8 @@ class SideScrollerState extends State<SideScroller> {
 
   /// Adjust all the playing sounds.
   Future<void> adjustSounds() async {
-    for (var i = 0; i < _objectCoordinates.length; i++) {
-      final object = widget.objects[i];
+    for (var i = 0; i < _objects.length; i++) {
+      final object = _objects[i];
       final soundHandle = _objectSounds[i];
       final position = _objectCoordinates[i];
       final sound = object.ambiance;
