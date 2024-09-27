@@ -25,6 +25,7 @@ class SideScroller extends StatefulWidget {
     this.playerActivateKey = GameShortcutsShortcut.enter,
     this.panDistance = 10,
     this.muteDistance = 20,
+    this.fadeOutTime = const Duration(seconds: 3),
     super.key,
   })  : assert(surfaces.length > 0, 'The `surfaces` list must not be empty.'),
         assert(panDistance > 0, '`panDistance` must be greater than 0.'),
@@ -75,6 +76,9 @@ class SideScroller extends StatefulWidget {
   /// The [muteDistance] will only be taken into account after the distance
   /// between the player and the sound is greater than [panDistance].
   final double muteDistance;
+
+  /// The fade out time for object sounds.
+  final Duration? fadeOutTime;
 
   /// Create state for this widget.
   @override
@@ -221,7 +225,7 @@ class SideScrollerState extends State<SideScroller> {
   void dispose() {
     super.dispose();
     for (final soundHandle in _objectSounds) {
-      soundHandle.stop();
+      soundHandle.stop(fadeOutTime: widget.fadeOutTime);
     }
   }
 
