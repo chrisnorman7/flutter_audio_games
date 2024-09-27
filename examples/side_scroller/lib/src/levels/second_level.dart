@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 import '../../gen/assets.gen.dart';
-import '../constants.dart';
 
 /// The second level.
 class SecondLevel extends StatelessWidget {
@@ -32,6 +31,11 @@ class SecondLevel extends StatelessWidget {
             surfaces: [
               SideScrollerSurface(
                 name: 'Only platform',
+                footstepSounds:
+                    Assets.sounds.footsteps.porch.values.asSoundList(
+                  destroy: true,
+                  soundType: SoundType.asset,
+                ),
                 objects: [
                   SideScrollerSurfaceObject(
                     name: 'Doorway back to the first level',
@@ -48,17 +52,6 @@ class SecondLevel extends StatelessWidget {
                     return;
                   }
                   moveToFirstLevel();
-                },
-                onPlayerMove: (final state) {
-                  if (state.context.mounted) {
-                    state.context.playRandomSound(
-                      Assets.sounds.footsteps.porch.values.asSoundList(
-                        destroy: true,
-                        soundType: SoundType.asset,
-                      ),
-                      random,
-                    );
-                  }
                 },
               ),
             ],

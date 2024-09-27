@@ -28,4 +28,5 @@ flutter:
     - sounds/doors/
     - sounds/footsteps/porch/
     - sounds/footsteps/stone/
+    - sounds/thing/
     - sounds/weapons/

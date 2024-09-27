@@ -1,9 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter_tts/flutter_tts.dart';
-
-/// The random number generator.
-final random = Random();
 
 /// The TTS system to use.
 final tts = FlutterTts();

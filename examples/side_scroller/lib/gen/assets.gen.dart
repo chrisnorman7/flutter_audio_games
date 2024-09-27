@@ -19,6 +19,9 @@ class $SoundsGen {
   /// Directory path: sounds/footsteps
   $SoundsFootstepsGen get footsteps => const $SoundsFootstepsGen();
 
+  /// Directory path: sounds/thing
+  $SoundsThingGen get thing => const $SoundsThingGen();
+
   /// Directory path: sounds/weapons
   $SoundsWeaponsGen get weapons => const $SoundsWeaponsGen();
 }
@@ -63,6 +66,19 @@ class $SoundsFootstepsGen {
 
   /// Directory path: sounds/footsteps/stone
   $SoundsFootstepsStoneGen get stone => const $SoundsFootstepsStoneGen();
+}
+
+class $SoundsThingGen {
+  const $SoundsThingGen();
+
+  /// File path: sounds/thing/breathing.mp3
+  String get breathing => 'sounds/thing/breathing.mp3';
+
+  /// File path: sounds/thing/screech.wav
+  String get screech => 'sounds/thing/screech.wav';
+
+  /// List of all assets
+  List<String> get values => [breathing, screech];
 }
 
 class $SoundsWeaponsGen {

@@ -11,7 +11,7 @@ import '../constants.dart';
 import '../widgets/game_levels.dart';
 
 /// The first level.
-class FirstLevel extends StatelessWidget {
+class FirstLevel extends StatefulWidget {
   /// Create an instance.
   const FirstLevel({
     required this.onMove,
@@ -29,9 +29,78 @@ class FirstLevel extends StatelessWidget {
   /// The coordinates to start the player at.
   final Point<int> initialCoordinates;
 
+  @override
+  State<FirstLevel> createState() => _FirstLevelState();
+}
+
+class _FirstLevelState extends State<FirstLevel> {
+  /// The side scroller state to work with.
+  SideScrollerState? _sideScrollerState;
+
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => Music(
+  Widget build(final BuildContext context) {
+    final thing = SideScrollerSurfaceObject(
+      name: 'Thing',
+      ambiance: Assets.sounds.thing.breathing.asSound(
+        destroy: false,
+        soundType: SoundType.asset,
+        looping: true,
+      ),
+    );
+    return RandomTasks(
+      tasks: [
+        RandomTask(
+          getDuration: () {
+            final state = _sideScrollerState;
+            if (state != null) {
+              return Duration(milliseconds: state.random.nextInt(3000) + 500);
+            }
+            return const Duration(seconds: 2);
+          },
+          onTick: () {
+            final state = _sideScrollerState;
+            if (state == null) {
+              return;
+            }
+            final position = state.getObjectCoordinates(thing);
+            if (state.coordinates == position) {
+              if (state.random.nextInt(5) == 0) {
+                context.playSound(
+                  Assets.sounds.thing.screech.asSound(
+                    destroy: true,
+                    soundType: SoundType.asset,
+                  ),
+                );
+              }
+            } else {
+              final modifier = state.coordinates.x < position.x ? -1 : 1;
+              final newPosition = Point(position.x + modifier, position.y);
+              try {
+                final surface = state.getSurfaceAt(newPosition);
+                state.moveObject(thing, newPosition);
+                context.playRandomSound(
+                  surface.footstepSounds
+                      .map(
+                        (final sound) => sound.copyWith(
+                          volume: state.getSoundVolume(sound, newPosition),
+                          position: SoundPositionPanned(
+                            state.getSoundPan(newPosition),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  state.random,
+                );
+                // ignore: avoid_catching_errors
+              } on RangeError {
+                // Don't move the thing.
+              }
+            }
+          },
+        ),
+      ],
+      child: Music(
         sound: Assets.sounds.ambiances.forest.asSound(
           destroy: false,
           soundType: SoundType.asset,
@@ -41,24 +110,19 @@ class FirstLevel extends StatelessWidget {
         fadeInTime: const Duration(seconds: 3),
         fadeOutTime: const Duration(seconds: 5),
         child: SimpleScaffold(
-          title: 'Forest Path',
+          title: 'First Level',
           body: SideScroller(
             surfaces: [
               SideScrollerSurface(
                 name: 'Porch',
-                onPlayerActivate: (final state) => speak(
-                  'You open and close an imaginary door.',
+                footstepSounds:
+                    Assets.sounds.footsteps.porch.values.asSoundList(
+                  destroy: true,
+                  soundType: SoundType.asset,
                 ),
                 onPlayerMove: (final state) {
-                  onMove(state.coordinates);
-                  if (state.context.mounted) {
-                    final footstepSounds =
-                        Assets.sounds.footsteps.porch.values.asSoundList(
-                      destroy: true,
-                      soundType: SoundType.asset,
-                    );
-                    state.context.playRandomSound(footstepSounds, random);
-                  }
+                  _sideScrollerState = state;
+                  widget.onMove(state.coordinates);
                 },
                 onPlayerEnter: (final state) => speak(
                   'You step up onto the porch.',
@@ -66,38 +130,30 @@ class FirstLevel extends StatelessWidget {
               ),
               SideScrollerSurface(
                 name: 'Path',
+                footstepSounds:
+                    Assets.sounds.footsteps.stone.values.asSoundList(
+                  destroy: true,
+                  soundType: SoundType.asset,
+                ),
                 playerMoveSpeed: const Duration(seconds: 1),
                 onPlayerEnter: (final state) => speak(
                   'You step onto the path.',
                 ),
                 onPlayerMove: (final state) {
-                  onMove(state.coordinates);
-                  if (state.context.mounted) {
-                    final footstepSounds =
-                        Assets.sounds.footsteps.stone.values.asSoundList(
-                      destroy: true,
-                      soundType: SoundType.asset,
-                    );
-                    state.context.playRandomSound(footstepSounds, random);
-                  }
+                  widget.onMove(state.coordinates);
                 },
                 width: 20,
               ),
               SideScrollerSurface(
                 name: 'Doorway to next level.',
-                onPlayerActivate: (final state) => moveToSecondLevel(),
-                onPlayerEnter: (final state) => speak(
-                  'You walk up to the door.',
-                ),
-                onPlayerMove: (final state) {
-                  onMove(state.coordinates);
-                  state.context.playRandomSound(
+                footstepSounds:
                     Assets.sounds.footsteps.porch.values.asSoundList(
-                      destroy: true,
-                      soundType: SoundType.asset,
-                    ),
-                    random,
-                  );
+                  destroy: true,
+                  soundType: SoundType.asset,
+                ),
+                onPlayerActivate: (final state) => widget.moveToSecondLevel(),
+                onPlayerMove: (final state) {
+                  widget.onMove(state.coordinates);
                 },
                 width: 1,
                 objects: [
@@ -109,6 +165,7 @@ class FirstLevel extends StatelessWidget {
                       looping: true,
                     ),
                   ),
+                  thing,
                 ],
               ),
             ],
@@ -129,8 +186,10 @@ class FirstLevel extends StatelessWidget {
                 soundType: SoundType.asset,
               ),
             ),
-            playerCoordinates: initialCoordinates,
+            playerCoordinates: widget.initialCoordinates,
           ),
         ),
-      );
+      ),
+    );
+  }
 }
