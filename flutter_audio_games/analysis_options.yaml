@@ -1,6 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  plugins:
+    - custom_lint
   exclude:
     - lib/src/json/**.g.dart
 linter:
