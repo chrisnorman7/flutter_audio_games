@@ -42,5 +42,4 @@ export 'src/widgets/sounds/music/maybe_music.dart';
 export 'src/widgets/sounds/music/music.dart';
 export 'src/widgets/sounds/play_sound.dart';
 export 'src/widgets/sounds/play_sound_semantics.dart';
-export 'src/widgets/timed_commands.dart';
 export 'src/widgets/volume_list_tile.dart';
