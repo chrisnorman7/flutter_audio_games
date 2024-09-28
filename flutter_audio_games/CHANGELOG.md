@@ -1,5 +1,10 @@
 # Changes
 
+## 0.31.0
+
+- Added the `SideScroller` widget.
+- Added the `BuildContext.playRandomSound` extension method.
+
 ## 0.30.0
 
 - Allow loading sounds from buffers.
