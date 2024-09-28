@@ -4,6 +4,8 @@
 
 - Added the `SideScroller` widget.
 - Added the `BuildContext.playRandomSound` extension method.
+- Added the `TimedCommands` widget.
+- Added the `TouchSurfaceBuilder` widget.
 
 ## 0.30.0
 

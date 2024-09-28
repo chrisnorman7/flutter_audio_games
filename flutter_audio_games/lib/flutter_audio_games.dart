@@ -11,7 +11,7 @@
 ///   [PlaySoundSemantics] widget.
 /// - Add game shortcuts with the [GameShortcuts] widget.
 /// - Show splash screens and play cut scenes with the [TimedBuilders] widget.
-library flutter_audio_games;
+library;
 
 import 'package:backstreets_widgets/widgets.dart';
 
