@@ -12,6 +12,7 @@ class TouchSurfaceBuilder extends StatelessWidget {
     this.autofocus = true,
     this.canRequestFocus = true,
     this.focusNode,
+    this.extraShortcuts = const [],
     super.key,
   });
 
@@ -32,11 +33,18 @@ class TouchSurfaceBuilder extends StatelessWidget {
   /// The focus node to use.
   final FocusNode? focusNode;
 
+  /// Any extra shortcuts to add.
+  ///
+  /// You can use [extraShortcuts] to add shortcuts which should be accessible
+  /// from the keyboard but not the touch screen.
+  final List<GameShortcut> extraShortcuts;
+
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => GameShortcuts(
         shortcuts: [
           for (final commandList in commands) ...commandList,
+          ...extraShortcuts,
         ],
         autofocus: autofocus,
         canRequestFocus: canRequestFocus,
