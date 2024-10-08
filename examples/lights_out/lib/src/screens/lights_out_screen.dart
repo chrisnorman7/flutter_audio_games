@@ -5,21 +5,20 @@ import 'package:flutter/material.dart';
 
 import '../widgets/square_widget.dart';
 
+/// The random number generator to use.
+final random = Random();
+
 /// The lights out screen.
 class LightsOutScreen extends StatefulWidget {
   /// Create an instance.
   const LightsOutScreen({
     this.gridSize = 5,
-    this.tileSize = 50.0,
     this.initialPlayerPoints = 1000,
     super.key,
   });
 
   /// The size of the grid.
   final int gridSize;
-
-  /// The size of each tile in pixels.
-  final double tileSize;
 
   /// The points the player will start with.
   final int initialPlayerPoints;
@@ -37,6 +36,9 @@ class LightsOutScreenState extends State<LightsOutScreen> {
   /// The light values.
   late final List<List<bool>> lights;
 
+  /// Whether the player has won.
+  late bool playerWon;
+
   /// Initialise state.
   @override
   void initState() {
@@ -44,8 +46,9 @@ class LightsOutScreenState extends State<LightsOutScreen> {
     points = widget.initialPlayerPoints;
     lights = [
       for (var y = 0; y < widget.gridSize; y++)
-        [for (var x = 0; x < widget.gridSize; x++) false],
+        [for (var x = 0; x < widget.gridSize; x++) random.nextBool()],
     ];
+    playerWon = false;
   }
 
   /// Build a widget.
@@ -80,7 +83,9 @@ class LightsOutScreenState extends State<LightsOutScreen> {
                                 final lit = lightAt(point);
                                 return Checkbox(
                                   value: lit,
-                                  onChanged: (final _) => toggleLight(point),
+                                  onChanged: playerWon
+                                      ? null
+                                      : (final _) => toggleLight(point),
                                   activeColor: Colors.white,
                                   checkColor: Colors.white,
                                   semanticLabel: '${x + 1}, ${y + 1}',
@@ -124,6 +129,9 @@ class LightsOutScreenState extends State<LightsOutScreen> {
       lights[subPoint.y][subPoint.x] = !lightAt(subPoint);
       points -= 10;
     }
+    playerWon = lights.every(
+      (final element) => element.every((final value) => !value),
+    );
     setState(() {});
   }
 }
