@@ -1,7 +1,7 @@
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-import '../../../touch.dart';
+import '../../../../touch.dart';
 
 /// A [TouchSurface] built from [commands].
 class TouchSurfaceBuilder extends StatelessWidget {
@@ -19,7 +19,7 @@ class TouchSurfaceBuilder extends StatelessWidget {
   /// The commands to use.
   ///
   /// Each list in [commands] will generate a new [Row] widget.
-  final List<List<GameShortcut>> commands;
+  final List<List<TouchSurfaceBuilderCommand>> commands;
 
   /// The text style to use.
   final TextStyle? textStyle;
@@ -71,7 +71,7 @@ class TouchSurfaceBuilder extends StatelessWidget {
                                 command.onStop?.call(context);
                             }
                           },
-                          textStyle: textStyle,
+                          child: command.child,
                         ),
                     ],
                   ),
