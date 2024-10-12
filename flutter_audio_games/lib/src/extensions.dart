@@ -460,7 +460,7 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   set paused(final bool pause) => SoLoud.instance.setPause(this, pause);
 
   /// Set [protectVoice] for this sound.
-  set setProtectVoice(final bool protect) =>
+  set protectVoice(final bool protect) =>
       SoLoud.instance.setProtectVoice(this, protect);
 
   /// Set the [relativePlaySpeed] for this sound.
