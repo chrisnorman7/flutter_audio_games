@@ -5,6 +5,7 @@
 - Added the `SideScroller` widget.
 - Added the `BuildContext.playRandomSound` extension method.
 - Added the `TouchSurfaceBuilder` widget.
+- Added the `VoiceGroup` class.
 
 ## 0.30.0
 
