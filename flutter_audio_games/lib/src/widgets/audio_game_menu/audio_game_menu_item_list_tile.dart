@@ -14,7 +14,6 @@ class AudioGameMenuItemListTile extends StatelessWidget {
     this.selectSound,
     this.activateSound,
     this.autofocus = false,
-    this.textStyle = const TextStyle(fontSize: 20),
     super.key,
   });
 
@@ -36,18 +35,12 @@ class AudioGameMenuItemListTile extends StatelessWidget {
   /// Whether or not the [ListTile] should be autofocused.
   final bool autofocus;
 
-  /// The text style to use.
-  final TextStyle? textStyle;
-
   /// Build the widget.
   @override
   Widget build(final BuildContext context) {
     final listTile = ListTile(
       autofocus: autofocus,
-      title: Text(
-        menuItem.title,
-        style: textStyle,
-      ),
+      title: Text(menuItem.title),
       onTap: () {
         context.maybePlaySound(activateSound);
         menuItem.onActivate(context);

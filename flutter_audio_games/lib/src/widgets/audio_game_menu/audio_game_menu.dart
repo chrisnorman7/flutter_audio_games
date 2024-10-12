@@ -18,7 +18,6 @@ class AudioGameMenu extends StatelessWidget {
     this.activateItemSound,
     this.musicFadeInTime,
     this.musicFadeOutTime,
-    this.textStyle = const TextStyle(fontSize: 20),
     super.key,
   });
 
@@ -62,9 +61,6 @@ class AudioGameMenu extends StatelessWidget {
   /// is popped.
   final Duration? musicFadeOutTime;
 
-  /// The text style to use.
-  final TextStyle? textStyle;
-
   /// Build the widget.
   @override
   Widget build(final BuildContext context) {
@@ -87,7 +83,6 @@ class AudioGameMenu extends StatelessWidget {
           selectSound: selectItemSound,
           activateSound: activateItemSound,
           autofocus: index == 0,
-          textStyle: textStyle,
         ),
         itemCount: menuItems.length,
         shrinkWrap: true,

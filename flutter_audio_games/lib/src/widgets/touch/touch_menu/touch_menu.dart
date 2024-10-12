@@ -24,7 +24,6 @@ class TouchMenu extends StatefulWidget {
     this.downShortcut = GameShortcutsShortcut.arrowDown,
     this.upShortcut = GameShortcutsShortcut.arrowUp,
     this.activateShortcut = GameShortcutsShortcut.enter,
-    this.textStyle = const TextStyle(fontSize: 20),
     super.key,
   });
 
@@ -90,9 +89,6 @@ class TouchMenu extends StatefulWidget {
   /// [GameShortcutsShortcut.space].
   final GameShortcutsShortcut activateShortcut;
 
-  /// The text style to use.
-  final TextStyle? textStyle;
-
   /// Create state for this widget.
   @override
   TouchMenuState createState() => TouchMenuState();
@@ -144,10 +140,7 @@ class TouchMenuState extends State<TouchMenu> {
   Widget build(final BuildContext context) {
     final texts = widget.menuItems
         .map(
-          (final menuItem) => Text(
-            menuItem.title,
-            style: widget.textStyle,
-          ),
+          (final menuItem) => Text(menuItem.title),
         )
         .toList();
     final musicSound = widget.music;

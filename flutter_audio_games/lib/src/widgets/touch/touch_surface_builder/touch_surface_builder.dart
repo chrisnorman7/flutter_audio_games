@@ -8,7 +8,6 @@ class TouchSurfaceBuilder extends StatelessWidget {
   /// Create an instance.
   const TouchSurfaceBuilder({
     required this.commands,
-    this.textStyle,
     this.autofocus = true,
     this.canRequestFocus = true,
     this.focusNode,
@@ -20,9 +19,6 @@ class TouchSurfaceBuilder extends StatelessWidget {
   ///
   /// Each list in [commands] will generate a new [Row] widget.
   final List<List<TouchSurfaceBuilderCommand>> commands;
-
-  /// The text style to use.
-  final TextStyle? textStyle;
 
   /// Whether the [GameShortcuts] widget should be autofocused.
   final bool autofocus;

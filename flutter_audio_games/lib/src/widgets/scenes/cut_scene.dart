@@ -14,7 +14,6 @@ class CutScene extends StatelessWidget {
     required this.duration,
     required this.builder,
     this.sound,
-    this.textStyle = const TextStyle(fontSize: 20),
     super.key,
   });
 
@@ -33,9 +32,6 @@ class CutScene extends StatelessWidget {
   /// The sound to play for the scene.
   final Sound? sound;
 
-  /// The text style to use.
-  final TextStyle? textStyle;
-
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => TimedBuilders(
@@ -45,12 +41,9 @@ class CutScene extends StatelessWidget {
             final s = sound;
             final scaffold = SimpleScaffold(
               title: sceneTitle,
-              body: Focus(
+              body: CenterText(
+                text: sceneText,
                 autofocus: true,
-                child: Text(
-                  sceneText,
-                  style: textStyle,
-                ),
               ),
             );
             if (s == null) {

@@ -6,6 +6,7 @@
 - Added the `BuildContext.playRandomSound` extension method.
 - Added the `TouchSurfaceBuilder` widget.
 - Added the `VoiceGroup` class.
+- Removed text styles.
 
 ## 0.30.0
 

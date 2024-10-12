@@ -14,7 +14,6 @@ class SideScroller extends StatefulWidget {
     this.loading = LoadingWidget.new,
     this.playerCoordinates = const Point(0, 0),
     this.playerDirection,
-    this.textStyle,
     this.extraShortcuts = const [],
     this.onWall,
     this.autofocus = true,
@@ -41,9 +40,6 @@ class SideScroller extends StatefulWidget {
 
   /// The direction the player starts facing in.
   final SideScrollerDirection? playerDirection;
-
-  /// The text style to use.
-  final TextStyle? textStyle;
 
   /// The extra shortcuts to add to the default set.
   final Iterable<GameShortcut> extraShortcuts;
@@ -289,10 +285,7 @@ class SideScrollerState extends State<SideScroller> {
         return GameShortcuts(
           autofocus: widget.autofocus,
           shortcuts: shortcuts,
-          child: Text(
-            'Keyboard area',
-            style: widget.textStyle,
-          ),
+          child: const Text('Keyboard area'),
         );
       },
     );
