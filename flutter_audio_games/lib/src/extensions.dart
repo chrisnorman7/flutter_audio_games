@@ -321,7 +321,7 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
       SoLoud.instance.fadeRelativePlaySpeed(this, to, time);
 
   /// Check if the handle to this sound is still valid.
-  bool get isValidVoiceHandle => SoLoud.instance.getIsValidVoiceHandle(this);
+  bool get isValid => SoLoud.instance.getIsValidVoiceHandle(this);
 
   /// Returns `true` if this sound is looping.
   bool get looping => SoLoud.instance.getLooping(this);
