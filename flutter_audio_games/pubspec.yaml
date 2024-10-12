@@ -10,7 +10,7 @@ dependencies:
   backstreets_widgets: ^0.20.0
   flutter:
     sdk: flutter
-  flutter_soloud: ^2.1.4
+  flutter_soloud: ^2.1.5
   http: ^1.2.2
   logging: ^1.2.0
 
