@@ -348,7 +348,7 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   double get volume => SoLoud.instance.getVolume(this);
 
   /// Returns `true` if this is a valid voice group.
-  bool get isValidVoiceGroup => SoLoud.instance.isVoiceGroup(this);
+  bool get isVoiceGroup => SoLoud.instance.isVoiceGroup(this);
 
   /// Returns `true` of this voice group is empty.
   bool get isVoiceGroupEmpty => SoLoud.instance.isVoiceGroupEmpty(this);
