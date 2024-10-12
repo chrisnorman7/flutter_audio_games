@@ -26,6 +26,7 @@ export 'src/sounds/sound.dart';
 export 'src/sounds/sound_position.dart';
 export 'src/sounds/sound_type.dart';
 export 'src/sounds/source_loader.dart';
+export 'src/sounds/voice_group.dart';
 export 'src/turning_direction.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu_item.dart';
