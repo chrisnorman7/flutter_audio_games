@@ -8,6 +8,7 @@
 - Added the `VoiceGroup` class.
 - Removed text styles.
 - Updated `backstreets_widgets`.
+- Don't cache custom sounds.
 
 ## 0.30.0
 

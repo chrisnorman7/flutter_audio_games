@@ -110,8 +110,10 @@ class SourceLoader {
       await soLoud.init();
       return loadSound(sound);
     }
-    _sounds.add(sound);
-    _sources[sound] = source;
+    if (sound.soundType != SoundType.custom) {
+      _sounds.add(sound);
+      _sources[sound] = source;
+    }
     return source;
   }
 
