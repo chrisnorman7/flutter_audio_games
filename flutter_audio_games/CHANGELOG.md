@@ -7,6 +7,7 @@
 - Added the `TouchSurfaceBuilder` widget.
 - Added the `VoiceGroup` class.
 - Removed text styles.
+- Updated `backstreets_widgets`.
 
 ## 0.30.0
 
