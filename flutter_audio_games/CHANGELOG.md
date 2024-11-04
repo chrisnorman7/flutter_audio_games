@@ -2,6 +2,8 @@
 
 ## 0.31.0
 
+- Added the `SelectPlaybackDevice` screen.
+- Start using Web Audio style sound properties.
 - Added the `SideScroller` widget.
 - Added the `BuildContext.playRandomSound` extension method.
 - Added the `TouchSurfaceBuilder` widget.
