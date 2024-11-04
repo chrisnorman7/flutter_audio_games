@@ -357,8 +357,8 @@ class SideScrollerState extends State<SideScroller> {
       final sound = object.ambiance;
       final time = currentSurface.playerMoveSpeed;
       soundHandle
-        ..fadePan(getSoundPan(position), object.fadePan ?? time)
-        ..fadeVolume(
+        ..pan.fade(getSoundPan(position), object.fadePan ?? time)
+        ..volume.fade(
           getSoundVolume(sound, position),
           object.fadeVolume ?? time,
         );

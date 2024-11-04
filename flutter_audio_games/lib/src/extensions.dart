@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 import '../flutter_audio_games.dart';
+import 'sounds/sound_handle_property.dart';
 
 /// Useful extensions on build contexts.
 extension FlutterAudioGamesBuildContextExtension on BuildContext {
@@ -284,15 +285,28 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
     if (fadeOutTime == null) {
       await soLoud.stop(this);
     } else {
-      soLoud
-        ..fadeVolume(this, 0.0, fadeOutTime)
-        ..scheduleStop(this, fadeOutTime);
+      soLoud.fadeVolume(this, 0.0, fadeOutTime);
+      scheduleStop(fadeOutTime);
     }
   }
 
-  /// Fade the volume of this sound.
-  void fadeVolume(final double to, final Duration time) =>
-      SoLoud.instance.fadeVolume(this, to, time);
+  /// The volume property.
+  SoundHandleProperty<double> get volume => SoundHandleProperty(
+        getValue: () => SoLoud.instance.getVolume(this),
+        setValue: (final value) => SoLoud.instance.setVolume(this, value),
+        fade: (final to, final time) => SoLoud.instance.fadeVolume(
+          this,
+          to,
+          time,
+        ),
+        oscillate: (final from, final to, final time) =>
+            SoLoud.instance.oscillateVolume(
+          this,
+          from,
+          to,
+          time,
+        ),
+      );
 
   /// Maybe fade to [to].
   void maybeFade({
@@ -300,25 +314,60 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
     required final double to,
   }) {
     if (fadeTime != null) {
-      fadeVolume(to, fadeTime);
+      volume.fade(to, fadeTime);
     } else {
-      volume = to;
+      volume.value = to;
     }
   }
 
+  /// The pan property.
+  SoundHandleProperty<double> get pan => SoundHandleProperty(
+        getValue: () => SoLoud.instance.getPan(this),
+        setValue: (final value) => SoLoud.instance.setPan(this, value),
+        fade: (final to, final time) => SoLoud.instance.fadePan(this, to, time),
+        oscillate: (final from, final to, final time) =>
+            SoLoud.instance.oscillatePan(
+          this,
+          from,
+          to,
+          time,
+        ),
+      );
+
+  /// The relative play speed property.
+  SoundHandleProperty<double> get relativePlaySpeed => SoundHandleProperty(
+        getValue: () => SoLoud.instance.getRelativePlaySpeed(this),
+        setValue: (final value) => SoLoud.instance.setRelativePlaySpeed(
+          this,
+          value,
+        ),
+        fade: (final to, final time) => SoLoud.instance.fadeRelativePlaySpeed(
+          this,
+          to,
+          time,
+        ),
+        oscillate: (final from, final to, final time) =>
+            SoLoud.instance.oscillateRelativePlaySpeed(
+          this,
+          from,
+          to,
+          time,
+        ),
+      );
+
   /// Pause this sound.
-  void pause() => SoLoud.instance.setPause(this, true);
+  ///
+  /// If [time] is not `null`, then the pause will be scheduled for the future.
+  void pause({final Duration? time}) {
+    if (time == null) {
+      SoLoud.instance.setPause(this, true);
+    } else {
+      schedulePause(time);
+    }
+  }
 
   /// Resume this sound.
   void unpause() => SoLoud.instance.setPause(this, false);
-
-  /// Fade the pan of this sound.
-  void fadePan(final double to, final Duration time) =>
-      SoLoud.instance.fadePan(this, to, time);
-
-  /// Fade the relative speed of this sound.
-  void fadeRelativePlaySpeed(final double to, final Duration time) =>
-      SoLoud.instance.fadeRelativePlaySpeed(this, to, time);
 
   /// Check if the handle to this sound is still valid.
   bool get isValid => SoLoud.instance.getIsValidVoiceHandle(this);
@@ -329,9 +378,6 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   /// Get the loop point for this sound.
   Duration get loopPoint => SoLoud.instance.getLoopPoint(this);
 
-  /// Get the pan for this sound.
-  double get pan => SoLoud.instance.getPan(this);
-
   /// Returns `true` if this sound is paused.
   bool get paused => SoLoud.instance.getPause(this);
 
@@ -341,37 +387,11 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   /// Returns `true` if this sound is protected.
   bool get protectVoice => SoLoud.instance.getProtectVoice(this);
 
-  /// Get the relative play speed of this sound.
-  double get relativePlaySpeed => SoLoud.instance.getRelativePlaySpeed(this);
-
-  /// Get the volume of this sound.
-  double get volume => SoLoud.instance.getVolume(this);
-
   /// Returns `true` if this is a valid voice group.
   bool get isVoiceGroup => SoLoud.instance.isVoiceGroup(this);
 
   /// Returns `true` of this voice group is empty.
   bool get isVoiceGroupEmpty => SoLoud.instance.isVoiceGroupEmpty(this);
-
-  /// Oscillate pan for this sound.
-  void oscillatePan(final double from, final double to, final Duration time) =>
-      SoLoud.instance.oscillatePan(this, from, to, time);
-
-  /// Oscillate the relative play speed of this sound.
-  void oscillateRelativePlaySpeed(
-    final double from,
-    final double to,
-    final Duration time,
-  ) =>
-      SoLoud.instance.oscillateRelativePlaySpeed(this, from, to, time);
-
-  /// Oscillate the volume of this sound.
-  void oscillateVolume(
-    final double from,
-    final double to,
-    final Duration time,
-  ) =>
-      SoLoud.instance.oscillateVolume(this, from, to, time);
 
   /// Switch the [paused] state of this sound.
   void pauseSwitch() => SoLoud.instance.pauseSwitch(this);
@@ -449,9 +469,6 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   set loopPoint(final Duration time) =>
       SoLoud.instance.setLoopPoint(this, time);
 
-  /// Set the [pan] of this sound.
-  set pan(final double value) => SoLoud.instance.setPan(this, value);
-
   /// Set the absolute pan of this sound.
   void setPanAbsolute(final double left, final double right) =>
       SoLoud.instance.setPanAbsolute(this, left, right);
@@ -462,13 +479,6 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
   /// Set [protectVoice] for this sound.
   set protectVoice(final bool protect) =>
       SoLoud.instance.setProtectVoice(this, protect);
-
-  /// Set the [relativePlaySpeed] for this sound.
-  set relativePlaySpeed(final double speed) =>
-      SoLoud.instance.setRelativePlaySpeed(this, speed);
-
-  /// Set the [volume] of this sound.
-  set volume(final double volume) => SoLoud.instance.setVolume(this, volume);
 }
 
 /// Useful methods for sources.
