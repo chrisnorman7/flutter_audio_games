@@ -32,6 +32,7 @@ export 'src/widgets/audio_game_menu/audio_game_menu.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu_item.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu_item_list_tile.dart';
 export 'src/widgets/scenes/transition_sound_builder.dart';
+export 'src/widgets/select_playback_device.dart';
 export 'src/widgets/side_scroller/side_scroller.dart';
 export 'src/widgets/side_scroller/side_scroller_direction.dart';
 export 'src/widgets/side_scroller/side_scroller_surface.dart';
