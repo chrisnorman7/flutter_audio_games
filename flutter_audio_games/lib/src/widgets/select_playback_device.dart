@@ -8,6 +8,8 @@ class SelectPlaybackDevice extends StatefulWidget {
   const SelectPlaybackDevice({
     this.title = 'Select Playback Device',
     this.onDeviceChanged,
+    this.defaultString = ' (default)',
+    this.currentDevice,
     super.key,
   });
 
@@ -17,6 +19,12 @@ class SelectPlaybackDevice extends StatefulWidget {
   /// The function to call when the playback device changes.
   final void Function(PlaybackDevice device)? onDeviceChanged;
 
+  /// The string which is shown after the name of the default device.
+  final String defaultString;
+
+  /// The playback device which is currently being used.
+  final PlaybackDevice? currentDevice;
+
   /// Create state for this widget.
   @override
   SelectPlaybackDeviceState createState() => SelectPlaybackDeviceState();
@@ -24,6 +32,16 @@ class SelectPlaybackDevice extends StatefulWidget {
 
 /// State for [SelectPlaybackDevice].
 class SelectPlaybackDeviceState extends State<SelectPlaybackDevice> {
+  /// The current playback device.
+  late PlaybackDevice? currentDevice;
+
+  /// Initialise state.
+  @override
+  void initState() {
+    super.initState();
+    currentDevice = widget.currentDevice;
+  }
+
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
@@ -35,12 +53,18 @@ class SelectPlaybackDeviceState extends State<SelectPlaybackDevice> {
           final device = devices[index];
           return ListTile(
             autofocus: index == 0,
-            selected: device.isDefault,
-            title: Text(device.name),
+            selected: (currentDevice == null)
+                ? device.isDefault
+                : device.id == currentDevice!.id,
+            title: Text(
+              '${device.name}${device.isDefault ? widget.defaultString : ""}',
+            ),
             onTap: () {
               SoLoud.instance.changeDevice(newDevice: device);
               widget.onDeviceChanged?.call(device);
-              setState(() {});
+              setState(() {
+                currentDevice = device;
+              });
             },
           );
         },
