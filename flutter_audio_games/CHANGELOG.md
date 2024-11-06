@@ -2,6 +2,7 @@
 
 ## 0.31.0
 
+- Added the `GameCredits` screen.
 - Added the `SelectPlaybackDevice` screen.
 - Start using Web Audio style sound properties.
 - Added the `SideScroller` widget.
