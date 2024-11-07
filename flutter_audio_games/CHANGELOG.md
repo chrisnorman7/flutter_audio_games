@@ -2,6 +2,7 @@
 
 ## 0.31.0
 
+- Added the `PlaySoundsSemantics` widget.
 - Added the `GameCredits` screen.
 - Added the `SelectPlaybackDevice` screen.
 - Start using Web Audio style sound properties.
