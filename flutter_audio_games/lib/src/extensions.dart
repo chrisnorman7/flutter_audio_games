@@ -63,6 +63,10 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
   void stopPlaySoundSemantics() =>
       findAncestorStateOfType<PlaySoundSemanticsState>()?.stop();
 
+  /// Stop sounds playing with this context.
+  void stopPlaySoundsSemantics() =>
+      findAncestorStateOfType<PlaySoundsSemanticsState>()?.stop();
+
   /// Get the so loud instance.
   SoLoud get soLoud => SoLoud.instance;
 
