@@ -8,13 +8,13 @@ environment:
   sdk: ^3.6.0-216.1.beta
 
 dependencies:
-  backstreets_widgets: ^0.18.0
+  backstreets_widgets: ^0.22.1
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
   flutter_audio_games:
     path: ../../flutter_audio_games
-  flutter_soloud: ^2.1.4
+  flutter_soloud: ^2.1.7
   flutter_tts: ^4.0.2
 dev_dependencies:
   flutter_lints: ^5.0.0
