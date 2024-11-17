@@ -41,6 +41,7 @@ export 'src/widgets/side_scroller/side_scroller_surface.dart';
 export 'src/widgets/side_scroller/side_scroller_surface_object.dart';
 export 'src/widgets/so_loud_scope.dart';
 export 'src/widgets/sounds/ambiances/ambiances_builder.dart';
+export 'src/widgets/sounds/maybe_play_sound_semantics.dart';
 export 'src/widgets/sounds/music/inherited_music.dart';
 export 'src/widgets/sounds/music/maybe_music.dart';
 export 'src/widgets/sounds/music/music.dart';

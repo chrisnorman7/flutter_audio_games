@@ -1,5 +1,10 @@
 # Changes
 
+## 0.32.0
+
+- Updated `backstreets_widgets`.
+- Added the `MaybePlaySoundSemantics` widget.
+
 ## 0.31.0
 
 - Added the `PlaySoundsSemantics` widget.
