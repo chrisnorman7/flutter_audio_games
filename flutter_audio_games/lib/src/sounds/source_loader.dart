@@ -30,6 +30,11 @@ class SourceLoader {
     this.httpClient,
     this.loadCustomSound = defaultLoadCustomSound,
     final String loggerName = 'SourceLoader',
+    this.playbackDevice,
+    this.automaticCleanup = false,
+    this.sampleRate = 44100,
+    this.bufferSize = 2048,
+    this.channels = Channels.stereo,
   })  : _sounds = [],
         _sources = {},
         logger = Logger(loggerName);
@@ -51,6 +56,21 @@ class SourceLoader {
 
   /// The logger to use.
   late final Logger logger;
+
+  /// Passed to [SoLoud.init].
+  final PlaybackDevice? playbackDevice;
+
+  /// Passed to [SoLoud.init].
+  final bool automaticCleanup;
+
+  /// Passed to [SoLoud.init].
+  final int sampleRate;
+
+  /// Passed to [SoLoud.init].
+  final int bufferSize;
+
+  /// Passed to [SoLoud.init].
+  final Channels channels;
 
   /// The So Loud instance to work with.
   SoLoud get soLoud => SoLoud.instance;
@@ -107,7 +127,13 @@ class SourceLoader {
       logger.info('Loaded $uri as $source.');
     } on SoLoudNotInitializedException {
       logger.warning('The SoLoud library has not yet been initialised.');
-      await soLoud.init();
+      await soLoud.init(
+        device: playbackDevice,
+        automaticCleanup: automaticCleanup,
+        bufferSize: bufferSize,
+        channels: channels,
+        sampleRate: sampleRate,
+      );
       return loadSound(sound);
     }
     if (sound.soundType != SoundType.custom) {

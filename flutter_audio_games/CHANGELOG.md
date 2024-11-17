@@ -4,6 +4,7 @@
 
 - Updated `backstreets_widgets`.
 - Added the `MaybePlaySoundSemantics` widget.
+- Allow `SoLoud.init` to be configured.
 
 ## 0.31.0
 

@@ -15,6 +15,11 @@ class SoLoudScope extends StatefulWidget {
     this.httpClient,
     this.loadCustomSound = defaultLoadCustomSound,
     this.loggerName = 'SoLoudScope',
+    this.playbackDevice,
+    this.automaticCleanup = false,
+    this.sampleRate = 44100,
+    this.bufferSize = 2048,
+    this.channels = Channels.stereo,
     super.key,
   });
 
@@ -36,6 +41,21 @@ class SoLoudScope extends StatefulWidget {
 
   /// The name of the logger to use.
   final String loggerName;
+
+  /// Passed to [SoLoud.init].
+  final PlaybackDevice? playbackDevice;
+
+  /// Passed to [SoLoud.init].
+  final bool automaticCleanup;
+
+  /// Passed to [SoLoud.init].
+  final int sampleRate;
+
+  /// Passed to [SoLoud.init].
+  final int bufferSize;
+
+  /// Passed to [SoLoud.init].
+  final Channels channels;
 
   /// Create state for this widget.
   @override
@@ -59,6 +79,11 @@ class SoLoudScopeState extends State<SoLoudScope> {
       httpClient: widget.httpClient,
       loadCustomSound: widget.loadCustomSound,
       loggerName: widget.loggerName,
+      playbackDevice: widget.playbackDevice,
+      automaticCleanup: widget.automaticCleanup,
+      bufferSize: widget.bufferSize,
+      channels: widget.channels,
+      sampleRate: widget.sampleRate,
     );
   }
 
