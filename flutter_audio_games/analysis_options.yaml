@@ -127,7 +127,6 @@ linter:
     - unnecessary_string_escapes
     - unnecessary_string_interpolations
     - unrelated_type_equality_checks
-    - unsafe_html
     - use_enums
     - use_if_null_to_convert_nulls_to_bools
     - use_is_even_rather_than_modulo
