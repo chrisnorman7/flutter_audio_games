@@ -13,15 +13,23 @@ Widget buildStartWebAudioButton(
   final BuildContext context,
   final VoidCallback onDone,
 ) =>
-    TextButton(
-      onPressed: () async {
-        final audio = SoLoud.instance;
-        if (!audio.isInitialized) {
-          await audio.init();
-        }
-        onDone();
-      },
-      child: const Text('Start audio'),
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: TextButton(
+            autofocus: true,
+            onPressed: () async {
+              final audio = SoLoud.instance;
+              if (!audio.isInitialized) {
+                await audio.init();
+              }
+              onDone();
+            },
+            child: const Text('Start audio'),
+          ),
+        ),
+      ],
     );
 
 /// A widget which shows a button for starting web audio.
