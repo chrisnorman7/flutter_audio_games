@@ -1,5 +1,10 @@
 # Changes
 
+## 0.33.0
+
+- Upgraded `backstreets_widgets`.
+- Added the `StartWebAudio` widget.
+
 ## 0.32.1
 
 - Upgraded `backstreets_widgets`.
