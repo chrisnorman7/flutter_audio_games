@@ -15,7 +15,7 @@ class SoLoudScope extends StatefulWidget {
     this.httpClient,
     this.loadCustomSound = defaultLoadCustomSound,
     this.loggerName = 'SoLoudScope',
-    this.playbackDevice,
+    this.device,
     this.automaticCleanup = false,
     this.sampleRate = 44100,
     this.bufferSize = 2048,
@@ -43,7 +43,7 @@ class SoLoudScope extends StatefulWidget {
   final String loggerName;
 
   /// Passed to [SoLoud.init].
-  final PlaybackDevice? playbackDevice;
+  final PlaybackDevice? device;
 
   /// Passed to [SoLoud.init].
   final bool automaticCleanup;
@@ -64,6 +64,21 @@ class SoLoudScope extends StatefulWidget {
 
 /// State for [SoLoudScope].
 class SoLoudScopeState extends State<SoLoudScope> {
+  /// Automatic cleanup.
+  bool get automaticCleanup => widget.automaticCleanup;
+
+  /// The buffer size to use.
+  int get bufferSize => widget.bufferSize;
+
+  /// The channels to use.
+  Channels get channels => widget.channels;
+
+  /// The playback device to use.
+  PlaybackDevice? get device => widget.device;
+
+  /// The sample rate to use.
+  int get sampleRate => widget.sampleRate;
+
   /// The so loud instance to use.
   SoLoud get soLoud => sourceLoader.soLoud;
 
@@ -79,7 +94,7 @@ class SoLoudScopeState extends State<SoLoudScope> {
       httpClient: widget.httpClient,
       loadCustomSound: widget.loadCustomSound,
       loggerName: widget.loggerName,
-      playbackDevice: widget.playbackDevice,
+      playbackDevice: widget.device,
       automaticCleanup: widget.automaticCleanup,
       bufferSize: widget.bufferSize,
       channels: widget.channels,

@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
+import '../../flutter_audio_games.dart';
+
 /// The type of a function which builds a button for starting web audio.
 typedef WebAudioButtonBuilder = Widget Function(
   BuildContext context,
@@ -9,6 +11,8 @@ typedef WebAudioButtonBuilder = Widget Function(
 );
 
 /// Build a button for starting web audio.
+///
+/// This function relies on a [SoLoudScope] being somewhere in the widget tree.
 Widget buildStartWebAudioButton(
   final BuildContext context,
   final VoidCallback onDone,
@@ -22,7 +26,14 @@ Widget buildStartWebAudioButton(
             onPressed: () async {
               final audio = SoLoud.instance;
               if (!audio.isInitialized) {
-                await audio.init();
+                final scope = context.soLoudScope;
+                await audio.init(
+                  automaticCleanup: scope.automaticCleanup,
+                  bufferSize: scope.bufferSize,
+                  channels: scope.channels,
+                  device: scope.device,
+                  sampleRate: scope.sampleRate,
+                );
               }
               onDone();
             },

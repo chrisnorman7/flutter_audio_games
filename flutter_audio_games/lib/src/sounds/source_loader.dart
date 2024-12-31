@@ -36,6 +36,7 @@ class SourceLoader {
     this.bufferSize = 2048,
     this.channels = Channels.stereo,
   })  : _sounds = [],
+        _protectedSounds = {},
         _sources = {},
         logger = Logger(loggerName);
 
@@ -51,8 +52,11 @@ class SourceLoader {
   /// The list of sounds which have been loaded, from oldest to newest.
   final List<Sound> _sounds;
 
+  /// The URIs of protected sounds.
+  late final Set<String> _protectedSounds;
+
   /// The loaded audio sources.
-  final Map<Sound, AudioSource> _sources;
+  final Map<String, AudioSource> _sources;
 
   /// The logger to use.
   late final Logger logger;
@@ -83,8 +87,8 @@ class SourceLoader {
     final Uint8List buffer,
   ) async {
     final uri = sound.internalUri;
-    logger.info('Loading $uri.');
-    final s = _sources[sound];
+    logger.info('Loading $uri from buffer of length ${buffer.length}.');
+    final s = _sources[uri];
     if (s != null) {
       logger.info('$uri has already been loaded as $s.');
       return s;
@@ -96,7 +100,7 @@ class SourceLoader {
   Future<AudioSource> loadSound(final Sound sound) async {
     final uri = sound.internalUri;
     logger.info('Loading $uri.');
-    final s = _sources[sound];
+    final s = _sources[uri];
     if (s != null) {
       logger.info('$uri has already been loaded as $s.');
       return s;
@@ -138,23 +142,22 @@ class SourceLoader {
     }
     if (sound.soundType != SoundType.custom) {
       _sounds.add(sound);
-      _sources[sound] = source;
+      _sources[uri] = source;
     }
     return source;
   }
 
   /// Dispose of a single [sound].
   Future<void> disposeSound(final Sound sound) async {
-    logger.info('Disposing of ${sound.internalUri}.');
-    final source = _sources[sound]!;
-    await soLoud.disposeSource(source);
+    final uri = sound.internalUri;
+    logger.info('Disposing of sound $uri.');
     _sounds.remove(sound);
-    final s = _sources.remove(sound);
-    if (s != null) {
-      logger.info('Disposing of source $s.');
-      await SoLoud.instance.disposeSource(s);
+    final source = _sources.remove(uri);
+    if (source == null) {
+      logger.warning('No source found for $uri.');
     } else {
-      logger.warning('No source found.');
+      logger.info('Disposing of source $uri.');
+      await SoLoud.instance.disposeSource(source);
     }
   }
 
@@ -166,10 +169,34 @@ class SourceLoader {
   Future<void> disposeUnusedSources() async {
     logger.info('Disposing of unused sources.');
     for (final sound in List<Sound>.from(_sounds)) {
-      final source = _sources[sound]!;
+      final uri = sound.internalUri;
+      if (_protectedSounds.contains(uri)) {
+        logger.info('Skipping over protected sound $uri.');
+        continue;
+      }
+      final source = _sources[uri]!;
       if (source.handles.isEmpty) {
         await disposeSound(sound);
       }
     }
   }
+
+  /// Protect [sound].
+  ///
+  /// **NOTE:**
+  ///
+  /// - Sounds are protected based on their type and path.
+  /// - Protecting [sound] *will* prevent [disposeUnusedSources] from disposing
+  ///   of it.
+  /// - Protecting [sound] *will not* prevent [disposeSound] from disposing of
+  ///   it.
+  void protectSound(final Sound sound) =>
+      _protectedSounds.add(sound.internalUri);
+
+  /// Unprotect [sound].
+  ///
+  /// Once [sound] has been unprotected, it will once again be disposed by
+  /// [disposeUnusedSources] at the proper time.
+  void unprotectSound(final Sound sound) =>
+      _protectedSounds.remove(sound.internalUri);
 }
