@@ -5,6 +5,7 @@
 - Upgraded `backstreets_widgets`.
 - Added the `StartWebAudio` widget.
 - Removed scene-related widgets.
+- Added simple 2d directions to instances of `Point<int>`.
 
 ## 0.32.1
 
