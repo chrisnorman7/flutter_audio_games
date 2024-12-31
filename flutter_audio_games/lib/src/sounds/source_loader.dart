@@ -129,6 +129,7 @@ class SourceLoader {
           source = await loadCustomSound(this, sound);
       }
       logger.info('Loaded $uri as $source.');
+      await disposeUnusedSources(count: 1);
     } on SoLoudNotInitializedException {
       logger.warning('The SoLoud library has not yet been initialised.');
       await soLoud.init(
@@ -166,8 +167,12 @@ class SourceLoader {
   /// **Note**: This method may (and probably will) dispose of sources you don't
   /// want it to, like earcons for example. It is best to dispose of these
   /// yourself by using the [disposeSound] method.
-  Future<void> disposeUnusedSources() async {
+  ///
+  /// If [count] is not `null`, then no more than [count] sources will be
+  /// disposed.
+  Future<void> disposeUnusedSources({final int? count}) async {
     logger.info('Disposing of unused sources.');
+    var disposed = 0;
     for (final sound in List<Sound>.from(_sounds)) {
       final uri = sound.internalUri;
       if (_protectedSounds.contains(uri)) {
@@ -177,6 +182,10 @@ class SourceLoader {
       final source = _sources[uri]!;
       if (source.handles.isEmpty) {
         await disposeSound(sound);
+        disposed++;
+        if (count != null && disposed >= count) {
+          break;
+        }
       }
     }
   }
