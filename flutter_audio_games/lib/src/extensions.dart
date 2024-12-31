@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
@@ -11,29 +10,7 @@ import '../flutter_audio_games.dart';
 import 'sounds/sound_handle_property.dart';
 
 /// Useful extensions on build contexts.
-extension FlutterAudioGamesBuildContextExtension on BuildContext {
-  /// Pause and resume a [Ticking] while pushing a widget [builder].
-  ///
-  /// This method is useful when implementing a pause menu for example.
-  Future<void> pauseTickingBuilderAndPushWidget(
-    final WidgetBuilder builder,
-  ) async {
-    Ticking.maybeOf(this)?.pause();
-    await Navigator.of(this).push(MaterialPageRoute(builder: builder));
-    Ticking.maybeOf(this)?.resume();
-  }
-
-  /// Pause and resume a [RandomTasks] while pushing a widget [builder].
-  ///
-  /// This method is useful when implementing a pause menu for example.
-  Future<void> pauseRandomTaskBuilderAndPushWidget(
-    final WidgetBuilder builder,
-  ) async {
-    RandomTasks.maybeOf(this)?.pause();
-    await Navigator.of(this).push(MaterialPageRoute(builder: builder));
-    RandomTasks.maybeOf(this)?.resume();
-  }
-
+extension BuildContextX on BuildContext {
   /// Push a widget [builder], fading any [Music] out and back in again.
   ///
   /// This method is useful when pushing a widget over a [AudioGameMenu] for
@@ -156,7 +133,7 @@ extension FlutterAudioGamesBuildContextExtension on BuildContext {
 }
 
 /// Useful methods on generic points.
-extension FlutterAudioGamesPointExtension<T extends num> on Point<T> {
+extension PointX<T extends num> on Point<T> {
   /// Return `true` if this point lies on a straight line between points [a] and
   /// [b].
   bool isOnLine(
@@ -169,7 +146,7 @@ extension FlutterAudioGamesPointExtension<T extends num> on Point<T> {
 /// Useful methods for points.
 ///
 /// This extension is mostly copied from [Ziggurat](https://pub.dev/packages/ziggurat).
-extension FlutterAudioGamesPointDoubleExtension on Point<double> {
+extension PointDoubleX on Point<double> {
   /// Return a floored version of this point. That is a point made up of
   /// [x] and [y], both floored with [double.floor].
   Point<int> floor() => Point<int>(x.floor(), y.floor());
@@ -212,13 +189,37 @@ extension FlutterAudioGamesPointDoubleExtension on Point<double> {
 /// Useful methods for points.
 ///
 /// This extension is mostly copied from [Ziggurat](https://pub.dev/packages/ziggurat).
-extension FlutterAudioGamesPointIntExtension on Point<int> {
+extension PointIntX on Point<int> {
   /// Return a version of this point with the points converted to doubles.
   Point<double> toDouble() => Point<double>(x.toDouble(), y.toDouble());
+
+  /// The point to the north of this point.
+  Point<int> get north => Point(x, y + 1);
+
+  /// The point to the northeast of this point.
+  Point<int> get northeast => Point(x + 1, y + 1);
+
+  /// The point to the east of this point.
+  Point<int> get east => Point(x + 1, y);
+
+  /// The point to the southeast of this point.
+  Point<int> get southeast => Point(x + 1, y - 1);
+
+  /// The point to the south of this point.
+  Point<int> get south => Point(x, y - 1);
+
+  /// The point to the southwest of this point.
+  Point<int> get southwest => Point(x - 1, y - 1);
+
+  /// The point to the west of this point.
+  Point<int> get west => Point(x - 1, y);
+
+  /// The point to the northwest of this point.
+  Point<int> get northwest => Point(x - 1, y + 1);
 }
 
 /// Useful extensions for lists.
-extension FlutterAudioGamesListExtension<E> on List<E> {
+extension ListX<E> on List<E> {
   /// Return a random element.
   ///
   /// This uses [Random.nextInt] to get a random index.
@@ -226,11 +227,11 @@ extension FlutterAudioGamesListExtension<E> on List<E> {
 }
 
 /// Useful string methods.
-extension FlutterAudioGamesStringExtension on String {
+extension StringX on String {
   /// Return a sound, using this string as the path.
   ///
   /// If you want to turn a [List] of [String]s into a [List] of [Sound]s, use
-  /// the [FlutterAudioGamesListStringExtension.asSoundList] method.
+  /// the [ListStringX.asSoundList] method.
   Sound asSound({
     required final bool destroy,
     required final SoundType soundType,
@@ -255,7 +256,7 @@ extension FlutterAudioGamesStringExtension on String {
 }
 
 /// Useful methods on string lists.
-extension FlutterAudioGamesListStringExtension on List<String> {
+extension ListStringX on List<String> {
   /// Return a sound list.
   List<Sound> asSoundList({
     required final bool destroy,
@@ -282,7 +283,7 @@ extension FlutterAudioGamesListStringExtension on List<String> {
 }
 
 /// Useful methods on sound handles.
-extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
+extension AudioHandleX on SoundHandle {
   /// Stop this handle.
   Future<void> stop({final Duration? fadeOutTime}) async {
     final soLoud = SoLoud.instance;
@@ -486,7 +487,7 @@ extension FlutterAudioGamesAudioHandleExtension on SoundHandle {
 }
 
 /// Useful methods for sources.
-extension FlutterAudioGamesAudioSourceExtension on AudioSource {
+extension AudioSourceX on AudioSource {
   /// Returns the number of concurrent sounds that are playing from this source.
   int get countSounds => SoLoud.instance.countAudioSource(this);
 
@@ -518,7 +519,7 @@ extension FlutterAudioGamesAudioSourceExtension on AudioSource {
 }
 
 /// Useful methods.
-extension FlutterAudioGamesSoLoudExtension on SoLoud {
+extension SoLoudX on SoLoud {
   /// Set the listener orientation from [angle].
   void set3dListenerOrientation(final double angle) {
     final rads = angleToRad(angle);

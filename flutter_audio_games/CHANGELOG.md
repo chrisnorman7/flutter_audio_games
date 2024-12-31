@@ -4,6 +4,7 @@
 
 - Upgraded `backstreets_widgets`.
 - Added the `StartWebAudio` widget.
+- Removed scene-related widgets.
 
 ## 0.32.1
 
