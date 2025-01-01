@@ -1,5 +1,9 @@
 # Changes
 
+## 0.34.0
+
+- Added the `ProtectSounds` widget.
+
 ## 0.33.0
 
 - Upgraded `backstreets_widgets`.
