@@ -199,13 +199,19 @@ class SourceLoader {
   ///   of it.
   /// - Protecting [sound] *will not* prevent [disposeSound] from disposing of
   ///   it.
-  void protectSound(final Sound sound) =>
-      _protectedSounds.add(sound.internalUri);
+  void protectSound(final Sound sound) {
+    final uri = sound.internalUri;
+    logger.info('Protecting sound $uri.');
+    _protectedSounds.add(uri);
+  }
 
   /// Unprotect [sound].
   ///
   /// Once [sound] has been unprotected, it will once again be disposed by
   /// [disposeUnusedSources] at the proper time.
-  void unprotectSound(final Sound sound) =>
-      _protectedSounds.remove(sound.internalUri);
+  void unprotectSound(final Sound sound) {
+    final uri = sound.internalUri;
+    logger.info('Unprotecting sound $uri.');
+    _protectedSounds.remove(uri);
+  }
 }
