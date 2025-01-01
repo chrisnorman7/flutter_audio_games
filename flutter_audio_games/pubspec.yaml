@@ -7,7 +7,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  backstreets_widgets: ^0.27.1
+  backstreets_widgets: ^0.28.0
   flutter:
     sdk: flutter
   flutter_soloud: ^2.1.7

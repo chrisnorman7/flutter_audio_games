@@ -3,6 +3,7 @@
 ## 0.34.0
 
 - Added the `ProtectSounds` widget.
+- Added the `LoadSounds` widget.
 
 ## 0.33.0
 
