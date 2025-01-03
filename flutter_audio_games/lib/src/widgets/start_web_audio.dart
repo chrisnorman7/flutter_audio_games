@@ -1,3 +1,4 @@
+import 'package:backstreets_widgets/screens.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
@@ -17,30 +18,33 @@ Widget buildStartWebAudioButton(
   final BuildContext context,
   final VoidCallback onDone,
 ) =>
-    Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: TextButton(
-            autofocus: true,
-            onPressed: () async {
-              final audio = SoLoud.instance;
-              if (!audio.isInitialized) {
-                final scope = context.soLoudScope;
-                await audio.init(
-                  automaticCleanup: scope.automaticCleanup,
-                  bufferSize: scope.bufferSize,
-                  channels: scope.channels,
-                  device: scope.device,
-                  sampleRate: scope.sampleRate,
-                );
-              }
-              onDone();
-            },
-            child: const Text('Start audio'),
+    SimpleScaffold(
+      title: 'Start Audio',
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: TextButton(
+              autofocus: true,
+              onPressed: () async {
+                final audio = SoLoud.instance;
+                if (!audio.isInitialized) {
+                  final scope = context.soLoudScope;
+                  await audio.init(
+                    automaticCleanup: scope.automaticCleanup,
+                    bufferSize: scope.bufferSize,
+                    channels: scope.channels,
+                    device: scope.device,
+                    sampleRate: scope.sampleRate,
+                  );
+                }
+                onDone();
+              },
+              child: const Text('Start audio'),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
 
 /// A widget which shows a button for starting web audio.
@@ -49,20 +53,19 @@ Widget buildStartWebAudioButton(
 class StartWebAudio extends StatefulWidget {
   /// Create an instance.
   const StartWebAudio({
-    required this.builder,
     required this.child,
-    this.title = 'Start audio',
+    this.buttonBuilder,
     super.key,
   });
 
-  /// The function which build the audio button.
-  final WebAudioButtonBuilder builder;
-
-  /// The title of the [Scaffold].
-  final String title;
-
   /// The widget below this widget in the tree.
   final Widget child;
+
+  /// The function which build the audio button.
+  ///
+  /// If [buttonBuilder] is `null`, then [buildStartWebAudioButton] will be
+  /// used.
+  final WebAudioButtonBuilder? buttonBuilder;
 
   /// Create state for this widget.
   @override
@@ -77,7 +80,7 @@ class StartWebAudioState extends State<StartWebAudio> {
     if (SoLoud.instance.isInitialized || !kIsWeb) {
       return widget.child;
     }
-    return widget.builder(
+    return (widget.buttonBuilder ?? buildStartWebAudioButton)(
       context,
       () => setState(() {}),
     );
