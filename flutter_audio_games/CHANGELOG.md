@@ -3,6 +3,7 @@
 ## 0.35.0
 
 - Fixed the `StartWebAudio` widget to not require the `buttonBuilder` argument.
+- Updated `backstreets_widgets`.
 
 ## 0.34.0
 
