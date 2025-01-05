@@ -1,5 +1,9 @@
 # Changes
 
+## 0.35.1
+
+- Export the `ProtectSounds` widget.
+
 ## 0.35.0
 
 - Fixed the `StartWebAudio` widget to not require the `buttonBuilder` argument.
