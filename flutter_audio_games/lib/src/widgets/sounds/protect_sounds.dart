@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../extensions.dart';
-import '../../sounds/sound.dart' show Sound;
+import '../../sounds/sound.dart';
 import '../../sounds/source_loader.dart';
 
 /// A widget which protects a list of [sounds] from being disposed for the
