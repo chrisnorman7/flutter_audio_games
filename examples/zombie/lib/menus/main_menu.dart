@@ -37,7 +37,7 @@ class MainMenuState extends ConsumerState<MainMenu> {
       soundType: SoundType.asset,
     );
     return ProtectSounds(
-      sounds: [music, activateItemSound, selectItemSound],
+      sounds: [music, selectItemSound, activateItemSound],
       child: AudioGameMenu(
         title: 'Main Menu',
         menuItems: [
