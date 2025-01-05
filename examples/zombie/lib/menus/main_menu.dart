@@ -28,35 +28,40 @@ class MainMenuState extends ConsumerState<MainMenu> {
       soundType: SoundType.asset,
       looping: true,
     );
-    return AudioGameMenu(
-      title: 'Main Menu',
-      menuItems: [
-        AudioGameMenuItem(
-          title: 'Play Game',
-          onActivate: (final innerContext) {
-            innerContext.fadeMusicAndPushWidget(
-              (final context) => const MainLevel(),
-            );
-          },
-        ),
-        AudioGameMenuItem(
-          title: 'Visit chrisnorman7 on GitHub',
-          onActivate: (final innerContext) => launchUrl(
-            Uri.parse('https://github.com/chrisnorman7/'),
+    final activateItemSound = Assets.sounds.menus.activate.asSound(
+      destroy: true,
+      soundType: SoundType.asset,
+    );
+    final selectItemSound = Assets.sounds.menus.select.asSound(
+      destroy: false,
+      soundType: SoundType.asset,
+    );
+    return ProtectSounds(
+      sounds: [music, activateItemSound, selectItemSound],
+      child: AudioGameMenu(
+        title: 'Main Menu',
+        menuItems: [
+          AudioGameMenuItem(
+            title: 'Play Game',
+            onActivate: (final innerContext) {
+              innerContext.fadeMusicAndPushWidget(
+                (final context) => const MainLevel(),
+              );
+            },
           ),
-        ),
-      ],
-      music: music,
-      activateItemSound: Assets.sounds.menus.activate.asSound(
-        destroy: true,
-        soundType: SoundType.asset,
+          AudioGameMenuItem(
+            title: 'Visit chrisnorman7 on GitHub',
+            onActivate: (final innerContext) => launchUrl(
+              Uri.parse('https://github.com/chrisnorman7/'),
+            ),
+          ),
+        ],
+        music: music,
+        activateItemSound: activateItemSound,
+        selectItemSound: selectItemSound,
+        musicFadeInTime: const Duration(seconds: 3),
+        musicFadeOutTime: const Duration(seconds: 4),
       ),
-      selectItemSound: Assets.sounds.menus.select.asSound(
-        destroy: false,
-        soundType: SoundType.asset,
-      ),
-      musicFadeInTime: const Duration(seconds: 3),
-      musicFadeOutTime: const Duration(seconds: 4),
     );
   }
 }
