@@ -1,3 +1,4 @@
+import 'package:backstreets_widgets/typedefs.dart';
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
@@ -11,6 +12,8 @@ class AmbiancesBuilder extends StatefulWidget {
   const AmbiancesBuilder({
     required this.ambiances,
     required this.builder,
+    required this.error,
+    required this.loading,
     this.fadeInTime,
     this.fadeOutTime,
     super.key,
@@ -22,6 +25,12 @@ class AmbiancesBuilder extends StatefulWidget {
   /// The widget below this widget in the tree.
   final Widget Function(BuildContext context, List<SoundHandle> handles)
       builder;
+
+  /// The function to call with an error.
+  final ErrorWidgetCallback error;
+
+  /// The function to call to provide a loading widget.
+  final Widget Function() loading;
 
   /// The fade in time.
   final Duration? fadeInTime;
@@ -102,8 +111,8 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder>
     return SimpleFutureBuilder(
       future: future,
       done: (final context, final value) => widget.builder(context, handles),
-      loading: () => widget.builder(context, []),
-      error: ErrorListView.withPositional,
+      loading: widget.loading,
+      error: widget.error,
     );
   }
 }

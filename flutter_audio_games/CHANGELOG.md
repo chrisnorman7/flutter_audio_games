@@ -1,5 +1,9 @@
 # Changes
 
+## 0.36.0
+
+- Enforce proper loading and error arguments for `AmbiancesBuilder`.
+
 ## 0.35.1
 
 - Export the `ProtectSounds` widget.
