@@ -8,7 +8,7 @@ environment:
   sdk: ">=3.2.0-210.4.beta <4.0.0"
 
 dependencies:
-  backstreets_widgets: ^0.22.1
+  backstreets_widgets: ^0.29.0
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -17,6 +17,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   flutter_soloud: ^2.1.7
   riverpod_annotation: ^2.3.5
+  time: ^2.1.5
   url_launcher: ^6.3.0
 
 dev_dependencies:

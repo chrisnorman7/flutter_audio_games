@@ -1,7 +1,9 @@
 import 'package:backstreets_widgets/screens.dart';
+import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:time/time.dart';
 
 import '../gen/assets.gen.dart';
 import '../menus/main_menu.dart';
@@ -20,11 +22,12 @@ class IntroScreen extends ConsumerWidget {
       destroy: true,
       soundType: SoundType.asset,
     );
-    return TransitionSoundBuilder(
-      duration: const Duration(seconds: 2),
-      builder: (final context) => const MainMenu(),
-      sound: sound,
-      loadingBuilder: LoadingScreen.new,
+    return TimedBuilders(
+      duration: 2.seconds,
+      builders: [
+        (final _) => PlaySound(sound: sound, child: const LoadingScreen()),
+        (final _) => const MainMenu(),
+      ],
     );
   }
 }

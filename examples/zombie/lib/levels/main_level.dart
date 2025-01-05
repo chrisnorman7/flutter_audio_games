@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:backstreets_widgets/extensions.dart';
 import 'package:backstreets_widgets/screens.dart';
-import 'package:backstreets_widgets/util.dart';
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
@@ -260,10 +260,8 @@ class MainLevelState extends ConsumerState<MainLevel> {
                         final shortcuts =
                             GameShortcuts.maybeOf(innerContext)?.shortcuts ??
                                 [];
-                        pushWidget(
-                          context: innerContext,
-                          builder: (final builderContext) =>
-                              GameShortcutsHelpScreen(
+                        context.pushWidgetBuilder(
+                          (final _) => GameShortcutsHelpScreen(
                             shortcuts: shortcuts,
                           ),
                         );
