@@ -1,5 +1,9 @@
 # Changes
 
+## 0.37.0
+
+- Upgraded `backstreets_widgets`.
+
 ## 0.36.0
 
 - Enforce proper loading and error arguments for `AmbiancesBuilder`.

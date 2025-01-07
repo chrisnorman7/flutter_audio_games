@@ -1,5 +1,5 @@
 name: flutter_audio_games
-version: 0.36.0
+version: 0.37.0
 description: A package which makes it easy to write audio games in Flutter.
 homepage: https://github.com/chrisnorman7/flutter_audio_games
 environment:
@@ -7,7 +7,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-  backstreets_widgets: ^0.29.1
+  backstreets_widgets: ^0.30.0
   flutter:
     sdk: flutter
   flutter_soloud: ^2.1.7
