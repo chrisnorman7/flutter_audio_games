@@ -1,5 +1,9 @@
 # Changes
 
+## 0.37.1
+
+- Upgraded `backstreets_widgets`.
+
 ## 0.37.0
 
 - Upgraded `backstreets_widgets`.
