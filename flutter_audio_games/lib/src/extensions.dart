@@ -103,7 +103,7 @@ extension BuildContextX on BuildContext {
     if (sound.destroy) {
       final length = soLoud.getLength(source);
       soLoud.scheduleStop(handle, length);
-    } else {}
+    }
     return handle;
   }
 
