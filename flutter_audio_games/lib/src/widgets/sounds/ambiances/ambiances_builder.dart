@@ -16,6 +16,7 @@ class AmbiancesBuilder extends StatefulWidget {
     required this.loading,
     this.fadeInTime,
     this.fadeOutTime,
+    this.fadeFrom = 0.1,
     super.key,
   });
 
@@ -37,6 +38,11 @@ class AmbiancesBuilder extends StatefulWidget {
 
   /// The fade out time.
   final Duration? fadeOutTime;
+
+  /// The volume to fade from.
+  ///
+  /// This is a fix while [flutter_soloud #168](https://github.com/alnitak/flutter_soloud/issues/168) is still not fixed.
+  final double fadeFrom;
 
   /// Create state for this widget.
   @override
@@ -67,7 +73,9 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder>
     for (final ambiance in widget.ambiances) {
       if (mounted) {
         final handle = await context.playSound(
-          ambiance.copyWith(volume: fadeInTime == null ? null : 0.0),
+          ambiance.copyWith(
+            volume: fadeInTime == null ? null : widget.fadeFrom,
+          ),
         );
         if (mounted) {
           handle.maybeFade(fadeTime: fadeInTime, to: ambiance.volume);
