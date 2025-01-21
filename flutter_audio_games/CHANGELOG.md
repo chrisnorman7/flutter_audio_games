@@ -1,5 +1,9 @@
 # Changes
 
+## 0.37.3
+
+- Updated `backstreets_widgets`.
+
 ## 0.37.2
 
 - Added the `AmbiancesBuilder.fadeFrom` member to work around a bug in flutter_soloud.
