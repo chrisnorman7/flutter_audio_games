@@ -179,8 +179,8 @@ class SourceLoader {
         logger.info('Skipping over protected sound $uri.');
         continue;
       }
-      final source = _sources[uri]!;
-      if (source.handles.isEmpty) {
+      final source = _sources[uri];
+      if (source != null && source.handles.isEmpty) {
         await disposeSound(sound);
         disposed++;
         if (count != null && disposed >= count) {

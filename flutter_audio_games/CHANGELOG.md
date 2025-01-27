@@ -1,5 +1,9 @@
 # Changes
 
+## 0.37.4
+
+- Fixed a bug where disposing of unused sources too quickly would cause an error.
+
 ## 0.37.3
 
 - Updated `backstreets_widgets`.
