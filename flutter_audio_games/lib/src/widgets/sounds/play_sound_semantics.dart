@@ -29,14 +29,25 @@ class PlaySoundSemantics extends StatefulWidget {
 
 /// State for [PlaySoundSemantics].
 class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
+  /// Whether the sound is playing.
+  late bool _playing;
+
   /// The sound handle to use.
   SoundHandle? handle;
+
+  /// Initialise state.
+  @override
+  void initState() {
+    super.initState();
+    _playing = false;
+  }
 
   /// Dispose of the widget.
   @override
   void dispose() {
     super.dispose();
-    stop(recurse: false);
+    _stop(recurse: false);
+    _playing = false;
   }
 
   /// Build a widget.
@@ -44,31 +55,43 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   Widget build(final BuildContext context) => FocusableActionDetector(
         enabled: false,
         onFocusChange: (final value) {
-          if (value) {
-            restart();
-          } else {
-            stop();
+          if (value && !_playing) {
+            _playing = true;
+            _restart();
+          } else if (_playing) {
+            _playing = false;
+            _stop();
           }
         },
         child: MouseRegion(
           child: widget.child,
-          onEnter: (final _) => restart(),
-          onExit: (final _) => stop(),
+          onEnter: (final _) {
+            if (!_playing) {
+              _playing = true;
+              _restart();
+            }
+          },
+          onExit: (final _) {
+            if (_playing) {
+              _playing = false;
+              _stop();
+            }
+          },
         ),
       );
 
   /// Restart the sound.
-  void restart() {
-    stop();
-    play();
+  void _restart() {
+    _stop();
+    _play();
   }
 
   /// Play the sound.
-  Future<void> play() async {
+  Future<void> _play() async {
     final h = await context.playSound(widget.sound);
     if (mounted) {
       handle = h;
-      await context.findAncestorStateOfType<PlaySoundSemanticsState>()?.play();
+      await context.findAncestorStateOfType<PlaySoundSemanticsState>()?._play();
     } else {
       await h?.stop();
     }
@@ -77,14 +100,14 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   /// Stop the sound.
   ///
   /// If [recurse] is `true`, then this method will attempt to go up the tree
-  /// and call [stop] on the next [PlaySoundSemanticsState] instance.
-  void stop({final bool recurse = true}) {
+  /// and call [_stop] on the next [PlaySoundSemanticsState] instance.
+  void _stop({final bool recurse = true}) {
     handle?.stop();
     handle = null;
     if (recurse && mounted) {
       context
           .findAncestorStateOfType<PlaySoundSemanticsState>()
-          ?.stop(recurse: recurse);
+          ?._stop(recurse: recurse);
     }
   }
 }
