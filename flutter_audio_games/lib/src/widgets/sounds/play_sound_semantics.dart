@@ -41,14 +41,27 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => Semantics(
-        onDidGainAccessibilityFocus: () {
-          stop();
-          play();
+  Widget build(final BuildContext context) => FocusableActionDetector(
+        enabled: false,
+        onFocusChange: (final value) {
+          if (value) {
+            restart();
+          } else {
+            stop();
+          }
         },
-        onDidLoseAccessibilityFocus: stop,
-        child: widget.child,
+        child: MouseRegion(
+          child: widget.child,
+          onEnter: (final _) => restart(),
+          onExit: (final _) => stop(),
+        ),
       );
+
+  /// Restart the sound.
+  void restart() {
+    stop();
+    play();
+  }
 
   /// Play the sound.
   Future<void> play() async {
