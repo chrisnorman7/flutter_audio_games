@@ -81,6 +81,8 @@ class MainLevelState extends ConsumerState<MainLevel> {
           position: const SoundPosition3d(5, 2, 0),
         ),
       ],
+      error: ErrorScreen.withPositional,
+      loading: LoadingScreen.new,
       builder: (final context, final ambiances) => TickingTasks(
         tasks: [
           TickingTask(
