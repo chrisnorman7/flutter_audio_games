@@ -105,9 +105,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
     handle?.stop();
     handle = null;
     if (recurse && mounted) {
-      context
-          .findAncestorStateOfType<PlaySoundSemanticsState>()
-          ?._stop(recurse: recurse);
+      context.findAncestorStateOfType<PlaySoundSemanticsState>()?._stop();
     }
   }
 }

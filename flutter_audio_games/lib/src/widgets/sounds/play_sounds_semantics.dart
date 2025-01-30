@@ -33,6 +33,9 @@ class PlaySoundsSemantics extends StatefulWidget {
 
 /// State for [PlaySoundsSemantics].
 class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
+  /// Whether audio is playing.
+  late bool _playing;
+
   /// The timer to use.
   Timer? _timer;
 
@@ -46,6 +49,7 @@ class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
   @override
   void initState() {
     super.initState();
+    _playing = false;
     random = Random();
   }
 
@@ -53,32 +57,57 @@ class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
   @override
   void dispose() {
     super.dispose();
-    stop();
+    _playing = false;
+    _stop();
   }
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => Semantics(
-        onDidGainAccessibilityFocus: () {
-          _timer?.cancel();
-          _timer = Timer.periodic(
-            widget.interval,
-            (final timer) async {
-              final handle = await context.playRandomSound(
-                widget.sounds,
-                random,
-              );
-              await _soundHandle?.stop();
-              _soundHandle = handle;
-            },
-          );
+  Widget build(final BuildContext context) => FocusableActionDetector(
+        enabled: false,
+        onFocusChange: (final value) {
+          if (value && !_playing) {
+            _playing = true;
+            _restart();
+          } else if (_playing) {
+            _playing = false;
+            _stop();
+          }
         },
-        onDidLoseAccessibilityFocus: stop,
-        child: widget.child,
+        child: MouseRegion(
+          child: widget.child,
+          onEnter: (final _) {
+            if (!_playing) {
+              _playing = true;
+              _restart();
+            }
+          },
+          onExit: (final _) {
+            if (_playing) {
+              _playing = false;
+              _stop();
+            }
+          },
+        ),
       );
 
+  void _restart() {
+    _timer?.cancel();
+    _timer = Timer.periodic(
+      widget.interval,
+      (final timer) async {
+        final handle = await context.playRandomSound(
+          widget.sounds,
+          random,
+        );
+        await _soundHandle?.stop();
+        _soundHandle = handle;
+      },
+    );
+  }
+
   /// Stop sounds from playing.
-  void stop() {
+  void _stop() {
     _timer?.cancel();
     _timer = null;
     _soundHandle?.stop();
