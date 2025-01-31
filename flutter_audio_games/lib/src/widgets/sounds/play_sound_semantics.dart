@@ -13,6 +13,9 @@ class PlaySoundSemantics extends StatefulWidget {
   const PlaySoundSemantics({
     required this.sound,
     required this.child,
+    this.autofocus = false,
+    this.descendantsAreFocusable = true,
+    this.descendantsAreTraversable = true,
     super.key,
   });
 
@@ -21,6 +24,15 @@ class PlaySoundSemantics extends StatefulWidget {
 
   /// The widget below this widget in the tree.
   final Widget child;
+
+  /// Whether the [FocusableActionDetector] should be autofocused.
+  final bool autofocus;
+
+  /// Whether the [FocusableActionDetector] descendents should be focusable.
+  final bool descendantsAreFocusable;
+
+  /// Whether the descendents of the [FocusableActionDetector] are traversable.
+  final bool descendantsAreTraversable;
 
   /// Create state for this widget.
   @override
@@ -54,6 +66,9 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   @override
   Widget build(final BuildContext context) => FocusableActionDetector(
         enabled: false,
+        autofocus: widget.autofocus,
+        descendantsAreFocusable: widget.descendantsAreFocusable,
+        descendantsAreTraversable: widget.descendantsAreTraversable,
         onFocusChange: (final value) {
           if (value && !_playing) {
             _restart();

@@ -1,5 +1,9 @@
 # Changes
 
+## 0.39.0
+
+- Added more arguments to `PlaySoundSemantics`.
+
 ## 0.38.0
 
 - Allow `PlaySoundSemantics` widgets to recognise mouse gestures.
