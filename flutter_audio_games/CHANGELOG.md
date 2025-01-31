@@ -1,5 +1,9 @@
 # Changes
 
+## 0.38.0
+
+- Allow `PlaySoundSemantics` widgets to recognise mouse gestures.
+
 ## 0.37.4
 
 - Fixed a bug where disposing of unused sources too quickly would cause an error.

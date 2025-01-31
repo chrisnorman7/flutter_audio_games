@@ -56,10 +56,8 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
         enabled: false,
         onFocusChange: (final value) {
           if (value && !_playing) {
-            _playing = true;
             _restart();
           } else if (_playing) {
-            _playing = false;
             _stop();
           }
         },
@@ -67,13 +65,11 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
           child: widget.child,
           onEnter: (final _) {
             if (!_playing) {
-              _playing = true;
               _restart();
             }
           },
           onExit: (final _) {
             if (_playing) {
-              _playing = false;
               _stop();
             }
           },
@@ -91,6 +87,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
     final h = await context.playSound(widget.sound);
     if (mounted) {
       handle = h;
+      _playing = true;
       await context.findAncestorStateOfType<PlaySoundSemanticsState>()?._play();
     } else {
       await h?.stop();
@@ -104,6 +101,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   void _stop({final bool recurse = true}) {
     handle?.stop();
     handle = null;
+    _playing = false;
     if (recurse && mounted) {
       context.findAncestorStateOfType<PlaySoundSemanticsState>()?._stop();
     }
