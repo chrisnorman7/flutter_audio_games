@@ -120,7 +120,7 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
     final soLoud = context.soLoud;
     final h = handle;
     if (h != null && !_faded) {
-      soLoud.setVolume(h, widget.sound.volume);
+      h.volume.value;
     }
     return InheritedMusic(
       fadeIn: fadeIn,
