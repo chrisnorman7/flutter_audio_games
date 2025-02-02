@@ -1,11 +1,7 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:flutter/material.dart';
 
-import '../../sounds/sound.dart';
-import '../sounds/music/maybe_music.dart';
-import '../sounds/music/music.dart';
-import 'audio_game_menu_item.dart';
-import 'audio_game_menu_item_list_tile.dart';
+import '../../../flutter_audio_games.dart';
 
 /// A menu in an audio game.
 class AudioGameMenu extends StatelessWidget {
@@ -65,26 +61,21 @@ class AudioGameMenu extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final musicSound = music;
-    return SimpleScaffold(
-      title: title,
-      body: MaybeMusic(
-        music: musicSound,
-        builder: builder,
-        fadeInTime: musicFadeInTime,
-        fadeOutTime: musicFadeOutTime,
+    return ProtectSounds(
+      sounds: [music].whereType<Sound>().toList(),
+      child: SimpleScaffold(
+        title: title,
+        body: MaybeMusic(
+          music: musicSound,
+          builder: (final context) => AudioGameMenuListView(
+            menuItems: menuItems,
+            selectItemSound: selectItemSound,
+            activateItemSound: activateItemSound,
+          ),
+          fadeInTime: musicFadeInTime,
+          fadeOutTime: musicFadeOutTime,
+        ),
       ),
     );
   }
-
-  /// Build the widget.
-  Widget builder(final BuildContext innerContext) => ListView.builder(
-        itemBuilder: (final context, final index) => AudioGameMenuItemListTile(
-          menuItem: menuItems[index],
-          selectSound: selectItemSound,
-          activateSound: activateItemSound,
-          autofocus: index == 0,
-        ),
-        itemCount: menuItems.length,
-        shrinkWrap: true,
-      );
 }

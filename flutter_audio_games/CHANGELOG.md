@@ -1,5 +1,11 @@
 # Changes
 
+## 0.40.0
+
+- Audio game menus now protect their own sounds.
+- Touch menus protect their own sounds.
+- Added the `AudioGameMenuListView` widget.
+
 ## 0.39.0
 
 - Added more arguments to `PlaySoundSemantics`.

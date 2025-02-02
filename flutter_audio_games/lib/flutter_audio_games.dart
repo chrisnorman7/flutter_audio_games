@@ -31,6 +31,7 @@ export 'src/turning_direction.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu_item.dart';
 export 'src/widgets/audio_game_menu/audio_game_menu_item_list_tile.dart';
+export 'src/widgets/audio_game_menu/audio_game_menu_list_view.dart';
 export 'src/widgets/game_credits/game_credit.dart';
 export 'src/widgets/game_credits/game_credits.dart';
 export 'src/widgets/select_playback_device.dart';

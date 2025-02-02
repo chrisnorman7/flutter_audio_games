@@ -144,90 +144,99 @@ class TouchMenuState extends State<TouchMenu> {
         )
         .toList();
     final musicSound = widget.music;
-    return MaybeMusic(
-      music: musicSound,
-      builder: (final musicContext) => GameShortcuts(
-        shortcuts: [
-          if (widget.canPop)
+    return ProtectSounds(
+      sounds: [
+        musicSound,
+        ...widget.menuItems.map((final menuItem) => menuItem.earcon),
+        widget.selectItemSound,
+        widget.activateItemSound,
+      ].whereType<Sound>().toList(),
+      child: MaybeMusic(
+        music: musicSound,
+        builder: (final musicContext) => GameShortcuts(
+          shortcuts: [
+            if (widget.canPop)
+              GameShortcut(
+                title: 'Close the menu',
+                shortcut: widget.backShortcut,
+                onStart: Navigator.maybePop,
+              ),
             GameShortcut(
-              title: 'Close the menu',
-              shortcut: widget.backShortcut,
-              onStart: Navigator.maybePop,
+              title: 'Move up in the menu',
+              shortcut: widget.upShortcut,
+              onStart: (final innerContext) => moveUp(),
             ),
-          GameShortcut(
-            title: 'Move up in the menu',
-            shortcut: widget.upShortcut,
-            onStart: (final innerContext) => moveUp(),
-          ),
-          GameShortcut(
-            title: 'Move down in the menu',
-            shortcut: widget.downShortcut,
-            onStart: (final innerContext) => moveDown(),
-          ),
-          GameShortcut(
-            title: 'Activate the current menu item',
-            shortcut: widget.activateShortcut,
-            onStart: activateItem,
-          ),
-          GameShortcut(
-            title: 'Activate the current menu item',
-            shortcut: GameShortcutsShortcut.space,
-            onStart: activateItem,
-          ),
-        ],
-        child: Material(
-          child: OrientationBuilder(
-            builder: (final orientationContext, final orientation) {
-              final size = MediaQuery.of(orientationContext).size;
-              final ruler = size.longestSide;
-              return Semantics(
-                excludeSemantics: true,
-                label: 'Swipe up and down to move through items in the menu or '
-                    'turn off your screen reader.',
-                customSemanticsActions: {
-                  for (final menuItem in widget.menuItems)
-                    CustomSemanticsAction(label: menuItem.title): () {
-                      orientationContext.maybePlaySound(
-                        widget.activateItemSound,
-                      );
-                      menuItem.onActivate(orientationContext);
-                    },
-                },
-                child: Stack(
-                  children: [
-                    switch (orientation) {
-                      Orientation.portrait => Column(
-                          children: texts,
-                        ),
-                      Orientation.landscape => Row(
-                          children: texts,
-                        ),
-                    },
-                    TouchMenuArea(
-                      onDoubleTap: () => activateItem(orientationContext),
-                      onPan: (final point) {
-                        final double coordinate;
-                        switch (orientation) {
-                          case Orientation.portrait:
-                            coordinate = point.y;
-                          case Orientation.landscape:
-                            coordinate = point.x;
-                        }
-                        final scale = coordinate / ruler;
-                        final index =
-                            (scale * (widget.menuItems.length - 1)).round();
-                        setCurrentMenuItem(index);
+            GameShortcut(
+              title: 'Move down in the menu',
+              shortcut: widget.downShortcut,
+              onStart: (final innerContext) => moveDown(),
+            ),
+            GameShortcut(
+              title: 'Activate the current menu item',
+              shortcut: widget.activateShortcut,
+              onStart: activateItem,
+            ),
+            GameShortcut(
+              title: 'Activate the current menu item',
+              shortcut: GameShortcutsShortcut.space,
+              onStart: activateItem,
+            ),
+          ],
+          child: Material(
+            child: OrientationBuilder(
+              builder: (final orientationContext, final orientation) {
+                final size = MediaQuery.of(orientationContext).size;
+                final ruler = size.longestSide;
+                return Semantics(
+                  excludeSemantics: true,
+                  label:
+                      'Swipe up and down to move through items in the menu or '
+                      'turn off your screen reader.',
+                  customSemanticsActions: {
+                    for (final menuItem in widget.menuItems)
+                      CustomSemanticsAction(label: menuItem.title): () {
+                        orientationContext.maybePlaySound(
+                          widget.activateItemSound,
+                        );
+                        menuItem.onActivate(orientationContext);
                       },
-                    ),
-                  ],
-                ),
-              );
-            },
+                  },
+                  child: Stack(
+                    children: [
+                      switch (orientation) {
+                        Orientation.portrait => Column(
+                            children: texts,
+                          ),
+                        Orientation.landscape => Row(
+                            children: texts,
+                          ),
+                      },
+                      TouchMenuArea(
+                        onDoubleTap: () => activateItem(orientationContext),
+                        onPan: (final point) {
+                          final double coordinate;
+                          switch (orientation) {
+                            case Orientation.portrait:
+                              coordinate = point.y;
+                            case Orientation.landscape:
+                              coordinate = point.x;
+                          }
+                          final scale = coordinate / ruler;
+                          final index =
+                              (scale * (widget.menuItems.length - 1)).round();
+                          setCurrentMenuItem(index);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
+        fadeInTime: widget.musicFadeInTime,
+        fadeOutTime: widget.musicFadeOutTime,
       ),
-      fadeInTime: widget.musicFadeInTime,
-      fadeOutTime: widget.musicFadeOutTime,
     );
   }
 
