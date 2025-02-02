@@ -1,5 +1,9 @@
 # Changes
 
+## 0.41.0
+
+- Upgraded `backstreets_widgets`.
+
 ## 0.40.1
 
 - AudioGameMenuItemListTile`s now protect their own sounds.
