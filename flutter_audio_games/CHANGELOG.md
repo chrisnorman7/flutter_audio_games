@@ -1,6 +1,6 @@
 # Changes
 
-## 0.41.0
+## 0.42.0
 
 - Upgraded `backstreets_widgets`.
 
