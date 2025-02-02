@@ -38,7 +38,6 @@ class AudioGameMenuListView extends StatelessWidget {
         sounds: [
           selectItemSound,
           activateItemSound,
-          ...menuItems.map((final menuItem) => menuItem.earcon),
         ].whereType<Sound>().toList(),
         child: ListView.builder(
           itemBuilder: (final context, final index) =>

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions.dart';
-import '../../sounds/sound.dart';
-import '../sounds/play_sound_semantics.dart';
-import 'audio_game_menu.dart';
-import 'audio_game_menu_item.dart';
+import '../../../flutter_audio_games.dart';
 
 /// A [ListTile] for use in an [AudioGameMenu] widget.
 class AudioGameMenuItemListTile extends StatelessWidget {
@@ -37,32 +33,18 @@ class AudioGameMenuItemListTile extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) {
-    final listTile = ListTile(
-      autofocus: autofocus,
-      title: Text(menuItem.title),
-      onTap: () {
-        context.maybePlaySound(activateSound);
-        menuItem.onActivate(context);
-      },
-    );
-    final earcon = menuItem.earcon;
-    final Widget child;
-    if (earcon == null) {
-      child = listTile;
-    } else {
-      child = PlaySoundSemantics(
-        sound: earcon,
-        child: listTile,
+  Widget build(final BuildContext context) => MaybePlaySoundSemantics(
+        sound: menuItem.earcon,
+        child: MaybePlaySoundSemantics(
+          sound: selectSound,
+          child: ListTile(
+            autofocus: autofocus,
+            title: Text(menuItem.title),
+            onTap: () {
+              context.maybePlaySound(activateSound);
+              menuItem.onActivate(context);
+            },
+          ),
+        ),
       );
-    }
-    final sound = selectSound;
-    if (sound == null) {
-      return child;
-    }
-    return PlaySoundSemantics(
-      sound: sound,
-      child: child,
-    );
-  }
 }

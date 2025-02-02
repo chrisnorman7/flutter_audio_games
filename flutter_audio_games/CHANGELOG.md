@@ -1,5 +1,9 @@
 # Changes
 
+## 0.40.1
+
+- AudioGameMenuItemListTile`s now protect their own sounds.
+
 ## 0.40.0
 
 - Audio game menus now protect their own sounds.
