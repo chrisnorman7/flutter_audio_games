@@ -1,5 +1,9 @@
 # Changes
 
+## 0.43.1
+
+- Stopped stacked `PlaySoundSemantics` widgets from causing unhandled tracebacks.
+
 ## 0.43.0
 
 - Stop requiring a builder for `MaybeMusic`.
