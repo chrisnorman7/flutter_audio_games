@@ -85,7 +85,9 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
     try {
       final h = await context.playSound(sound);
       if (mounted) {
-        handle = h;
+        setState(() {
+          handle = h;
+        });
         if (widget.fadeInTime != null) {
           fadeIn();
         }
