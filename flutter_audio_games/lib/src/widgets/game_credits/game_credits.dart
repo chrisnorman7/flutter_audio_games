@@ -1,16 +1,14 @@
+import 'package:backstreets_widgets/typedefs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../sounds/sound.dart';
-import '../audio_game_menu/audio_game_menu.dart';
-import '../audio_game_menu/audio_game_menu_item.dart';
-import 'game_credit.dart';
 
 /// A screen which shows game credits.
 class GameCredits extends StatelessWidget {
   /// Create an instance.
   const GameCredits({
     required this.credits,
+    required this.error,
     this.title = 'Credits',
     this.music,
     this.selectItemSound,
@@ -22,6 +20,9 @@ class GameCredits extends StatelessWidget {
 
   /// The credits to show.
   final List<GameCredit> credits;
+
+  /// The function to call to show an error widget.
+  final ErrorWidgetCallback error;
 
   /// The title of this menu.
   final String title;
@@ -61,5 +62,6 @@ class GameCredits extends StatelessWidget {
         music: music,
         musicFadeInTime: musicFadeInTime,
         musicFadeOutTime: musicFadeOutTime,
+        error: error,
       );
 }

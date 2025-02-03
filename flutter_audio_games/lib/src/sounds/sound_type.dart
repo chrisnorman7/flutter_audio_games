@@ -1,4 +1,4 @@
-import 'sound.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// The type of a [Sound].
 enum SoundType {

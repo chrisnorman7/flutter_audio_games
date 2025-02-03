@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-
-import '../../extensions.dart';
-import '../../sounds/sound.dart';
-import 'music/music.dart';
 
 /// A widget which plays a sound when built.
 ///

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../flutter_audio_games.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// A [ListTile] for use in an [AudioGameMenu] widget.
 class AudioGameMenuItemListTile extends StatelessWidget {
@@ -33,17 +32,20 @@ class AudioGameMenuItemListTile extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => MaybePlaySoundSemantics(
-        sound: menuItem.earcon,
+  Widget build(final BuildContext context) => ProtectSounds(
+        sounds: [menuItem.earcon].whereType<Sound>().toList(),
         child: MaybePlaySoundSemantics(
-          sound: selectSound,
-          child: ListTile(
-            autofocus: autofocus,
-            title: Text(menuItem.title),
-            onTap: () {
-              context.maybePlaySound(activateSound);
-              menuItem.onActivate(context);
-            },
+          sound: menuItem.earcon,
+          child: MaybePlaySoundSemantics(
+            sound: selectSound,
+            child: ListTile(
+              autofocus: autofocus,
+              title: Text(menuItem.title),
+              onTap: () {
+                context.maybePlaySound(activateSound);
+                menuItem.onActivate(context);
+              },
+            ),
           ),
         ),
       );

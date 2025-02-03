@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'touch_area.dart';
+import 'package:flutter_audio_games/touch.dart';
 
 /// A surface which is split into distinct touch surfaces.
 class TouchSurface extends StatelessWidget {

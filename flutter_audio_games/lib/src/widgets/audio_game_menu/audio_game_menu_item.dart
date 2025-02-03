@@ -1,7 +1,5 @@
 import 'package:backstreets_widgets/typedefs.dart';
-
-import '../../sounds/sound.dart';
-import 'audio_game_menu.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// A menu item in an [AudioGameMenu].
 class AudioGameMenuItem {

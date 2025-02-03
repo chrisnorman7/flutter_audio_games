@@ -1,4 +1,4 @@
-import '../../sounds/sound.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// A credit in a game.
 class GameCredit {

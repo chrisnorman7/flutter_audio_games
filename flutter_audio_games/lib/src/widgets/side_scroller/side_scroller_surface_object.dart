@@ -1,8 +1,6 @@
 import 'dart:math';
 
-import '../../sounds/sound.dart';
-import 'side_scroller.dart';
-import 'side_scroller_surface.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// An object in a [SideScrollerSurface].
 class SideScrollerSurfaceObject {

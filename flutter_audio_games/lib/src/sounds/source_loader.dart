@@ -1,12 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
-
-import 'sound.dart';
-import 'sound_type.dart';
 
 /// The type for functions which load sources from sounds.
 typedef LoadSound = Future<AudioSource> Function(

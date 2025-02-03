@@ -1,14 +1,15 @@
+import 'package:backstreets_widgets/typedefs.dart';
 import 'package:flutter/material.dart';
-
-import '../../../sounds/sound.dart';
-import 'music.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// A widget that possibly plays music.
 class MaybeMusic extends StatelessWidget {
   /// Create an instance.
   const MaybeMusic({
     required this.music,
-    required this.builder,
+    required this.child,
+    required this.error,
+    required this.loading,
     this.fadeInTime,
     this.fadeOutTime,
     super.key,
@@ -19,8 +20,14 @@ class MaybeMusic extends StatelessWidget {
   /// If [music] is `null`, then no music will be played.
   final Sound? music;
 
-  /// The widget below this one in the tree.
-  final WidgetBuilder builder;
+  /// The widget below this widget in the tree.
+  final Widget child;
+
+  /// The function to call to show an error widget.
+  final ErrorWidgetCallback error;
+
+  /// The function to call to show a loading widget.
+  final Widget Function() loading;
 
   /// The fade in length to use.
   final Duration? fadeInTime;
@@ -37,9 +44,11 @@ class MaybeMusic extends StatelessWidget {
         sound: sound,
         fadeInTime: fadeInTime,
         fadeOutTime: fadeOutTime,
-        child: Builder(builder: builder),
+        error: error,
+        loading: loading,
+        child: child,
       );
     }
-    return Builder(builder: builder);
+    return child;
   }
 }

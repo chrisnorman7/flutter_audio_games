@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'music.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart' show Music;
+import 'package:flutter_audio_games/src/widgets/sounds/music/music.dart'
+    show Music;
 
 /// The inherited version of a [Music].
 ///

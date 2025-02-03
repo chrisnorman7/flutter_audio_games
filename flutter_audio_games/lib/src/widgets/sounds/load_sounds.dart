@@ -1,8 +1,7 @@
 import 'package:backstreets_widgets/typedefs.dart';
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../../../flutter_audio_games.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// A widget which loads [sounds] before rendering [child].
 class LoadSounds extends StatelessWidget {

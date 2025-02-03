@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:http/http.dart';
-
-import '../sounds/source_loader.dart';
 
 /// Manage the life cycle of [SoLoud].
 ///

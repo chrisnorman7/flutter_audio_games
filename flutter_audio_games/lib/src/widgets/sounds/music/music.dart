@@ -1,11 +1,9 @@
 import 'dart:async';
 
+import 'package:backstreets_widgets/typedefs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-
-import '../../../extensions.dart';
-import '../../../sounds/sound.dart';
-import 'inherited_music.dart';
 
 /// A widget that plays music.
 class Music extends StatefulWidget {
@@ -13,6 +11,8 @@ class Music extends StatefulWidget {
   const Music({
     required this.sound,
     required this.child,
+    required this.error,
+    required this.loading,
     this.fadeInTime,
     this.fadeOutTime,
     super.key,
@@ -31,6 +31,12 @@ class Music extends StatefulWidget {
   /// The widget below this widget in the tree.
   final Widget child;
 
+  /// The function to call to show an error widget.
+  final ErrorWidgetCallback error;
+
+  /// The function to call to show a loading widget.
+  final Widget Function() loading;
+
   /// The fade in length to use.
   final Duration? fadeInTime;
 
@@ -44,6 +50,12 @@ class Music extends StatefulWidget {
 
 /// State for [Music].
 class MusicState extends State<Music> with WidgetsBindingObserver {
+  /// An error object.
+  Object? _error;
+
+  /// A stack trace to show.
+  StackTrace? _stackTrace;
+
   /// The playing sound.
   SoundHandle? handle;
 
@@ -70,15 +82,23 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
     final sound = widget.sound.copyWith(
       volume: widget.fadeInTime == null ? null : 0.0,
     );
-    final h = await context.playSound(sound);
-    if (mounted) {
-      handle = h;
-      if (widget.fadeInTime != null) {
-        fadeIn();
+    try {
+      final h = await context.playSound(sound);
+      if (mounted) {
+        handle = h;
+        if (widget.fadeInTime != null) {
+          fadeIn();
+        }
+      } else {
+        await h.stop();
+        handle = null;
       }
-    } else {
-      await h?.stop();
-      handle = null;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e, s) {
+      setState(() {
+        _error = e;
+        _stackTrace = s;
+      });
     }
   }
 
@@ -87,8 +107,8 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     _faded = false;
-    _loadMusic();
     WidgetsBinding.instance.addObserver(this);
+    _loadMusic();
   }
 
   /// Dispose of the widget.
@@ -117,10 +137,17 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
+    final error = _error;
+    if (error != null) {
+      return widget.error(error, _stackTrace);
+    }
     final soLoud = context.soLoud;
     final h = handle;
+    if (h == null) {
+      return widget.loading();
+    }
     if (h != null && !_faded) {
-      h.volume.value;
+      h.volume.value = widget.sound.volume;
     }
     return InheritedMusic(
       fadeIn: fadeIn,

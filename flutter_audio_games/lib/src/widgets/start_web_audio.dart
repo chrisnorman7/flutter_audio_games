@@ -1,9 +1,8 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-
-import '../../flutter_audio_games.dart';
 
 /// The type of a function which builds a button for starting web audio.
 typedef WebAudioButtonBuilder = Widget Function(

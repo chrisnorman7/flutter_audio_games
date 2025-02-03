@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../sounds/sound.dart';
-import '../sounds/protect_sounds.dart';
-import 'audio_game_menu.dart';
-import 'audio_game_menu_item.dart';
-import 'audio_game_menu_item_list_tile.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// The [ListView] that powers [AudioGameMenu]s.
 class AudioGameMenuListView extends StatelessWidget {

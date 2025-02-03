@@ -1,7 +1,5 @@
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-
-import 'sound_position.dart';
-import 'sound_type.dart';
 
 /// A single sound to play.
 class Sound {

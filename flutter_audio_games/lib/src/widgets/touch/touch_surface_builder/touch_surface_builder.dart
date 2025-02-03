@@ -1,7 +1,6 @@
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../touch.dart';
+import 'package:flutter_audio_games/touch.dart';
 
 /// A [TouchSurface] built from [commands].
 class TouchSurfaceBuilder extends StatelessWidget {

@@ -14,10 +14,8 @@
 library;
 
 import 'package:backstreets_widgets/widgets.dart';
-
-import 'src/widgets/audio_game_menu/audio_game_menu.dart';
-import 'src/widgets/sounds/music/music.dart';
-import 'src/widgets/sounds/play_sound_semantics.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart'
+    show AudioGameMenu, Music, PlaySoundSemantics;
 
 export 'src/extensions.dart';
 export 'src/maths.dart';

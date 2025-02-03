@@ -1,8 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
-import 'touch_menu.dart';
+import 'package:flutter_audio_games/touch.dart';
 
 /// A touch area which reports back to a [TouchMenu].
 class TouchMenuArea extends StatelessWidget {

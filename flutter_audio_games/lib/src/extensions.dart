@@ -4,10 +4,9 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
+import 'package:flutter_audio_games/src/sounds/sound_handle_property.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-
-import '../flutter_audio_games.dart';
-import 'sounds/sound_handle_property.dart';
 
 /// Useful extensions on build contexts.
 extension BuildContextX on BuildContext {
@@ -25,7 +24,7 @@ extension BuildContextX on BuildContext {
     Music.maybeOf(this)?.fadeOut();
     await Navigator.push(
       this,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: builder,
       ),
     );

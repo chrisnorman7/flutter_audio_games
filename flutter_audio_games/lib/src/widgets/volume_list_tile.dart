@@ -1,8 +1,6 @@
 import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../extensions.dart';
-import '../sounds/sound.dart';
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// A [ListTile] for editing [volume].
 class VolumeListTile extends StatelessWidget {
