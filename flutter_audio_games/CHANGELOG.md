@@ -1,5 +1,11 @@
 # Changes
 
+## 0.43.0
+
+- Stop requiring a builder for `MaybeMusic`.
+- Hopefully made the `Music` widget more robust.
+- Updated linter rules, hopefully providing better code.
+
 ## 0.42.0
 
 - Upgraded `backstreets_widgets`.
