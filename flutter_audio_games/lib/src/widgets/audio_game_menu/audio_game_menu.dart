@@ -80,7 +80,9 @@ class AudioGameMenu extends StatelessWidget {
           loading: () => child,
           fadeInTime: musicFadeInTime,
           fadeOutTime: musicFadeOutTime,
-          child: child,
+          child: Builder(
+            builder: (final context) => child,
+          ),
         ),
       ),
     );
