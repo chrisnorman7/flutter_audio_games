@@ -241,7 +241,9 @@ class TouchMenuState extends State<TouchMenu> {
         fadeOutTime: widget.musicFadeOutTime,
         error: widget.error,
         loading: () => child,
-        child: child,
+        child: Builder(
+          builder: (final context) => child,
+        ),
       ),
     );
   }
