@@ -198,9 +198,12 @@ class MainLevelState extends ConsumerState<MainLevel> {
               destroy: false,
               soundType: SoundType.asset,
               looping: true,
+              loadMode: LoadMode.disk,
             ),
             fadeInTime: fadeInTime,
             fadeOutTime: fadeOutTime,
+            error: ErrorScreen.withPositional,
+            loading: LoadingScreen.new,
             child: Builder(
               builder: (final context) => SimpleScaffold(
                 title: 'Main Level',

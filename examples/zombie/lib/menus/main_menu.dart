@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_soloud/flutter_soloud.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../gen/assets.gen.dart';
@@ -27,6 +28,8 @@ class MainMenuState extends ConsumerState<MainMenu> {
       destroy: false,
       soundType: SoundType.asset,
       looping: true,
+      loadMode: LoadMode.disk,
+      volume: 0.2,
     );
     final activateItemSound = Assets.sounds.menus.activate.asSound(
       destroy: true,
@@ -36,32 +39,29 @@ class MainMenuState extends ConsumerState<MainMenu> {
       destroy: false,
       soundType: SoundType.asset,
     );
-    return ProtectSounds(
-      sounds: [music, selectItemSound, activateItemSound],
-      child: AudioGameMenu(
-        title: 'Main Menu',
-        menuItems: [
-          AudioGameMenuItem(
-            title: 'Play Game',
-            onActivate: (final innerContext) {
-              innerContext.fadeMusicAndPushWidget(
-                (final context) => const MainLevel(),
-              );
-            },
+    return AudioGameMenu(
+      title: 'Main Menu',
+      menuItems: [
+        AudioGameMenuItem(
+          title: 'Play Game',
+          onActivate: (final innerContext) {
+            innerContext.fadeMusicAndPushWidget(
+              (final context) => const MainLevel(),
+            );
+          },
+        ),
+        AudioGameMenuItem(
+          title: 'Visit chrisnorman7 on GitHub',
+          onActivate: (final innerContext) => launchUrl(
+            Uri.parse('https://github.com/chrisnorman7/'),
           ),
-          AudioGameMenuItem(
-            title: 'Visit chrisnorman7 on GitHub',
-            onActivate: (final innerContext) => launchUrl(
-              Uri.parse('https://github.com/chrisnorman7/'),
-            ),
-          ),
-        ],
-        music: music,
-        activateItemSound: activateItemSound,
-        selectItemSound: selectItemSound,
-        musicFadeInTime: const Duration(seconds: 3),
-        musicFadeOutTime: const Duration(seconds: 4),
-      ),
+        ),
+      ],
+      music: music,
+      activateItemSound: activateItemSound,
+      selectItemSound: selectItemSound,
+      musicFadeInTime: const Duration(seconds: 3),
+      musicFadeOutTime: const Duration(seconds: 4),
     );
   }
 }
