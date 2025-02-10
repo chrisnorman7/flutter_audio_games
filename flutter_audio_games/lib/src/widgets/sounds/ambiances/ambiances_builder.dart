@@ -48,17 +48,19 @@ class AmbiancesBuilder extends StatefulWidget {
 }
 
 /// State for [AmbiancesBuilder].
-class AmbiancesBuilderState extends State<AmbiancesBuilder>
-    with WidgetsBindingObserver {
+class AmbiancesBuilderState extends State<AmbiancesBuilder> {
   /// The ambiance handles.
   late final List<SoundHandle> handles;
+
+  /// The future to use.
+  late final Future<void> _future;
 
   /// Initialise state.
   @override
   void initState() {
     super.initState();
     handles = [];
-    WidgetsBinding.instance.addObserver(this);
+    _future = loadAmbiances();
   }
 
   /// Load the ambiances.
@@ -89,36 +91,17 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder>
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
     for (final handle in handles) {
       handle.stop(fadeOutTime: widget.fadeOutTime);
     }
   }
 
-  /// Respond to the app changing state.
-  @override
-  void didChangeAppLifecycleState(final AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
-      for (final handle in handles) {
-        handle.pause();
-      }
-    } else if (state == AppLifecycleState.resumed) {
-      for (final handle in handles) {
-        handle.unpause();
-      }
-    }
-  }
-
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
-    final future = loadAmbiances();
-    return SimpleFutureBuilder(
-      future: future,
-      done: (final context, final value) => widget.builder(context, handles),
-      loading: widget.loading,
-      error: widget.error,
-    );
-  }
+  Widget build(final BuildContext context) => SimpleFutureBuilder(
+        future: _future,
+        done: (final context, final value) => widget.builder(context, handles),
+        loading: widget.loading,
+        error: widget.error,
+      );
 }

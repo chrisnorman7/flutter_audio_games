@@ -1,5 +1,9 @@
 # Changes
 
+## 0.43.2
+
+- The `AmbianceBuilder` widget will no longer load ambiances twice.
+
 ## 0.43.1
 
 - Stopped stacked `PlaySoundSemantics` widgets from causing unhandled tracebacks.
