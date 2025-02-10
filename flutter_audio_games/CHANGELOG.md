@@ -3,6 +3,7 @@
 ## 0.43.2
 
 - The `AmbianceBuilder` widget will no longer load ambiances twice.
+- Give keys to `AmbiancesBuilder` widgets.
 
 ## 0.43.1
 

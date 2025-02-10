@@ -103,5 +103,9 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
         done: (final context, final value) => widget.builder(context, handles),
         loading: widget.loading,
         error: widget.error,
+        key: ValueKey(
+          // ignore: lines_longer_than_80_chars
+          'AmbiancesBuilder-${widget.ambiances.map((final a) => a.path).join(',')}',
+        ),
       );
 }
