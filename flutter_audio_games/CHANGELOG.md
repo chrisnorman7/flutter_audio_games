@@ -1,5 +1,10 @@
 # Changes
 
+## 0.46.0
+
+- Added `relativePlaySpeed` to the `asSound` and `asSoundList` extension methods.
+- By default, `asSound` and `asSoundList` will now create asset-based sounds.
+
 ## 0.45.0
 
 - Added `relativePlaySpeed` to `Sound.copyWith`.

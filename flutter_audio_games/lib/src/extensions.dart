@@ -234,13 +234,14 @@ extension StringX on String {
   /// the [ListStringX.asSoundList] method.
   Sound asSound({
     required final bool destroy,
-    required final SoundType soundType,
+    final SoundType soundType = SoundType.asset,
     final double volume = 0.7,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,
     final SoundPosition position = unpanned,
     final bool paused = false,
     final LoadMode loadMode = LoadMode.memory,
+    final double relativePlaySpeed = 1.0,
   }) =>
       Sound(
         path: this,
@@ -252,6 +253,7 @@ extension StringX on String {
         position: position,
         paused: paused,
         loadMode: loadMode,
+        relativePlaySpeed: relativePlaySpeed,
       );
 }
 
@@ -260,13 +262,14 @@ extension ListStringX on List<String> {
   /// Return a sound list.
   List<Sound> asSoundList({
     required final bool destroy,
-    required final SoundType soundType,
+    final SoundType soundType = SoundType.asset,
     final double volume = 0.7,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,
     final SoundPosition position = unpanned,
     final bool paused = false,
     final LoadMode loadMode = LoadMode.memory,
+    final double relativePlaySpeed = 1.0,
   }) =>
       map(
         (final path) => path.asSound(
@@ -278,6 +281,7 @@ extension ListStringX on List<String> {
           position: position,
           paused: paused,
           loadMode: loadMode,
+          relativePlaySpeed: relativePlaySpeed,
         ),
       ).toList();
 }
