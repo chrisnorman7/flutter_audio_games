@@ -26,6 +26,8 @@ class SoundPosition3d implements SoundPosition {
     this.velX = 0.0,
     this.velY = 0.0,
     this.velZ = 0.0,
+    this.minDistance = 1,
+    this.maxDistance = 50,
   });
 
   /// The x coordinate.
@@ -45,4 +47,10 @@ class SoundPosition3d implements SoundPosition {
 
   /// The velocity z coordinate.
   final double velZ;
+
+  /// The minimum distance at which the source will be heard.
+  final double minDistance;
+
+  /// The maximum distance at which this source will be heard.
+  final double maxDistance;
 }

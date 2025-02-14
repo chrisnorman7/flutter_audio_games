@@ -89,7 +89,8 @@ extension BuildContextX on BuildContext {
           velX: position.velX,
           velY: position.velY,
           velZ: position.velZ,
-        );
+        )
+          ..setMinMaxDistance(position.minDistance, position.maxDistance);
     }
     handle.relativePlaySpeed.value = sound.relativePlaySpeed;
     if (sound.destroy) {
@@ -392,9 +393,6 @@ extension SoundHandleX on SoundHandle {
   /// Returns `true` if this is a valid voice group.
   bool get isVoiceGroup => SoLoud.instance.isVoiceGroup(this);
 
-  /// Returns `true` of this voice group is empty.
-  bool get isVoiceGroupEmpty => SoLoud.instance.isVoiceGroupEmpty(this);
-
   /// Switch the [paused] state of this sound.
   void pauseSwitch() => SoLoud.instance.pauseSwitch(this);
 
@@ -532,6 +530,13 @@ extension AudioSourceX on AudioSource {
   /// Set whether this source represents a super wave.
   set superwave(final bool superwave) =>
       SoLoud.instance.setWaveformSuperWave(this, superwave);
+
+  /// Add PCM audio data to the stream.
+  void addAudioDataStream(final Uint8List audioChunk) =>
+      SoLoud.instance.addAudioDataStream(this, audioChunk);
+
+  /// Get the current buffer size in bytes of this sound.
+  int get size => SoLoud.instance.getBufferSize(this);
 }
 
 /// Useful methods.

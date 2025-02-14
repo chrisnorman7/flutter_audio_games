@@ -5,6 +5,7 @@
 - You can now `round` `Point<double>` instances in addition to being able to `floor` them.
 - Added the `runFaded` extension method to both single `SoundHandle` instances, and `List`s of `SoundHandle`s.
 - It is now possible to specify the fade out volume in addition to the fade out time when calling `SoundHandle.stop`.
+- Upgraded `flutter_soloud`.
 
 ## 0.43.2
 
