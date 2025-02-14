@@ -27,7 +27,9 @@ class SoundPosition3d implements SoundPosition {
     this.velY = 0.0,
     this.velZ = 0.0,
     this.minDistance = 1,
-    this.maxDistance = 50,
+    this.maxDistance = 10,
+    this.tickWhenInaudible = false,
+    this.killWhenInaudible = false,
   });
 
   /// The x coordinate.
@@ -53,4 +55,10 @@ class SoundPosition3d implements SoundPosition {
 
   /// The maximum distance at which this source will be heard.
   final double maxDistance;
+
+  /// Whether to keep ticking this sound if it becomes inaudible.
+  final bool tickWhenInaudible;
+
+  /// Whether to kill this sound when it becomes inaudible.
+  final bool killWhenInaudible;
 }

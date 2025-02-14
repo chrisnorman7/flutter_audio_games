@@ -76,6 +76,7 @@ class Sound {
     final SoundPosition? position,
     final bool? paused,
     final LoadMode? loadMode,
+    final double? relativePlaySpeed,
   }) =>
       Sound(
         path: path ?? this.path,
@@ -87,5 +88,6 @@ class Sound {
         position: position ?? this.position,
         paused: paused ?? this.paused,
         loadMode: loadMode ?? this.loadMode,
+        relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
       );
 }

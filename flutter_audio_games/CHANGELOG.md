@@ -1,5 +1,10 @@
 # Changes
 
+## 0.45.0
+
+- Added `relativePlaySpeed` to `Sound.copyWith`.
+- Allow specifying inaudible behaviour in the `SoundPosition3d` class.
+
 ## 0.44.0
 
 - You can now `round` `Point<double>` instances in addition to being able to `floor` them.

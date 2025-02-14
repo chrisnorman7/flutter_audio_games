@@ -94,6 +94,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
     for (final handle in handles) {
       handle.stop(fadeOutTime: widget.fadeOutTime);
     }
+    handles.clear();
   }
 
   /// Build a widget.
@@ -105,7 +106,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
         error: widget.error,
         key: ValueKey(
           // ignore: lines_longer_than_80_chars
-          'AmbiancesBuilder-${widget.ambiances.map((final a) => a.path).join(',')}',
+          'AmbiancesBuilder-${widget.ambiances.map((final a) => a.internalUri).join(',')}',
         ),
       );
 }

@@ -91,6 +91,10 @@ extension BuildContextX on BuildContext {
           velZ: position.velZ,
         )
           ..setMinMaxDistance(position.minDistance, position.maxDistance);
+        handle.setInaudibleBehaviour(
+          mustTick: position.tickWhenInaudible,
+          kill: position.killWhenInaudible,
+        );
     }
     handle.relativePlaySpeed.value = sound.relativePlaySpeed;
     if (sound.destroy) {
@@ -498,6 +502,13 @@ extension SoundHandleX on SoundHandle {
     volume.fade(maxVolume, fadeInTime);
     return result;
   }
+
+  /// Set the inaudible behaviour for this sound handle.
+  void setInaudibleBehaviour({
+    final bool mustTick = false,
+    final bool kill = false,
+  }) =>
+      SoLoud.instance.setInaudibleBehavior(this, mustTick, kill);
 }
 
 /// Useful methods for sources.
