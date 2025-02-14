@@ -6,6 +6,8 @@
 - Added the `runFaded` extension method to both single `SoundHandle` instances, and `List`s of `SoundHandle`s.
 - It is now possible to specify the fade out volume in addition to the fade out time when calling `SoundHandle.stop`.
 - Upgraded `flutter_soloud`.
+- Allow specifying play rate directly in the `Sound` class.
+- You can now specify the min and max distances for 3d sources with `SoundPosition3d` instances.
 
 ## 0.43.2
 
