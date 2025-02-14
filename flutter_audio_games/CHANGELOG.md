@@ -4,6 +4,7 @@
 
 - Added `relativePlaySpeed` to the `asSound` and `asSoundList` extension methods.
 - By default, `asSound` and `asSoundList` will now create asset-based sounds.
+- It is now possible to configure the inaudible behaviour directly from a `SoundHandle` instance.
 
 ## 0.45.0
 
