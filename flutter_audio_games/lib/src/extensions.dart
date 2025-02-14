@@ -91,9 +91,10 @@ extension BuildContextX on BuildContext {
           velZ: position.velZ,
         );
     }
+    handle.relativePlaySpeed.value = sound.relativePlaySpeed;
     if (sound.destroy) {
-      final length = soLoud.getLength(source);
-      soLoud.scheduleStop(handle, length);
+      final length = source.length;
+      handle.scheduleStop(length);
     }
     return handle;
   }
@@ -279,12 +280,14 @@ extension ListStringX on List<String> {
 /// Useful methods on sound handles.
 extension SoundHandleX on SoundHandle {
   /// Stop this handle.
-  Future<void> stop({final Duration? fadeOutTime}) async {
-    final soLoud = SoLoud.instance;
+  Future<void> stop({
+    final Duration? fadeOutTime,
+    final double fadeTo = 0.0,
+  }) async {
     if (fadeOutTime == null) {
-      await soLoud.stop(this);
+      await SoLoud.instance.stop(this);
     } else {
-      soLoud.fadeVolume(this, 0.0, fadeOutTime);
+      volume.fade(fadeTo, fadeOutTime);
       scheduleStop(fadeOutTime);
     }
   }
@@ -458,8 +461,12 @@ extension SoundHandleX on SoundHandle {
     final double velocityY,
     final double velocityZ,
   ) =>
-      SoLoud.instance
-          .set3dSourceVelocity(this, velocityX, velocityY, velocityZ);
+      SoLoud.instance.set3dSourceVelocity(
+        this,
+        velocityX,
+        velocityY,
+        velocityZ,
+      );
 
   /// Set [looping] for this sound.
   set looping(final bool enable) => SoLoud.instance.setLooping(this, enable);

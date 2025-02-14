@@ -14,6 +14,7 @@ class Sound {
     this.position = unpanned,
     this.paused = false,
     this.loadMode = LoadMode.memory,
+    this.relativePlaySpeed = 1.0,
   });
 
   /// The asset path to use.
@@ -42,6 +43,9 @@ class Sound {
 
   /// The mode to use when loading this sound.
   final LoadMode loadMode;
+
+  /// The playback rate to use.
+  final double relativePlaySpeed;
 
   /// Get a hash code which can safely be used to check equality.
   @override
