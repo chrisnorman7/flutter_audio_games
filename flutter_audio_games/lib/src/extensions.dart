@@ -142,6 +142,9 @@ extension PointDoubleX on Point<double> {
   /// [x] and [y], both floored with [double.floor].
   Point<int> floor() => Point<int>(x.floor(), y.floor());
 
+  /// Return a rounded version of `this` [Point].
+  Point<int> round() => Point<int>(x.round(), y.round());
+
   /// Return the angle between `this` and [other].
   ///
   /// This function provided by a good friend who wished to remain nameless.
