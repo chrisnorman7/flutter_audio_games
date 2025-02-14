@@ -1,5 +1,9 @@
 # Changes
 
+## 0.44.0
+
+- You can now `round` `Point<double>` instances in addition to being able to `floor` them.
+
 ## 0.43.2
 
 - The `AmbianceBuilder` widget will no longer load ambiances twice.

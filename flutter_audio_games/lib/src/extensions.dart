@@ -277,7 +277,7 @@ extension ListStringX on List<String> {
 }
 
 /// Useful methods on sound handles.
-extension AudioHandleX on SoundHandle {
+extension SoundHandleX on SoundHandle {
   /// Stop this handle.
   Future<void> stop({final Duration? fadeOutTime}) async {
     final soLoud = SoLoud.instance;
@@ -478,6 +478,21 @@ extension AudioHandleX on SoundHandle {
   /// Set [protectVoice] for this sound.
   set protectVoice(final bool protect) =>
       SoLoud.instance.setProtectVoice(this, protect);
+
+  /// Fade this handle to [fadeTo] over [fadeOutTime], run [f], then fade back
+  /// up over [fadeInTime] to the original [volume].
+  Future<T> runFaded<T>(
+    final Future<T> Function() f, {
+    final double fadeTo = 0.0,
+    final Duration fadeOutTime = const Duration(seconds: 3),
+    final Duration fadeInTime = const Duration(seconds: 3),
+  }) async {
+    final maxVolume = volume.value;
+    volume.fade(fadeTo, fadeOutTime);
+    final result = await f();
+    volume.fade(maxVolume, fadeInTime);
+    return result;
+  }
 }
 
 /// Useful methods for sources.
@@ -576,5 +591,28 @@ extension DirectoryX on Directory {
       position: position,
       volume: volume,
     );
+  }
+}
+
+/// Useful methods for lists of sound handles.
+extension ListSoundHandleX on List<SoundHandle> {
+  /// Fade this handle to [fadeTo] over [fadeOutTime], run [f], then fade back
+  /// up over [fadeInTime] to their original volumes.
+  Future<T> runFaded<T>(
+    final Future<T> Function() f, {
+    final double fadeTo = 0.0,
+    final Duration fadeOutTime = const Duration(seconds: 3),
+    final Duration fadeInTime = const Duration(seconds: 3),
+  }) async {
+    final maxVolumes = map((final handle) {
+      final volume = handle.volume.value;
+      handle.volume.fade(fadeTo, fadeOutTime);
+      return volume;
+    });
+    final result = await f();
+    for (var i = 0; i < length; i++) {
+      this[i].volume.fade(maxVolumes.elementAt(i), fadeInTime);
+    }
+    return result;
   }
 }
