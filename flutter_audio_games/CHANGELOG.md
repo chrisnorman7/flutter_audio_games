@@ -1,5 +1,9 @@
 # Changes
 
+## 0.46.1
+
+- Updated `SoLoud`.
+
 ## 0.46.0
 
 - Added `relativePlaySpeed` to the `asSound` and `asSoundList` extension methods.
