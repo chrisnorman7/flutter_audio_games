@@ -1,5 +1,9 @@
 # Changes
 
+## 0.47.0
+
+- Added the `SoundPositionPanned.fromIndex` constructor.
+
 ## 0.46.1
 
 - Updated `SoLoud`.
