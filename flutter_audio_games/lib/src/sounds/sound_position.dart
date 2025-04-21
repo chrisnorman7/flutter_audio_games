@@ -9,6 +9,22 @@ class SoundPositionPanned implements SoundPosition {
   /// Create an instance.
   const SoundPositionPanned(this.pan);
 
+  /// Return a panned position according to the position of [index] according to
+  /// [maxIndex].
+  ///
+  /// This constructor is used if you want to pan a sound according to its
+  /// position in a menu for example, where sounds further towards the end of
+  /// the menu are panned more to the right.
+  factory SoundPositionPanned.fromIndex(final int maxIndex, final int index) {
+    assert(index <= maxIndex, '`index` cannot be greater than `maxIndex`.');
+    if (maxIndex == 1) {
+      return unpanned;
+    }
+    return SoundPositionPanned(
+      ((2 / (maxIndex - 1)) * index) - 1,
+    );
+  }
+
   /// The pan for the sound.
   final double pan;
 }
