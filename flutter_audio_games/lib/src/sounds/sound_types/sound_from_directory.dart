@@ -26,6 +26,7 @@ class SoundFromDirectory extends LoadableSound {
   SoundFromDirectory copyWith({
     final Directory? directory,
     final LoadMode? loadMode,
+    final bool? destroy,
     final double? volume,
     final bool? looping,
     final Duration? loopingStart,
@@ -35,7 +36,7 @@ class SoundFromDirectory extends LoadableSound {
   }) =>
       SoundFromDirectory(
         directory: directory ?? this.directory,
-        destroy: destroy,
+        destroy: destroy ?? this.destroy,
         loadMode: loadMode ?? this.loadMode,
         looping: looping ?? this.looping,
         loopingStart: loopingStart ?? this.loopingStart,

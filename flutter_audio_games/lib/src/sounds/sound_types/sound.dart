@@ -43,6 +43,7 @@ abstract class Sound {
 
   /// Return a new copy of this sound with the provided settings.
   Sound copyWith({
+    final bool? destroy,
     final double? volume,
     final bool? looping,
     final Duration? loopingStart,

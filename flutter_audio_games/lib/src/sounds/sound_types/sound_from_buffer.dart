@@ -1,30 +1,34 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
-/// A [Sound] loaded from [file].
-class SoundFromFile extends LoadableSound {
+/// A [Sound] from [buffer].
+class SoundFromBuffer extends LoadableSound {
   /// Create an instance.
-  const SoundFromFile({
-    required this.file,
+  const SoundFromBuffer({
+    required this.path,
+    required this.buffer,
     required super.destroy,
     super.loadMode,
     super.looping,
+    super.volume,
     super.loopingStart,
     super.paused,
     super.position,
-    super.volume,
     super.relativePlaySpeed,
   });
 
-  /// The file to load from.
-  final File file;
+  /// The path to use.
+  final String path;
 
-  /// Allow sounds to be copied.
+  /// The buffer to load from.
+  final Uint8List buffer;
+
   @override
-  SoundFromFile copyWith({
-    final File? file,
+  SoundFromBuffer copyWith({
+    final String? path,
+    final Uint8List? buffer,
     final LoadMode? loadMode,
     final bool? destroy,
     final double? volume,
@@ -34,24 +38,28 @@ class SoundFromFile extends LoadableSound {
     final bool? paused,
     final double? relativePlaySpeed,
   }) =>
-      SoundFromFile(
-        file: file ?? this.file,
-        destroy: destroy ?? this.destroy,
+      SoundFromBuffer(
+        path: path ?? this.path,
+        buffer: buffer ?? this.buffer,
         loadMode: loadMode ?? this.loadMode,
+        destroy: destroy ?? this.destroy,
         looping: looping ?? this.looping,
+        volume: volume ?? this.volume,
         loopingStart: loopingStart ?? this.loopingStart,
         paused: paused ?? this.paused,
         position: position ?? this.position,
-        volume: volume ?? this.volume,
         relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
       );
 
-  /// Return the path of [file].
+  /// Return [buffer] turned to a [String].
   @override
-  String get internalUri => file.path;
+  String get internalUri => buffer.toString();
 
-  /// Load [file].
+  /// Load the [buffer].
   @override
-  Future<AudioSource> load() =>
-      SoLoud.instance.loadFile(file.path, mode: loadMode);
+  Future<AudioSource> load() => SoLoud.instance.loadMem(
+        path,
+        buffer,
+        mode: loadMode,
+      );
 }
