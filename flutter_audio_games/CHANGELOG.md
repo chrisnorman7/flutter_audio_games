@@ -1,5 +1,11 @@
 # Changes
 
+## 0.48.0
+
+- Overhaul how sounds are loaded.
+- Allow sounds to be loaded from spans in assets, allowing sounds to be bundled together into pack files.
+- Removed the `SoundType` enum.
+
 ## 0.47.0
 
 - Added the `SoundPositionPanned.fromIndex` constructor.
