@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
@@ -16,8 +17,10 @@ extension ListX<E> on List<E> {
 /// Useful methods on string lists.
 extension ListStringX on List<String> {
   /// Return a sound list.
-  List<Sound> asSoundList({
+  List<SoundFromAsset> asSoundList({
     required final bool destroy,
+    final AssetBundle? assetBundle,
+    final LoadMode loadMode = LoadMode.memory,
     final double volume = 0.7,
     final bool looping = false,
     final Duration loopingStart = Duration.zero,
@@ -25,7 +28,19 @@ extension ListStringX on List<String> {
     final bool paused = false,
     final double relativePlaySpeed = 1.0,
   }) =>
-      throw UnimplementedError();
+      map(
+        (final string) => string.asSound(
+          destroy: destroy,
+          assetBundle: assetBundle,
+          loadMode: loadMode,
+          volume: volume,
+          looping: looping,
+          loopingStart: loopingStart,
+          position: position,
+          paused: paused,
+          relativePlaySpeed: relativePlaySpeed,
+        ),
+      ).toList();
 }
 
 /// Useful methods for lists of sound handles.
