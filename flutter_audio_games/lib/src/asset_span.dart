@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
-/// A span in a pack file which can be loaded from [assetKey].
-class PackFileSpan {
+/// A span in a asset which can be loaded from [assetKey].
+class AssetSpan {
   /// Create an instance.
-  const PackFileSpan({
+  const AssetSpan({
     required this.assetKey,
     required this.offset,
     required this.length,
   });
 
-  /// The asset key where the pack file can be loaded from.
+  /// The asset key where the buffer can be loaded from.
   final String assetKey;
 
   /// The offset where the span starts.
@@ -21,7 +21,7 @@ class PackFileSpan {
   final int length;
 
   /// Convert this instance to a sound.
-  SoundFromPackFile asSound({
+  SoundFromAssetSpan asSound({
     required final bool destroy,
     final double volume = 0.7,
     final AssetBundle? assetBundle,
@@ -32,7 +32,7 @@ class PackFileSpan {
     final SoundPosition position = unpanned,
     final double relativePlaySpeed = 1.0,
   }) =>
-      SoundFromPackFile(
+      SoundFromAssetSpan(
         assetKey: assetKey,
         offset: offset,
         length: length,

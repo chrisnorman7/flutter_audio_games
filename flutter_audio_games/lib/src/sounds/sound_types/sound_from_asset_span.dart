@@ -2,10 +2,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
-/// A [Sound] from a pack file loaded from [assetKey].
-class SoundFromPackFile extends SoundFromAsset {
+/// A [Sound] from a span of [assetKey].
+class SoundFromAssetSpan extends SoundFromAsset {
   /// Create an instance.
-  const SoundFromPackFile({
+  const SoundFromAssetSpan({
     required super.assetKey,
     required this.offset,
     required this.length,
@@ -58,7 +58,7 @@ class SoundFromPackFile extends SoundFromAsset {
     final bool? paused,
     final double? relativePlaySpeed,
   }) =>
-      SoundFromPackFile(
+      SoundFromAssetSpan(
         assetKey: assetKey ?? this.assetKey,
         offset: offset ?? this.offset,
         length: length ?? this.length,
