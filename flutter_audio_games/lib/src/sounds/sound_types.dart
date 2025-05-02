@@ -6,3 +6,4 @@ export 'sound_types/sound_from_directory.dart';
 export 'sound_types/sound_from_file.dart';
 export 'sound_types/sound_from_pack_file.dart';
 export 'sound_types/sound_from_url.dart';
+export 'sound_types/sound_wave.dart';
