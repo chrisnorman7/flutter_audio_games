@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
@@ -41,15 +40,11 @@ class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
   /// The sound handle of the currently-playing sound.
   SoundHandle? _soundHandle;
 
-  /// The random number generator to use.
-  late final Random random;
-
   /// Initialise state.
   @override
   void initState() {
     super.initState();
     _playing = false;
-    random = Random();
   }
 
   /// Dispose of the widget.
@@ -97,7 +92,6 @@ class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
       (final timer) async {
         final handle = await context.playRandomSound(
           widget.sounds,
-          random,
         );
         await _soundHandle?.stop();
         _soundHandle = handle;

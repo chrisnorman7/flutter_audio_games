@@ -331,7 +331,7 @@ class SideScrollerState extends State<SideScroller> {
     coordinates = Point(x, y);
     final newSurface = currentSurface;
     if (context.mounted) {
-      await context.playRandomSound(newSurface.footstepSounds, random);
+      await context.playRandomSound(newSurface.footstepSounds);
       if (oldSurface == newSurface) {
         newSurface.onPlayerMove?.call(this);
       } else {

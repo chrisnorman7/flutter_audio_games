@@ -20,9 +20,9 @@ import 'package:flutter_audio_games/flutter_audio_games.dart'
 export 'src/extensions.dart';
 export 'src/maths.dart';
 export 'src/moving_direction.dart';
-export 'src/sounds/sound.dart';
+export 'src/sounds/sound_handle_property.dart';
 export 'src/sounds/sound_position.dart';
-export 'src/sounds/sound_type.dart';
+export 'src/sounds/sound_types.dart';
 export 'src/sounds/source_loader.dart';
 export 'src/sounds/voice_group.dart';
 export 'src/turning_direction.dart';

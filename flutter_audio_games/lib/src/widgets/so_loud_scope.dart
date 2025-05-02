@@ -12,7 +12,6 @@ class SoLoudScope extends StatefulWidget {
   const SoLoudScope({
     required this.child,
     this.httpClient,
-    this.loadCustomSound = defaultLoadCustomSound,
     this.loggerName = 'SoLoudScope',
     this.device,
     this.automaticCleanup = false,
@@ -34,9 +33,6 @@ class SoLoudScope extends StatefulWidget {
 
   /// The widget below this widget in the tree.
   final Widget child;
-
-  /// The function which will load custom sources.
-  final LoadSound loadCustomSound;
 
   /// The name of the logger to use.
   final String loggerName;
@@ -89,9 +85,6 @@ class SoLoudScopeState extends State<SoLoudScope> {
   void initState() {
     super.initState();
     sourceLoader = SourceLoader(
-      assetBundle: DefaultAssetBundle.of(context),
-      httpClient: widget.httpClient,
-      loadCustomSound: widget.loadCustomSound,
       loggerName: widget.loggerName,
       playbackDevice: widget.device,
       automaticCleanup: widget.automaticCleanup,

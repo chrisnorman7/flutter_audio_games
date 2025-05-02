@@ -1,32 +1,11 @@
-import 'dart:typed_data';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:http/http.dart';
 import 'package:logging/logging.dart';
-
-/// The type for functions which load sources from sounds.
-typedef LoadSound = Future<AudioSource> Function(
-  SourceLoader sourceLoader,
-  Sound sound,
-);
-
-/// The default custom loader.
-Future<AudioSource> defaultLoadCustomSound(
-  final SourceLoader sourceLoader,
-  final Sound sound,
-) async {
-  throw UnimplementedError('No custom sound loader has been set.');
-}
 
 /// A class for creating [AudioSource]s from [Sound]s.
 class SourceLoader {
   /// Create an instance.
   SourceLoader({
-    required this.assetBundle,
-    this.httpClient,
-    this.loadCustomSound = defaultLoadCustomSound,
     final String loggerName = 'SourceLoader',
     this.playbackDevice,
     this.automaticCleanup = false,
@@ -37,15 +16,6 @@ class SourceLoader {
         _protectedSounds = {},
         _sources = {},
         logger = Logger(loggerName);
-
-  /// The asset bundle to use.
-  final AssetBundle assetBundle;
-
-  /// The HTTP client to use.
-  final Client? httpClient;
-
-  /// The function to use to load custom sounds.
-  final LoadSound loadCustomSound;
 
   /// The list of sounds which have been loaded, from oldest to newest.
   final List<Sound> _sounds;
@@ -77,23 +47,6 @@ class SourceLoader {
   /// The So Loud instance to work with.
   SoLoud get soLoud => SoLoud.instance;
 
-  /// Load [sound] from [buffer].
-  ///
-  /// This method uses `SoLoud.instance.loadMem`.
-  Future<AudioSource> loadSoundBuffer(
-    final Sound sound,
-    final Uint8List buffer,
-  ) async {
-    final uri = sound.internalUri;
-    logger.info('Loading $uri from buffer of length ${buffer.length}.');
-    final s = _sources[uri];
-    if (s != null) {
-      logger.info('$uri has already been loaded as $s.');
-      return s;
-    }
-    return soLoud.loadMem(sound.path, buffer);
-  }
-
   /// Load [sound] into memory.
   Future<AudioSource> loadSound(final Sound sound) async {
     final uri = sound.internalUri;
@@ -105,27 +58,7 @@ class SourceLoader {
     }
     final AudioSource source;
     try {
-      switch (sound.soundType) {
-        case SoundType.asset:
-          source = await soLoud.loadAsset(
-            sound.path,
-            assetBundle: assetBundle,
-            mode: sound.loadMode,
-          );
-        case SoundType.file:
-          source = await soLoud.loadFile(
-            sound.path,
-            mode: sound.loadMode,
-          );
-        case SoundType.url:
-          source = await soLoud.loadUrl(
-            sound.path,
-            mode: sound.loadMode,
-            httpClient: httpClient,
-          );
-        case SoundType.custom:
-          source = await loadCustomSound(this, sound);
-      }
+      source = await sound.load();
       logger.info('Loaded $uri as $source.');
       await disposeUnusedSources(count: 1);
     } on SoLoudNotInitializedException {
@@ -139,10 +72,8 @@ class SourceLoader {
       );
       return loadSound(sound);
     }
-    if (sound.soundType != SoundType.custom) {
-      _sounds.add(sound);
-      _sources[uri] = source;
-    }
+    _sounds.add(sound);
+    _sources[uri] = source;
     return source;
   }
 
