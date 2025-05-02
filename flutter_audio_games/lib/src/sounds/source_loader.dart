@@ -56,10 +56,12 @@ class SourceLoader {
       logger.info('$uri has already been loaded as $s.');
       return s;
     }
+    final watch = Stopwatch()..start();
     final AudioSource source;
     try {
       source = await sound.load();
-      logger.info('Loaded $uri as $source.');
+      watch.stop();
+      logger.info('Loaded $uri in ${watch.elapsed}.');
       await disposeUnusedSources(count: 1);
     } on SoLoudNotInitializedException {
       logger.warning('The SoLoud library has not yet been initialised.');
