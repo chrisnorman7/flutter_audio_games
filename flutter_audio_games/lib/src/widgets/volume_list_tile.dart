@@ -44,17 +44,17 @@ class VolumeListTile extends StatelessWidget {
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => DoubleListTile(
-        value: volume,
-        onChanged: (final value) {
-          context.playSound(volumeChangeSound.copyWith(volume: value));
-          onChanged(value);
-        },
-        title: title,
-        autofocus: autofocus,
-        decimalPlaces: 1,
-        min: minVolume,
-        max: maxVolume,
-        modifier: volumeAdjustment,
-        subtitle: '${(volume * 100).floor()}%',
-      );
+    value: volume,
+    onChanged: (final value) {
+      context.playSound(volumeChangeSound.copyWith(volume: value));
+      onChanged(value);
+    },
+    title: title,
+    autofocus: autofocus,
+    decimalPlaces: 1,
+    min: minVolume,
+    max: maxVolume,
+    modifier: volumeAdjustment,
+    subtitle: '${(volume * 100).floor()}%',
+  );
 }

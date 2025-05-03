@@ -31,19 +31,18 @@ class AssetSpan {
     final bool paused = false,
     final SoundPosition position = unpanned,
     final double relativePlaySpeed = 1.0,
-  }) =>
-      SoundFromAssetSpan(
-        assetKey: assetKey,
-        offset: offset,
-        length: length,
-        destroy: destroy,
-        assetBundle: assetBundle,
-        loadMode: loadMode,
-        looping: looping,
-        loopingStart: loopingStart,
-        paused: paused,
-        position: position,
-        relativePlaySpeed: relativePlaySpeed,
-        volume: volume,
-      );
+  }) => SoundFromAssetSpan(
+    assetKey: assetKey,
+    offset: offset,
+    length: length,
+    destroy: destroy,
+    assetBundle: assetBundle,
+    loadMode: loadMode,
+    looping: looping,
+    loopingStart: loopingStart,
+    paused: paused,
+    position: position,
+    relativePlaySpeed: relativePlaySpeed,
+    volume: volume,
+  );
 }

@@ -53,9 +53,10 @@ class SelectPlaybackDeviceState extends State<SelectPlaybackDevice> {
           final device = devices[index];
           return ListTile(
             autofocus: index == 0,
-            selected: (currentDevice == null)
-                ? device.isDefault
-                : device.id == currentDevice!.id,
+            selected:
+                (currentDevice == null)
+                    ? device.isDefault
+                    : device.id == currentDevice!.id,
             title: Text(
               '${device.name}${device.isDefault ? widget.defaultString : ""}',
             ),

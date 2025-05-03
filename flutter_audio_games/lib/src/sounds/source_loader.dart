@@ -12,10 +12,10 @@ class SourceLoader {
     this.sampleRate = 44100,
     this.bufferSize = 2048,
     this.channels = Channels.stereo,
-  })  : _sounds = [],
-        _protectedSounds = {},
-        _sources = {},
-        logger = Logger(loggerName);
+  }) : _sounds = [],
+       _protectedSounds = {},
+       _sources = {},
+       logger = Logger(loggerName);
 
   /// The list of sounds which have been loaded, from oldest to newest.
   final List<Sound> _sounds;

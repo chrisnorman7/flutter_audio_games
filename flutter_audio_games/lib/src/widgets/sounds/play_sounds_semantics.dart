@@ -58,45 +58,40 @@ class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) => FocusableActionDetector(
-        enabled: false,
-        onFocusChange: (final value) {
-          if (value && !_playing) {
-            _playing = true;
-            _restart();
-          } else if (_playing) {
-            _playing = false;
-            _stop();
-          }
-        },
-        child: MouseRegion(
-          child: widget.child,
-          onEnter: (final _) {
-            if (!_playing) {
-              _playing = true;
-              _restart();
-            }
-          },
-          onExit: (final _) {
-            if (_playing) {
-              _playing = false;
-              _stop();
-            }
-          },
-        ),
-      );
+    enabled: false,
+    onFocusChange: (final value) {
+      if (value && !_playing) {
+        _playing = true;
+        _restart();
+      } else if (_playing) {
+        _playing = false;
+        _stop();
+      }
+    },
+    child: MouseRegion(
+      child: widget.child,
+      onEnter: (final _) {
+        if (!_playing) {
+          _playing = true;
+          _restart();
+        }
+      },
+      onExit: (final _) {
+        if (_playing) {
+          _playing = false;
+          _stop();
+        }
+      },
+    ),
+  );
 
   void _restart() {
     _timer?.cancel();
-    _timer = Timer.periodic(
-      widget.interval,
-      (final timer) async {
-        final handle = await context.playRandomSound(
-          widget.sounds,
-        );
-        await _soundHandle?.stop();
-        _soundHandle = handle;
-      },
-    );
+    _timer = Timer.periodic(widget.interval, (final timer) async {
+      final handle = await context.playRandomSound(widget.sounds);
+      await _soundHandle?.stop();
+      _soundHandle = handle;
+    });
   }
 
   /// Stop sounds from playing.

@@ -24,9 +24,9 @@ class SideScroller extends StatefulWidget {
     this.muteDistance = 20,
     this.fadeOutTime = const Duration(seconds: 3),
     super.key,
-  })  : assert(surfaces.length > 0, 'The `surfaces` list must not be empty.'),
-        assert(panDistance > 0, '`panDistance` must be greater than 0.'),
-        assert(muteDistance > 0, '`muteDistance` must be greater than 0.');
+  }) : assert(surfaces.length > 0, 'The `surfaces` list must not be empty.'),
+       assert(panDistance > 0, '`panDistance` must be greater than 0.'),
+       assert(muteDistance > 0, '`muteDistance` must be greater than 0.');
 
   /// The surfaces the player can move on.
   final List<SideScrollerSurface> surfaces;
@@ -201,9 +201,7 @@ class SideScrollerState extends State<SideScroller> {
         final soundHandle = await c.playSound(
           object.ambiance.copyWith(
             volume: getSoundVolume(object.ambiance, position),
-            position: SoundPositionPanned(
-              getSoundPan(position),
-            ),
+            position: SoundPositionPanned(getSoundPan(position)),
           ),
         );
         if (c.mounted) {
@@ -244,33 +242,32 @@ class SideScrollerState extends State<SideScroller> {
       GameShortcut(
         title: 'Move left',
         shortcut: widget.movePlayerLeftKey,
-        onStart: (final innerContext) => startPlayerMoving(
-          SideScrollerDirection.left,
-        ),
+        onStart:
+            (final innerContext) =>
+                startPlayerMoving(SideScrollerDirection.left),
         onStop: (final innerContext) => stopPlayerMoving(),
       ),
       GameShortcut(
         title: 'Move right',
         shortcut: widget.movePlayerRightKey,
-        onStart: (final innerContext) => startPlayerMoving(
-          SideScrollerDirection.right,
-        ),
+        onStart:
+            (final innerContext) =>
+                startPlayerMoving(SideScrollerDirection.right),
         onStop: (final innerContext) => stopPlayerMoving(),
       ),
       GameShortcut(
         title: 'Jump',
         shortcut: widget.playerJumpKey,
-        onStart: (final innerContext) => startPlayerMoving(
-          SideScrollerDirection.jump,
-        ),
+        onStart:
+            (final innerContext) =>
+                startPlayerMoving(SideScrollerDirection.jump),
         onStop: (final innerContext) => stopPlayerMoving(),
       ),
       GameShortcut(
         title: 'Activate the current surface',
         shortcut: widget.playerActivateKey,
-        onStart: (final innerContext) => currentSurface.onPlayerActivate?.call(
-          this,
-        ),
+        onStart:
+            (final innerContext) => currentSurface.onPlayerActivate?.call(this),
       ),
     ];
     return TimedCommands(

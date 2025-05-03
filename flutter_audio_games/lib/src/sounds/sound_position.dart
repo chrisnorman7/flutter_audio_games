@@ -20,9 +20,7 @@ class SoundPositionPanned implements SoundPosition {
     if (maxIndex == 1) {
       return unpanned;
     }
-    return SoundPositionPanned(
-      ((2 / (maxIndex - 1)) * index) - 1,
-    );
+    return SoundPositionPanned(((2 / (maxIndex - 1)) * index) - 1);
   }
 
   /// The pan for the sound.

@@ -15,16 +15,15 @@ extension FileX on File {
     final bool paused = false,
     final LoadMode loadMode = LoadMode.memory,
     final double relativePlaySpeed = 1.0,
-  }) =>
-      SoundFromFile(
-        file: this,
-        destroy: destroy,
-        loadMode: loadMode,
-        looping: looping,
-        loopingStart: loopingStart,
-        paused: paused,
-        position: position,
-        volume: volume,
-        relativePlaySpeed: relativePlaySpeed,
-      );
+  }) => SoundFromFile(
+    file: this,
+    destroy: destroy,
+    loadMode: loadMode,
+    looping: looping,
+    loopingStart: loopingStart,
+    paused: paused,
+    position: position,
+    volume: volume,
+    relativePlaySpeed: relativePlaySpeed,
+  );
 }

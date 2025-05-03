@@ -33,18 +33,17 @@ class SoundFromDirectory extends LoadableSound {
     final SoundPosition? position,
     final bool? paused,
     final double? relativePlaySpeed,
-  }) =>
-      SoundFromDirectory(
-        directory: directory ?? this.directory,
-        destroy: destroy ?? this.destroy,
-        loadMode: loadMode ?? this.loadMode,
-        looping: looping ?? this.looping,
-        loopingStart: loopingStart ?? this.loopingStart,
-        paused: paused ?? this.paused,
-        position: position ?? this.position,
-        volume: volume ?? this.volume,
-        relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
-      );
+  }) => SoundFromDirectory(
+    directory: directory ?? this.directory,
+    destroy: destroy ?? this.destroy,
+    loadMode: loadMode ?? this.loadMode,
+    looping: looping ?? this.looping,
+    loopingStart: loopingStart ?? this.loopingStart,
+    paused: paused ?? this.paused,
+    position: position ?? this.position,
+    volume: volume ?? this.volume,
+    relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
+  );
 
   /// Return the path of [directory].
   @override
@@ -53,10 +52,7 @@ class SoundFromDirectory extends LoadableSound {
   /// Load a single file.
   @override
   Future<AudioSource> load() {
-    final sound = directory.asSound(
-      destroy: destroy,
-      loadMode: loadMode,
-    );
+    final sound = directory.asSound(destroy: destroy, loadMode: loadMode);
     return sound.load();
   }
 }

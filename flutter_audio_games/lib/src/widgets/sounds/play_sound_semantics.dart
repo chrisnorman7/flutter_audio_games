@@ -74,30 +74,30 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) => FocusableActionDetector(
-        enabled: false,
-        autofocus: widget.autofocus,
-        descendantsAreFocusable: widget.descendantsAreFocusable,
-        descendantsAreTraversable: widget.descendantsAreTraversable,
-        onFocusChange: (final value) {
-          if (value) {
-            _restart();
-          } else {
-            _stop();
-          }
-        },
-        child: MouseRegion(
-          child: widget.child,
-          onEnter: (final _) {
-            if (_state == _PossibleStates.nothing ||
-                _state == _PossibleStates.playing) {
-              _restart();
-            }
-          },
-          onExit: (final _) {
-            _stop();
-          },
-        ),
-      );
+    enabled: false,
+    autofocus: widget.autofocus,
+    descendantsAreFocusable: widget.descendantsAreFocusable,
+    descendantsAreTraversable: widget.descendantsAreTraversable,
+    onFocusChange: (final value) {
+      if (value) {
+        _restart();
+      } else {
+        _stop();
+      }
+    },
+    child: MouseRegion(
+      child: widget.child,
+      onEnter: (final _) {
+        if (_state == _PossibleStates.nothing ||
+            _state == _PossibleStates.playing) {
+          _restart();
+        }
+      },
+      onExit: (final _) {
+        _stop();
+      },
+    ),
+  );
 
   /// Restart the sound.
   void _restart() {

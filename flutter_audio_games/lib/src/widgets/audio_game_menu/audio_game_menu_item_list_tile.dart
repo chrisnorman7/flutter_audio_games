@@ -33,20 +33,20 @@ class AudioGameMenuItemListTile extends StatelessWidget {
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => ProtectSounds(
-        sounds: [menuItem.earcon].whereType<Sound>().toList(),
-        child: MaybePlaySoundSemantics(
-          sound: menuItem.earcon,
-          child: MaybePlaySoundSemantics(
-            sound: selectSound,
-            child: ListTile(
-              autofocus: autofocus,
-              title: Text(menuItem.title),
-              onTap: () {
-                context.maybePlaySound(activateSound);
-                menuItem.onActivate(context);
-              },
-            ),
-          ),
+    sounds: [menuItem.earcon].whereType<Sound>().toList(),
+    child: MaybePlaySoundSemantics(
+      sound: menuItem.earcon,
+      child: MaybePlaySoundSemantics(
+        sound: selectSound,
+        child: ListTile(
+          autofocus: autofocus,
+          title: Text(menuItem.title),
+          onTap: () {
+            context.maybePlaySound(activateSound);
+            menuItem.onActivate(context);
+          },
         ),
-      );
+      ),
+    ),
+  );
 }

@@ -16,12 +16,7 @@ extension BuildContextX on BuildContext {
     final bool restartMusic = true,
   }) async {
     Music.maybeOf(this)?.fadeOut();
-    await Navigator.push(
-      this,
-      MaterialPageRoute<void>(
-        builder: builder,
-      ),
-    );
+    await Navigator.push(this, MaterialPageRoute<void>(builder: builder));
     final inheritedMusic = Music.maybeOf(this);
     if (restartMusic) {
       inheritedMusic?.setPlaybackPosition(Duration.zero);
@@ -39,9 +34,7 @@ extension BuildContextX on BuildContext {
   SourceLoader get sourceLoader => soLoudScope.sourceLoader;
 
   /// Play a random sound from [soundList].
-  Future<SoundHandle> playRandomSound(
-    final List<Sound> soundList,
-  ) {
+  Future<SoundHandle> playRandomSound(final List<Sound> soundList) {
     final sound = soundList.randomElement();
     return playSound(sound);
   }
@@ -71,18 +64,18 @@ extension BuildContextX on BuildContext {
         );
       case SoundPosition3d():
         handle = await soLoud.play3d(
-          source,
-          position.x,
-          position.y,
-          position.z,
-          looping: sound.looping,
-          loopingStartAt: sound.loopingStart,
-          paused: sound.paused,
-          volume: sound.volume,
-          velX: position.velX,
-          velY: position.velY,
-          velZ: position.velZ,
-        )
+            source,
+            position.x,
+            position.y,
+            position.z,
+            looping: sound.looping,
+            loopingStartAt: sound.loopingStart,
+            paused: sound.paused,
+            volume: sound.volume,
+            velX: position.velX,
+            velY: position.velY,
+            velZ: position.velZ,
+          )
           ..setMinMaxDistance(position.minDistance, position.maxDistance);
         handle.setInaudibleBehaviour(
           mustTick: position.tickWhenInaudible,

@@ -37,19 +37,18 @@ class SoundFromBuffer extends LoadableSound {
     final SoundPosition? position,
     final bool? paused,
     final double? relativePlaySpeed,
-  }) =>
-      SoundFromBuffer(
-        path: path ?? this.path,
-        buffer: buffer ?? this.buffer,
-        loadMode: loadMode ?? this.loadMode,
-        destroy: destroy ?? this.destroy,
-        looping: looping ?? this.looping,
-        volume: volume ?? this.volume,
-        loopingStart: loopingStart ?? this.loopingStart,
-        paused: paused ?? this.paused,
-        position: position ?? this.position,
-        relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
-      );
+  }) => SoundFromBuffer(
+    path: path ?? this.path,
+    buffer: buffer ?? this.buffer,
+    loadMode: loadMode ?? this.loadMode,
+    destroy: destroy ?? this.destroy,
+    looping: looping ?? this.looping,
+    volume: volume ?? this.volume,
+    loopingStart: loopingStart ?? this.loopingStart,
+    paused: paused ?? this.paused,
+    position: position ?? this.position,
+    relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
+  );
 
   /// Return [buffer] turned to a [String].
   @override
@@ -57,9 +56,6 @@ class SoundFromBuffer extends LoadableSound {
 
   /// Load the [buffer].
   @override
-  Future<AudioSource> load() => SoLoud.instance.loadMem(
-        path,
-        buffer,
-        mode: loadMode,
-      );
+  Future<AudioSource> load() =>
+      SoLoud.instance.loadMem(path, buffer, mode: loadMode);
 }

@@ -45,23 +45,23 @@ class GameCredits extends StatelessWidget {
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => AudioGameMenu(
-        title: title,
-        menuItems: credits
+    title: title,
+    menuItems:
+        credits
             .map(
               (final credit) => AudioGameMenuItem(
                 title: credit.name,
-                onActivate: (final innerContext) => launchUrl(
-                  Uri.parse(credit.url),
-                ),
+                onActivate:
+                    (final innerContext) => launchUrl(Uri.parse(credit.url)),
                 earcon: credit.earcon,
               ),
             )
             .toList(),
-        selectItemSound: selectItemSound,
-        activateItemSound: activateItemSound,
-        music: music,
-        musicFadeInTime: musicFadeInTime,
-        musicFadeOutTime: musicFadeOutTime,
-        error: error,
-      );
+    selectItemSound: selectItemSound,
+    activateItemSound: activateItemSound,
+    music: music,
+    musicFadeInTime: musicFadeInTime,
+    musicFadeOutTime: musicFadeOutTime,
+    error: error,
+  );
 }

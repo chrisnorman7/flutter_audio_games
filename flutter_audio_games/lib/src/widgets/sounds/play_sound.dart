@@ -8,11 +8,7 @@ import 'package:flutter_soloud/flutter_soloud.dart';
 /// [Music] widget.
 class PlaySound extends StatefulWidget {
   /// Create an instance.
-  const PlaySound({
-    required this.sound,
-    required this.child,
-    super.key,
-  });
+  const PlaySound({required this.sound, required this.child, super.key});
 
   /// The loaded sound.
   final Sound sound;

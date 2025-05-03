@@ -6,10 +6,7 @@ import 'package:flutter_audio_games/flutter_audio_games.dart';
 extension PointX<T extends num> on Point<T> {
   /// Return `true` if this point lies on a straight line between points [a] and
   /// [b].
-  bool isOnLine(
-    final Point<T> a,
-    final Point<T> b,
-  ) =>
+  bool isOnLine(final Point<T> a, final Point<T> b) =>
       (distanceTo(b) + a.distanceTo(b)) == distanceTo(a);
 }
 
@@ -50,10 +47,7 @@ extension PointDoubleX on Point<double> {
   }
 
   /// Return the coordinates that lie [distance] at [bearing] °.
-  Point<double> pointInDirection(
-    final double bearing,
-    final double distance,
-  ) {
+  Point<double> pointInDirection(final double bearing, final double distance) {
     final rad = angleToRad(bearing);
     return Point<double>(x + (distance * sin(rad)), y + (distance * cos(rad)));
   }

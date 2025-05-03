@@ -17,9 +17,9 @@ class TouchSurface extends StatelessWidget {
     this.childBuilder,
     super.key,
   }) : assert(
-          columns > 0 && rows > 0,
-          'Both `rows` and `columns` must be at least 1.',
-        );
+         columns > 0 && rows > 0,
+         'Both `rows` and `columns` must be at least 1.',
+       );
 
   /// The number of rows to use.
   final int rows;
@@ -46,45 +46,45 @@ class TouchSurface extends StatelessWidget {
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => GameShortcuts(
-        shortcuts: areaShortcuts.entries.map((final entry) {
+    shortcuts:
+        areaShortcuts.entries.map((final entry) {
           final shortcut = entry.key;
           final point = entry.value;
           return GameShortcut(
             title: areaDescriptions[point] ?? '${point.x}, ${point.y}',
             shortcut: shortcut,
-            onStart: (final innerContext) =>
-                onTouch(point, TouchAreaEvent.touch),
-            onStop: (final innerContext) =>
-                onTouch(point, TouchAreaEvent.release),
+            onStart:
+                (final innerContext) => onTouch(point, TouchAreaEvent.touch),
+            onStop:
+                (final innerContext) => onTouch(point, TouchAreaEvent.release),
           );
         }).toList(),
-        child: PopScope(
-          canPop: canPop,
-          child: Material(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (var y = 0; y < rows; y++)
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        for (var x = 0; x < columns; x++)
-                          TouchArea(
-                            description:
-                                areaDescriptions[Point(x, y)] ?? '$x, $y',
-                            onTouch: (final event) {
-                              final point = Point(x, y);
-                              onTouch(point, event);
-                            },
-                            child: childBuilder?.call(context, Point(x, y)),
-                          ),
-                      ],
-                    ),
-                  ),
-              ],
-            ),
-          ),
+    child: PopScope(
+      canPop: canPop,
+      child: Material(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var y = 0; y < rows; y++)
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (var x = 0; x < columns; x++)
+                      TouchArea(
+                        description: areaDescriptions[Point(x, y)] ?? '$x, $y',
+                        onTouch: (final event) {
+                          final point = Point(x, y);
+                          onTouch(point, event);
+                        },
+                        child: childBuilder?.call(context, Point(x, y)),
+                      ),
+                  ],
+                ),
+              ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

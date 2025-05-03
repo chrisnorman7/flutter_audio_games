@@ -23,7 +23,7 @@ class AmbiancesBuilder extends StatefulWidget {
 
   /// The widget below this widget in the tree.
   final Widget Function(BuildContext context, List<SoundHandle> handles)
-      builder;
+  builder;
 
   /// The function to call with an error.
   final ErrorWidgetCallback error;
@@ -100,13 +100,13 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) => SimpleFutureBuilder(
-        future: _future,
-        done: (final context, final value) => widget.builder(context, handles),
-        loading: widget.loading,
-        error: widget.error,
-        key: ValueKey(
-          // ignore: lines_longer_than_80_chars
-          'AmbiancesBuilder-${widget.ambiances.map((final a) => a.internalUri).join(',')}',
-        ),
-      );
+    future: _future,
+    done: (final context, final value) => widget.builder(context, handles),
+    loading: widget.loading,
+    error: widget.error,
+    key: ValueKey(
+      // ignore: lines_longer_than_80_chars
+      'AmbiancesBuilder-${widget.ambiances.map((final a) => a.internalUri).join(',')}',
+    ),
+  );
 }

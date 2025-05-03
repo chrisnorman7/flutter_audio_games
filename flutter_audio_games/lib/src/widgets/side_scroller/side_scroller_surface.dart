@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// The type of side scroller move functions for players.
-typedef SideScrollerSurfaceAction = FutureOr<void> Function(
-  SideScrollerState state,
-);
+typedef SideScrollerSurfaceAction =
+    FutureOr<void> Function(SideScrollerState state);
 
 /// A surface in a [SideScroller] level.
 class SideScrollerSurface {
@@ -20,11 +19,11 @@ class SideScrollerSurface {
     this.onPlayerLeave,
     this.onPlayerActivate,
     this.objects = const [],
-  })  : assert(width > 0, 'Surface `width`s must be positive.'),
-        assert(
-          footstepSounds.length > 0,
-          'You must include at least one footstep sound.',
-        );
+  }) : assert(width > 0, 'Surface `width`s must be positive.'),
+       assert(
+         footstepSounds.length > 0,
+         'You must include at least one footstep sound.',
+       );
 
   /// The name of this surface.
   final String name;

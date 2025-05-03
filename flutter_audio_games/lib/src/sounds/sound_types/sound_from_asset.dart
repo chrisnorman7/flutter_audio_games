@@ -37,19 +37,18 @@ class SoundFromAsset extends LoadableSound {
     final SoundPosition? position,
     final bool? paused,
     final double? relativePlaySpeed,
-  }) =>
-      SoundFromAsset(
-        assetKey: assetKey ?? this.assetKey,
-        assetBundle: assetBundle ?? this.assetBundle,
-        loadMode: loadMode ?? this.loadMode,
-        looping: looping ?? this.looping,
-        destroy: destroy ?? this.destroy,
-        loopingStart: loopingStart ?? this.loopingStart,
-        paused: paused ?? this.paused,
-        position: position ?? this.position,
-        relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
-        volume: volume ?? this.volume,
-      );
+  }) => SoundFromAsset(
+    assetKey: assetKey ?? this.assetKey,
+    assetBundle: assetBundle ?? this.assetBundle,
+    loadMode: loadMode ?? this.loadMode,
+    looping: looping ?? this.looping,
+    destroy: destroy ?? this.destroy,
+    loopingStart: loopingStart ?? this.loopingStart,
+    paused: paused ?? this.paused,
+    position: position ?? this.position,
+    relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
+    volume: volume ?? this.volume,
+  );
 
   /// Return [assetKey].
   @override
@@ -57,6 +56,9 @@ class SoundFromAsset extends LoadableSound {
 
   /// Load [assetKey].
   @override
-  Future<AudioSource> load() => SoLoud.instance
-      .loadAsset(assetKey, assetBundle: assetBundle, mode: loadMode);
+  Future<AudioSource> load() => SoLoud.instance.loadAsset(
+    assetKey,
+    assetBundle: assetBundle,
+    mode: loadMode,
+  );
 }

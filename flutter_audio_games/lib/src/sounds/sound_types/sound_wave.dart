@@ -44,20 +44,19 @@ class SoundWave extends Sound {
     final SoundPosition? position,
     final bool? paused,
     final double? relativePlaySpeed,
-  }) =>
-      SoundWave(
-        waveForm: waveForm ?? this.waveForm,
-        superWave: superWave ?? this.superWave,
-        scale: scale ?? this.scale,
-        detune: detune ?? this.detune,
-        destroy: destroy ?? this.destroy,
-        volume: volume ?? this.volume,
-        looping: looping ?? this.looping,
-        loopingStart: loopingStart ?? this.loopingStart,
-        position: position ?? this.position,
-        paused: paused ?? this.paused,
-        relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
-      );
+  }) => SoundWave(
+    waveForm: waveForm ?? this.waveForm,
+    superWave: superWave ?? this.superWave,
+    scale: scale ?? this.scale,
+    detune: detune ?? this.detune,
+    destroy: destroy ?? this.destroy,
+    volume: volume ?? this.volume,
+    looping: looping ?? this.looping,
+    loopingStart: loopingStart ?? this.loopingStart,
+    position: position ?? this.position,
+    paused: paused ?? this.paused,
+    relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
+  );
 
   /// Return a string representation of this wave.
   @override
@@ -65,10 +64,6 @@ class SoundWave extends Sound {
 
   /// Create an audio source.
   @override
-  Future<AudioSource> load() => SoLoud.instance.loadWaveform(
-        waveForm,
-        superWave,
-        scale,
-        detune,
-      );
+  Future<AudioSource> load() =>
+      SoLoud.instance.loadWaveform(waveForm, superWave, scale, detune);
 }

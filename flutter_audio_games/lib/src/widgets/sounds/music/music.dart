@@ -65,10 +65,7 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
   /// Fade in [handle].
   void fadeIn() {
     _faded = false;
-    handle?.maybeFade(
-      fadeTime: widget.fadeInTime,
-      to: widget.sound.volume,
-    );
+    handle?.maybeFade(fadeTime: widget.fadeInTime, to: widget.sound.volume);
   }
 
   /// Fade out [handle].

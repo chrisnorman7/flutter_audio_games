@@ -18,17 +18,16 @@ extension StringX on String {
     final SoundPosition position = unpanned,
     final bool paused = false,
     final double relativePlaySpeed = 1.0,
-  }) =>
-      SoundFromAsset(
-        assetKey: this,
-        destroy: destroy,
-        volume: volume,
-        looping: looping,
-        loopingStart: loopingStart,
-        position: position,
-        paused: paused,
-        relativePlaySpeed: relativePlaySpeed,
-        assetBundle: assetBundle,
-        loadMode: loadMode,
-      );
+  }) => SoundFromAsset(
+    assetKey: this,
+    destroy: destroy,
+    volume: volume,
+    looping: looping,
+    loopingStart: loopingStart,
+    position: position,
+    paused: paused,
+    relativePlaySpeed: relativePlaySpeed,
+    assetBundle: assetBundle,
+    loadMode: loadMode,
+  );
 }

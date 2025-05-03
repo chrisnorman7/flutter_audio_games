@@ -5,10 +5,8 @@ import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 /// The type of a function which builds a button for starting web audio.
-typedef WebAudioButtonBuilder = Widget Function(
-  BuildContext context,
-  VoidCallback onDone,
-);
+typedef WebAudioButtonBuilder =
+    Widget Function(BuildContext context, VoidCallback onDone);
 
 /// Build a button for starting web audio.
 ///
@@ -16,46 +14,41 @@ typedef WebAudioButtonBuilder = Widget Function(
 Widget buildStartWebAudioButton(
   final BuildContext context,
   final VoidCallback onDone,
-) =>
-    SimpleScaffold(
-      title: 'Start Audio',
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: TextButton(
-              autofocus: true,
-              onPressed: () async {
-                final audio = SoLoud.instance;
-                if (!audio.isInitialized) {
-                  final scope = context.soLoudScope;
-                  await audio.init(
-                    automaticCleanup: scope.automaticCleanup,
-                    bufferSize: scope.bufferSize,
-                    channels: scope.channels,
-                    device: scope.device,
-                    sampleRate: scope.sampleRate,
-                  );
-                }
-                onDone();
-              },
-              child: const Text('Start audio'),
-            ),
-          ),
-        ],
+) => SimpleScaffold(
+  title: 'Start Audio',
+  body: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Center(
+        child: TextButton(
+          autofocus: true,
+          onPressed: () async {
+            final audio = SoLoud.instance;
+            if (!audio.isInitialized) {
+              final scope = context.soLoudScope;
+              await audio.init(
+                automaticCleanup: scope.automaticCleanup,
+                bufferSize: scope.bufferSize,
+                channels: scope.channels,
+                device: scope.device,
+                sampleRate: scope.sampleRate,
+              );
+            }
+            onDone();
+          },
+          child: const Text('Start audio'),
+        ),
       ),
-    );
+    ],
+  ),
+);
 
 /// A widget which shows a button for starting web audio.
 ///
 /// If [kIsWeb] is not `true`, then [child] is shown.
 class StartWebAudio extends StatefulWidget {
   /// Create an instance.
-  const StartWebAudio({
-    required this.child,
-    this.buttonBuilder,
-    super.key,
-  });
+  const StartWebAudio({required this.child, this.buttonBuilder, super.key});
 
   /// The widget below this widget in the tree.
   final Widget child;

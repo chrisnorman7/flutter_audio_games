@@ -143,11 +143,8 @@ class TouchMenuState extends State<TouchMenu> {
   /// Build a widget.
   @override
   Widget build(final BuildContext context) {
-    final texts = widget.menuItems
-        .map(
-          (final menuItem) => Text(menuItem.title),
-        )
-        .toList();
+    final texts =
+        widget.menuItems.map((final menuItem) => Text(menuItem.title)).toList();
     final musicSound = widget.music;
     final child = GameShortcuts(
       shortcuts: [
@@ -185,26 +182,21 @@ class TouchMenuState extends State<TouchMenu> {
             final ruler = size.longestSide;
             return Semantics(
               excludeSemantics: true,
-              label: 'Swipe up and down to move through items in the menu or '
+              label:
+                  'Swipe up and down to move through items in the menu or '
                   'turn off your screen reader.',
               customSemanticsActions: {
                 for (final menuItem in widget.menuItems)
                   CustomSemanticsAction(label: menuItem.title): () {
-                    orientationContext.maybePlaySound(
-                      widget.activateItemSound,
-                    );
+                    orientationContext.maybePlaySound(widget.activateItemSound);
                     menuItem.onActivate(orientationContext);
                   },
               },
               child: Stack(
                 children: [
                   switch (orientation) {
-                    Orientation.portrait => Column(
-                        children: texts,
-                      ),
-                    Orientation.landscape => Row(
-                        children: texts,
-                      ),
+                    Orientation.portrait => Column(children: texts),
+                    Orientation.landscape => Row(children: texts),
                   },
                   TouchMenuArea(
                     onDoubleTap: () => activateItem(orientationContext),
@@ -230,20 +222,19 @@ class TouchMenuState extends State<TouchMenu> {
       ),
     );
     return ProtectSounds(
-      sounds: [
-        ...widget.menuItems.map((final menuItem) => menuItem.earcon),
-        widget.selectItemSound,
-        widget.activateItemSound,
-      ].whereType<Sound>().toList(),
+      sounds:
+          [
+            ...widget.menuItems.map((final menuItem) => menuItem.earcon),
+            widget.selectItemSound,
+            widget.activateItemSound,
+          ].whereType<Sound>().toList(),
       child: MaybeMusic(
         music: musicSound,
         fadeInTime: widget.musicFadeInTime,
         fadeOutTime: widget.musicFadeOutTime,
         error: widget.error,
         loading: () => child,
-        child: Builder(
-          builder: (final context) => child,
-        ),
+        child: Builder(builder: (final context) => child),
       ),
     );
   }

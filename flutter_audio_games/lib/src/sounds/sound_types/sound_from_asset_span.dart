@@ -57,19 +57,18 @@ class SoundFromAssetSpan extends SoundFromAsset {
     final SoundPosition? position,
     final bool? paused,
     final double? relativePlaySpeed,
-  }) =>
-      SoundFromAssetSpan(
-        assetKey: assetKey ?? this.assetKey,
-        offset: offset ?? this.offset,
-        length: length ?? this.length,
-        destroy: destroy ?? this.destroy,
-        volume: volume ?? this.volume,
-        assetBundle: assetBundle ?? this.assetBundle,
-        looping: looping ?? this.looping,
-        loadMode: loadMode ?? this.loadMode,
-        loopingStart: loopingStart ?? this.loopingStart,
-        paused: paused ?? this.paused,
-        position: position ?? this.position,
-        relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
-      );
+  }) => SoundFromAssetSpan(
+    assetKey: assetKey ?? this.assetKey,
+    offset: offset ?? this.offset,
+    length: length ?? this.length,
+    destroy: destroy ?? this.destroy,
+    volume: volume ?? this.volume,
+    assetBundle: assetBundle ?? this.assetBundle,
+    looping: looping ?? this.looping,
+    loadMode: loadMode ?? this.loadMode,
+    loopingStart: loopingStart ?? this.loopingStart,
+    paused: paused ?? this.paused,
+    position: position ?? this.position,
+    relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
+  );
 }

@@ -21,11 +21,11 @@ class TouchMenuArea extends StatelessWidget {
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => GestureDetector(
-        onDoubleTap: onDoubleTap,
-        onPanDown: (final details) => onMove(details.localPosition),
-        onPanEnd: (final details) => onMove(details.localPosition),
-        onPanUpdate: (final details) => onMove(details.localPosition),
-      );
+    onDoubleTap: onDoubleTap,
+    onPanDown: (final details) => onMove(details.localPosition),
+    onPanEnd: (final details) => onMove(details.localPosition),
+    onPanUpdate: (final details) => onMove(details.localPosition),
+  );
 
   /// The function to call with a new [offset].
   void onMove(final Offset offset) => onPan(Point(offset.dx, offset.dy));

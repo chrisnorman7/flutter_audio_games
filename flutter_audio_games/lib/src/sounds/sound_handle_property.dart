@@ -7,13 +7,10 @@ class SoundHandleProperty<T> {
     required this.getValue,
     required this.setValue,
     required final void Function(T to, Duration time) fade,
-    required final void Function(
-      double from,
-      double to,
-      Duration time,
-    ) oscillate,
-  })  : _fade = fade,
-        _oscillate = oscillate;
+    required final void Function(double from, double to, Duration time)
+    oscillate,
+  }) : _fade = fade,
+       _oscillate = oscillate;
 
   /// The function to call to get [value].
   final T Function() getValue;
@@ -32,11 +29,7 @@ class SoundHandleProperty<T> {
   /// Fade [value] over [time] to [to].
   void fade(final T to, final Duration time) => _fade(to, time);
 
-  final void Function(
-    double from,
-    double to,
-    Duration time,
-  ) _oscillate;
+  final void Function(double from, double to, Duration time) _oscillate;
 
   /// Oscillate [value] between [from] and [to] over [time].
   void oscillate(final double from, final double to, final Duration time) =>

@@ -18,12 +18,14 @@ extension DirectoryX on Directory {
     final double relativePlaySpeed = 1.0,
     final List<String> audioFileExtensions = const ['.mp3', '.wav'],
   }) {
-    final files = listSync()
-        .whereType<File>()
-        .where(
-          (final file) => audioFileExtensions.contains(p.extension(file.path)),
-        )
-        .toList();
+    final files =
+        listSync()
+            .whereType<File>()
+            .where(
+              (final file) =>
+                  audioFileExtensions.contains(p.extension(file.path)),
+            )
+            .toList();
     if (files.isEmpty) {
       throw StateError('Empty directory found at $path.');
     }

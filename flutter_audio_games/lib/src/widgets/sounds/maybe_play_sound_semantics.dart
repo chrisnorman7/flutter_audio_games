@@ -24,9 +24,6 @@ class MaybePlaySoundSemantics extends StatelessWidget {
     if (s == null) {
       return child;
     }
-    return PlaySoundSemantics(
-      sound: s,
-      child: child,
-    );
+    return PlaySoundSemantics(sound: s, child: child);
   }
 }

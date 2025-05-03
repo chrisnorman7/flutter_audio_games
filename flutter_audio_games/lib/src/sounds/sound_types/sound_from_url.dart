@@ -36,19 +36,18 @@ class SoundFromUrl extends LoadableSound {
     final SoundPosition? position,
     final bool? paused,
     final double? relativePlaySpeed,
-  }) =>
-      SoundFromUrl(
-        url: url ?? this.url,
-        destroy: destroy ?? this.destroy,
-        client: client ?? this.client,
-        looping: looping ?? this.looping,
-        volume: volume ?? this.volume,
-        loopingStart: loopingStart ?? this.loopingStart,
-        paused: paused ?? this.paused,
-        position: position ?? this.position,
-        relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
-        loadMode: loadMode ?? this.loadMode,
-      );
+  }) => SoundFromUrl(
+    url: url ?? this.url,
+    destroy: destroy ?? this.destroy,
+    client: client ?? this.client,
+    looping: looping ?? this.looping,
+    volume: volume ?? this.volume,
+    loopingStart: loopingStart ?? this.loopingStart,
+    paused: paused ?? this.paused,
+    position: position ?? this.position,
+    relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
+    loadMode: loadMode ?? this.loadMode,
+  );
 
   /// Returns [url].
   @override
@@ -56,9 +55,6 @@ class SoundFromUrl extends LoadableSound {
 
   /// Load [url].
   @override
-  Future<AudioSource> load() => SoLoud.instance.loadUrl(
-        url,
-        httpClient: client,
-        mode: loadMode,
-      );
+  Future<AudioSource> load() =>
+      SoLoud.instance.loadUrl(url, httpClient: client, mode: loadMode);
 }

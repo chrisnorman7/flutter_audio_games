@@ -37,42 +37,42 @@ class TouchSurfaceBuilder extends StatelessWidget {
   /// Build the widget.
   @override
   Widget build(final BuildContext context) => GameShortcuts(
-        shortcuts: [
-          for (final commandList in commands) ...commandList,
-          ...extraShortcuts,
+    shortcuts: [
+      for (final commandList in commands) ...commandList,
+      ...extraShortcuts,
+    ],
+    autofocus: autofocus,
+    canRequestFocus: canRequestFocus,
+    focusNode: focusNode,
+    child: Material(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final row in commands)
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (final command in row)
+                    TouchArea(
+                      description: command.title,
+                      onTouch: (final event) {
+                        switch (event) {
+                          case TouchAreaEvent.touch:
+                            command.onStart?.call(context);
+                          case TouchAreaEvent.release:
+                            command.onStop?.call(context);
+                        }
+                      },
+                      child: command.child,
+                    ),
+                ],
+              ),
+            ),
         ],
-        autofocus: autofocus,
-        canRequestFocus: canRequestFocus,
-        focusNode: focusNode,
-        child: Material(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (final row in commands)
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      for (final command in row)
-                        TouchArea(
-                          description: command.title,
-                          onTouch: (final event) {
-                            switch (event) {
-                              case TouchAreaEvent.touch:
-                                command.onStart?.call(context);
-                              case TouchAreaEvent.release:
-                                command.onStop?.call(context);
-                            }
-                          },
-                          child: command.child,
-                        ),
-                    ],
-                  ),
-                ),
-            ],
-          ),
-        ),
-      );
+      ),
+    ),
+  );
 }

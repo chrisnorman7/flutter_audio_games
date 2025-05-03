@@ -18,21 +18,13 @@ extension SoundHandleX on SoundHandle {
 
   /// The volume property.
   SoundHandleProperty<double> get volume => SoundHandleProperty(
-        getValue: () => SoLoud.instance.getVolume(this),
-        setValue: (final value) => SoLoud.instance.setVolume(this, value),
-        fade: (final to, final time) => SoLoud.instance.fadeVolume(
-          this,
-          to,
-          time,
-        ),
-        oscillate: (final from, final to, final time) =>
-            SoLoud.instance.oscillateVolume(
-          this,
-          from,
-          to,
-          time,
-        ),
-      );
+    getValue: () => SoLoud.instance.getVolume(this),
+    setValue: (final value) => SoLoud.instance.setVolume(this, value),
+    fade: (final to, final time) => SoLoud.instance.fadeVolume(this, to, time),
+    oscillate:
+        (final from, final to, final time) =>
+            SoLoud.instance.oscillateVolume(this, from, to, time),
+  );
 
   /// Maybe fade to [to].
   void maybeFade({
@@ -48,38 +40,26 @@ extension SoundHandleX on SoundHandle {
 
   /// The pan property.
   SoundHandleProperty<double> get pan => SoundHandleProperty(
-        getValue: () => SoLoud.instance.getPan(this),
-        setValue: (final value) => SoLoud.instance.setPan(this, value),
-        fade: (final to, final time) => SoLoud.instance.fadePan(this, to, time),
-        oscillate: (final from, final to, final time) =>
-            SoLoud.instance.oscillatePan(
-          this,
-          from,
-          to,
-          time,
-        ),
-      );
+    getValue: () => SoLoud.instance.getPan(this),
+    setValue: (final value) => SoLoud.instance.setPan(this, value),
+    fade: (final to, final time) => SoLoud.instance.fadePan(this, to, time),
+    oscillate:
+        (final from, final to, final time) =>
+            SoLoud.instance.oscillatePan(this, from, to, time),
+  );
 
   /// The relative play speed property.
   SoundHandleProperty<double> get relativePlaySpeed => SoundHandleProperty(
-        getValue: () => SoLoud.instance.getRelativePlaySpeed(this),
-        setValue: (final value) => SoLoud.instance.setRelativePlaySpeed(
-          this,
-          value,
-        ),
-        fade: (final to, final time) => SoLoud.instance.fadeRelativePlaySpeed(
-          this,
-          to,
-          time,
-        ),
-        oscillate: (final from, final to, final time) =>
-            SoLoud.instance.oscillateRelativePlaySpeed(
-          this,
-          from,
-          to,
-          time,
-        ),
-      );
+    getValue: () => SoLoud.instance.getRelativePlaySpeed(this),
+    setValue:
+        (final value) => SoLoud.instance.setRelativePlaySpeed(this, value),
+    fade:
+        (final to, final time) =>
+            SoLoud.instance.fadeRelativePlaySpeed(this, to, time),
+    oscillate:
+        (final from, final to, final time) =>
+            SoLoud.instance.oscillateRelativePlaySpeed(this, from, to, time),
+  );
 
   /// Pause this sound.
   ///
@@ -134,12 +114,11 @@ extension SoundHandleX on SoundHandle {
   void setSourceAttenuation(
     final int attenuationModel,
     final double attenuationRolloffFactor,
-  ) =>
-      SoLoud.instance.set3dSourceAttenuation(
-        this,
-        attenuationModel,
-        attenuationRolloffFactor,
-      );
+  ) => SoLoud.instance.set3dSourceAttenuation(
+    this,
+    attenuationModel,
+    attenuationRolloffFactor,
+  );
 
   /// Set the doppler factor for this sound.
   set dopplerFactor(final double dopplerFactor) =>
@@ -157,37 +136,34 @@ extension SoundHandleX on SoundHandle {
     final double velocityX,
     final double velocityY,
     final double velocityZ,
-  ) =>
-      SoLoud.instance.set3dSourceParameters(
-        this,
-        posX,
-        posY,
-        posZ,
-        velocityX,
-        velocityY,
-        velocityZ,
-      );
+  ) => SoLoud.instance.set3dSourceParameters(
+    this,
+    posX,
+    posY,
+    posZ,
+    velocityX,
+    velocityY,
+    velocityZ,
+  );
 
   /// Set the source position of this sound.
   void setSourcePosition(
     final double posX,
     final double posY,
     final double posZ,
-  ) =>
-      SoLoud.instance.set3dSourcePosition(this, posX, posY, posZ);
+  ) => SoLoud.instance.set3dSourcePosition(this, posX, posY, posZ);
 
   /// Set the source velocity for this sound.
   void setSourceVelocity(
     final double velocityX,
     final double velocityY,
     final double velocityZ,
-  ) =>
-      SoLoud.instance.set3dSourceVelocity(
-        this,
-        velocityX,
-        velocityY,
-        velocityZ,
-      );
+  ) => SoLoud.instance.set3dSourceVelocity(
+    this,
+    velocityX,
+    velocityY,
+    velocityZ,
+  );
 
   /// Set [looping] for this sound.
   set looping(final bool enable) => SoLoud.instance.setLooping(this, enable);
@@ -226,6 +202,5 @@ extension SoundHandleX on SoundHandle {
   void setInaudibleBehaviour({
     final bool mustTick = false,
     final bool kill = false,
-  }) =>
-      SoLoud.instance.setInaudibleBehavior(this, mustTick, kill);
+  }) => SoLoud.instance.setInaudibleBehavior(this, mustTick, kill);
 }

@@ -5,11 +5,7 @@ import 'package:flutter_audio_games/flutter_audio_games.dart';
 /// duration of its life.
 class ProtectSounds extends StatefulWidget {
   /// Create an instance.
-  const ProtectSounds({
-    required this.sounds,
-    required this.child,
-    super.key,
-  });
+  const ProtectSounds({required this.sounds, required this.child, super.key});
 
   /// The list of sounds to be protected.
   ///

@@ -33,18 +33,17 @@ class SoundFromFile extends LoadableSound {
     final SoundPosition? position,
     final bool? paused,
     final double? relativePlaySpeed,
-  }) =>
-      SoundFromFile(
-        file: file ?? this.file,
-        destroy: destroy ?? this.destroy,
-        loadMode: loadMode ?? this.loadMode,
-        looping: looping ?? this.looping,
-        loopingStart: loopingStart ?? this.loopingStart,
-        paused: paused ?? this.paused,
-        position: position ?? this.position,
-        volume: volume ?? this.volume,
-        relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
-      );
+  }) => SoundFromFile(
+    file: file ?? this.file,
+    destroy: destroy ?? this.destroy,
+    loadMode: loadMode ?? this.loadMode,
+    looping: looping ?? this.looping,
+    loopingStart: loopingStart ?? this.loopingStart,
+    paused: paused ?? this.paused,
+    position: position ?? this.position,
+    volume: volume ?? this.volume,
+    relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
+  );
 
   /// Return the path of [file].
   @override
