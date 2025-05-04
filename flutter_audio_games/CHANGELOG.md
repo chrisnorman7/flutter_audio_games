@@ -1,5 +1,9 @@
 # Changes
 
+## 0.48.1
+
+- Updated `backstreets_widgets`.
+
 ## 0.48.0
 
 - Overhaul how sounds are loaded.
