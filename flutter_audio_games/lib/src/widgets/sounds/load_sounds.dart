@@ -32,7 +32,7 @@ class LoadSounds extends StatelessWidget {
     final future = _loadSounds(context);
     return SimpleFutureBuilder(
       future: future,
-      done: (final _, final __) => child,
+      done: (final _, final _) => child,
       loading: loading,
       error: error,
     );

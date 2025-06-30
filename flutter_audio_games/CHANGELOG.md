@@ -1,5 +1,9 @@
 # Changes
 
+## 0.48.2
+
+- Updated `flutter_soloud`.
+
 ## 0.48.1
 
 - Updated `backstreets_widgets`.
