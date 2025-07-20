@@ -1,5 +1,10 @@
 # Changes
 
+## 0.48.3
+
+- Upgrade `flutter_soloud`.
+- Provide a more helpful error message for `SoLoudScope.of`.
+
 ## 0.48.2
 
 - Updated `flutter_soloud`.

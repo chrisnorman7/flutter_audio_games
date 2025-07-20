@@ -26,7 +26,16 @@ class SoLoudScope extends StatefulWidget {
       context.findAncestorStateOfType<SoLoudScopeState>();
 
   /// Get the nearest state.
-  static SoLoudScopeState of(final BuildContext context) => maybeOf(context)!;
+  static SoLoudScopeState of(final BuildContext context) {
+    final scope = maybeOf(context);
+    if (scope == null) {
+      throw StateError(
+        // ignore: lines_longer_than_80_chars
+        'No `SoLoudScope` was found. If you are calling this method from the top of your widget tree, consider wrapping the widget in a `Builder`.',
+      );
+    }
+    return scope;
+  }
 
   /// The HTTP client to use when loading sounds from urls.
   final Client? httpClient;
