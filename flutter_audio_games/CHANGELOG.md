@@ -3,6 +3,7 @@
 ## 0.49.0
 
 - Added the `soundPosition3d` extension getter to `Point` instances.
+- Removed the `GameCredit` class and associated widgets.
 
 ## 0.48.3
 
