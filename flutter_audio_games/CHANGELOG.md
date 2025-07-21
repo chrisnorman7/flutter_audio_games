@@ -1,5 +1,9 @@
 # Changes
 
+## 0.49.0
+
+- Added the `soundPosition3d` extension getter to `Point` instances.
+
 ## 0.48.3
 
 - Upgrade `flutter_soloud`.
