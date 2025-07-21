@@ -8,6 +8,13 @@ extension PointX<T extends num> on Point<T> {
   /// [b].
   bool isOnLine(final Point<T> a, final Point<T> b) =>
       (distanceTo(b) + a.distanceTo(b)) == distanceTo(a);
+
+  /// Returns a [SoundPosition3d] from `this` [Point].
+  ///
+  /// This getter assumes that the listener orientation is default. That is, the
+  /// coordinates system is still right handed.
+  SoundPosition3d get soundPosition3d =>
+      SoundPosition3d(x.toDouble(), 0, y.toDouble());
 }
 
 /// Useful methods for points.
