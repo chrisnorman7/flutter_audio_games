@@ -1,5 +1,9 @@
 # Changes
 
+## 0.49.1
+
+- Upgraded dependencies.
+
 ## 0.49.0
 
 - Added the `soundPosition3d` extension getter to `Point` instances.
