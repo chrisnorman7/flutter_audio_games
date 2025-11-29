@@ -1,5 +1,10 @@
 # Changes
 
+## 0.50.0
+
+- Upgraded SDK.
+- Allow sources to be affected with `BuildContext.playSound` and `BuildContext.playRandomSound`.
+
 ## 0.49.1
 
 - Upgraded dependencies.

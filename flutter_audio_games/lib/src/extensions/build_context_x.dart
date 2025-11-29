@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
+
+/// The type of a function which will affect a source when it is loaded.
+typedef OnSourceLoad = FutureOr<void> Function(AudioSource source);
 
 /// Useful extensions on build contexts.
 extension BuildContextX on BuildContext {
@@ -34,14 +39,27 @@ extension BuildContextX on BuildContext {
   SourceLoader get sourceLoader => soLoudScope.sourceLoader;
 
   /// Play a random sound from [soundList].
-  Future<SoundHandle> playRandomSound(final List<Sound> soundList) {
+  ///
+  /// If [onSourceLoad] is not `null`, it will be called with the result of
+  /// loading the random sound from the [sourceLoader].
+  Future<SoundHandle> playRandomSound(
+    final List<Sound> soundList, {
+    final OnSourceLoad? onSourceLoad,
+  }) {
     final sound = soundList.randomElement();
-    return playSound(sound);
+    return playSound(sound, onSourceLoad: onSourceLoad);
   }
 
   /// Play [sound].
-  Future<SoundHandle> playSound(final Sound sound) async {
+  ///
+  /// If [onSourceLoad] is not `null`, it will be called with the result of
+  /// loading [sound] from the [sourceLoader].
+  Future<SoundHandle> playSound(
+    final Sound sound, {
+    final OnSourceLoad? onSourceLoad,
+  }) async {
     final source = await sourceLoader.loadSound(sound);
+    await onSourceLoad?.call(source);
     return playSoundSource(sound, source);
   }
 
@@ -63,20 +81,21 @@ extension BuildContextX on BuildContext {
           volume: sound.volume,
         );
       case SoundPosition3d():
-        handle = await soLoud.play3d(
-            source,
-            position.x,
-            position.y,
-            position.z,
-            looping: sound.looping,
-            loopingStartAt: sound.loopingStart,
-            paused: sound.paused,
-            volume: sound.volume,
-            velX: position.velX,
-            velY: position.velY,
-            velZ: position.velZ,
-          )
-          ..setMinMaxDistance(position.minDistance, position.maxDistance);
+        handle =
+            await soLoud.play3d(
+                source,
+                position.x,
+                position.y,
+                position.z,
+                looping: sound.looping,
+                loopingStartAt: sound.loopingStart,
+                paused: sound.paused,
+                volume: sound.volume,
+                velX: position.velX,
+                velY: position.velY,
+                velZ: position.velZ,
+              )
+              ..setMinMaxDistance(position.minDistance, position.maxDistance);
         handle.setInaudibleBehaviour(
           mustTick: position.tickWhenInaudible,
           kill: position.killWhenInaudible,

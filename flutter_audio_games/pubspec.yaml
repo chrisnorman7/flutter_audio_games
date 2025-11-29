@@ -1,9 +1,9 @@
 name: flutter_audio_games
-version: 0.49.1
+version: 0.50.0
 description: A package which makes it easy to write audio games in Flutter.
 homepage: https://github.com/chrisnorman7/flutter_audio_games
 environment:
-  sdk: ^3.7.2
+  sdk: ^3.10.2
   flutter: ">=1.17.0"
 
 dependencies:
