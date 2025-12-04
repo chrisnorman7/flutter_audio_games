@@ -1,10 +1,9 @@
 import 'package:backstreets_widgets/typedefs.dart';
-import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// A widget which loads [sounds] before rendering [child].
-class LoadSounds extends StatelessWidget {
+class LoadSounds extends StatefulWidget {
   /// Create an instance.
   const LoadSounds({
     required this.sounds,
@@ -26,23 +25,58 @@ class LoadSounds extends StatelessWidget {
   /// The function to call to show an error widget.
   final ErrorWidgetCallback error;
 
+  @override
+  State<LoadSounds> createState() => LoadSoundsState();
+}
+
+/// State for [LoadSounds].
+class LoadSoundsState extends State<LoadSounds> {
+  /// Whether the sounds have been loaded.
+  late bool _loaded;
+
+  /// Any error that occurred.
+  Object? _error;
+
+  /// A stack trace to go with [_error].
+  StackTrace? _stackTrace;
+
+  /// Initialise state.
+  @override
+  void initState() {
+    super.initState();
+    _loaded = false;
+    _loadSounds();
+  }
+
   /// Build the widget.
   @override
   Widget build(final BuildContext context) {
-    final future = _loadSounds(context);
-    return SimpleFutureBuilder(
-      future: future,
-      done: (final _, final _) => child,
-      loading: loading,
-      error: error,
-    );
+    final error = _error;
+    if (error != null) {
+      return widget.error(error, _stackTrace);
+    } else if (_loaded) {
+      return widget.child;
+    } else {
+      return widget.loading();
+    }
   }
 
-  /// Load all [sounds].
-  Future<void> _loadSounds(final BuildContext context) async {
+  /// Load all sounds.
+  Future<void> _loadSounds() async {
     final sourceLoader = context.sourceLoader;
-    for (final sound in sounds) {
-      await sourceLoader.loadSound(sound);
+    try {
+      for (final sound in widget.sounds) {
+        await sourceLoader.loadSound(sound);
+      }
+      setState(() {
+        _loaded = true;
+      });
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e, s) {
+      setState(() {
+        _error = e;
+        _stackTrace = s;
+      });
     }
   }
 }

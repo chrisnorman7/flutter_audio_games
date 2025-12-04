@@ -1,5 +1,10 @@
 # Changes
 
+## 0.50.1
+
+- Make [LoadSounds] more reliable.
+- Updated [flutter_soloud](https://pub.dev/packages/flutter_soloud/).
+
 ## 0.50.0
 
 - Upgraded SDK.
