@@ -1,5 +1,9 @@
 # Changes
 
+## 0.50.3
+
+- Upgraded `backstreets_widgets`.
+
 ## 0.50.2
 
 - Fixed a possible bug in `LoadSounds`.
