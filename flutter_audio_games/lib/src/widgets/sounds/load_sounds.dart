@@ -73,10 +73,12 @@ class LoadSoundsState extends State<LoadSounds> {
       });
       // ignore: avoid_catches_without_on_clauses
     } catch (e, s) {
-      setState(() {
-        _error = e;
-        _stackTrace = s;
-      });
+      if (mounted) {
+        setState(() {
+          _error = e;
+          _stackTrace = s;
+        });
+      }
     }
   }
 }
