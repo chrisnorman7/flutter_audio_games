@@ -5,6 +5,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
+/// The inherited version of a [Music].
+///
+/// Instances of [MusicProvider] will be dealt with when using
+/// [Music.maybeOf()] or [Music.of()].
+class MusicProvider extends InheritedWidget {
+  /// Create an instance.
+  const MusicProvider({
+    required this.fadeIn,
+    required this.fadeOut,
+    required this.setPlaybackPosition,
+    required super.child,
+    super.key,
+  });
+
+  /// The function to fade in the music.
+  final VoidCallback fadeIn;
+
+  /// The function to fade out the music.
+  final VoidCallback fadeOut;
+
+  /// The function to call to set the playback position.
+  final ValueChanged<Duration> setPlaybackPosition;
+
+  /// Whether to notify listeners.
+  @override
+  bool updateShouldNotify(final MusicProvider oldWidget) =>
+      fadeIn != oldWidget.fadeIn ||
+      fadeOut != oldWidget.fadeOut ||
+      setPlaybackPosition != oldWidget.setPlaybackPosition;
+}
+
 /// A widget that plays music.
 class Music extends StatefulWidget {
   /// Create an instance.
@@ -19,11 +50,11 @@ class Music extends StatefulWidget {
   });
 
   /// Possibly return an instance from higher up the widget tree.
-  static InheritedMusic? maybeOf(final BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<InheritedMusic>();
+  static MusicProvider? maybeOf(final BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<MusicProvider>();
 
   /// Return an instance from higher up the widget tree.
-  static InheritedMusic of(final BuildContext context) => maybeOf(context)!;
+  static MusicProvider of(final BuildContext context) => maybeOf(context)!;
 
   /// The loaded sound.
   final Sound sound;
@@ -148,7 +179,7 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
     if (h != null && !_faded) {
       h.volume.value = widget.sound.volume;
     }
-    return InheritedMusic(
+    return MusicProvider(
       fadeIn: fadeIn,
       fadeOut: fadeOut,
       setPlaybackPosition: (final position) {

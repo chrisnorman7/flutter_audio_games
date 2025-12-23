@@ -9,13 +9,11 @@
 /// - Add music to any widget by wrapping it in a [Music] widget.
 /// - Add a sound to play when a widget is focused by wrapping it in a
 ///   [PlaySoundSemantics] widget.
-/// - Add game shortcuts with the [GameShortcuts] widget.
 /// - Show splash screens and play cut scenes with the [TimedBuilders] widget.
 library;
 
 import 'package:backstreets_widgets/widgets.dart';
-import 'package:flutter_audio_games/flutter_audio_games.dart'
-    show AudioGameMenu, Music, PlaySoundSemantics;
+import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 export 'src/asset_span.dart';
 export 'src/extensions.dart';
@@ -40,7 +38,6 @@ export 'src/widgets/so_loud_scope.dart';
 export 'src/widgets/sounds/ambiances/ambiances_builder.dart';
 export 'src/widgets/sounds/load_sounds.dart';
 export 'src/widgets/sounds/maybe_play_sound_semantics.dart';
-export 'src/widgets/sounds/music/inherited_music.dart';
 export 'src/widgets/sounds/music/maybe_music.dart';
 export 'src/widgets/sounds/music/music.dart';
 export 'src/widgets/sounds/play_sound.dart';

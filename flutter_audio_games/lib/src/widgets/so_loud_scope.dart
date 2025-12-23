@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-import 'package:http/http.dart';
+
+/// Provide a [sourceLoader] to anyone who needs it.
+class SoLoudScopeProvider extends InheritedWidget {
+  /// Create an instance.
+  const SoLoudScopeProvider({
+    required this.sourceLoader,
+    required super.child,
+    super.key,
+  });
+
+  /// The source loader to use.
+  final SourceLoader sourceLoader;
+
+  /// Ensure that [sourceLoader]s match.
+  @override
+  bool updateShouldNotify(final SoLoudScopeProvider oldWidget) =>
+      oldWidget.sourceLoader == sourceLoader;
+}
 
 /// Manage the life cycle of [SoLoud].
 ///
@@ -11,7 +28,6 @@ class SoLoudScope extends StatefulWidget {
   /// Create an instance.
   const SoLoudScope({
     required this.child,
-    this.httpClient,
     this.loggerName = 'SoLoudScope',
     this.device,
     this.automaticCleanup = false,
@@ -22,11 +38,11 @@ class SoLoudScope extends StatefulWidget {
   });
 
   /// Get the nearest state or `null`.
-  static SoLoudScopeState? maybeOf(final BuildContext context) =>
-      context.findAncestorStateOfType<SoLoudScopeState>();
+  static SoLoudScopeProvider? maybeOf(final BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<SoLoudScopeProvider>();
 
   /// Get the nearest state.
-  static SoLoudScopeState of(final BuildContext context) {
+  static SoLoudScopeProvider of(final BuildContext context) {
     final scope = maybeOf(context);
     if (scope == null) {
       throw StateError(
@@ -36,9 +52,6 @@ class SoLoudScope extends StatefulWidget {
     }
     return scope;
   }
-
-  /// The HTTP client to use when loading sounds from urls.
-  final Client? httpClient;
 
   /// The widget below this widget in the tree.
   final Widget child;
@@ -68,24 +81,6 @@ class SoLoudScope extends StatefulWidget {
 
 /// State for [SoLoudScope].
 class SoLoudScopeState extends State<SoLoudScope> {
-  /// Automatic cleanup.
-  bool get automaticCleanup => widget.automaticCleanup;
-
-  /// The buffer size to use.
-  int get bufferSize => widget.bufferSize;
-
-  /// The channels to use.
-  Channels get channels => widget.channels;
-
-  /// The playback device to use.
-  PlaybackDevice? get device => widget.device;
-
-  /// The sample rate to use.
-  int get sampleRate => widget.sampleRate;
-
-  /// The so loud instance to use.
-  SoLoud get soLoud => sourceLoader.soLoud;
-
   /// The source loader to use.
   late final SourceLoader sourceLoader;
 

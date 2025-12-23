@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
@@ -24,22 +26,22 @@ class PlaySound extends StatefulWidget {
 /// State for [PlaySound].
 class PlaySoundState extends State<PlaySound> {
   /// The sound handle to use.
-  SoundHandle? handle;
+  SoundHandle? _handle;
 
   /// Initialise state.
   @override
   void initState() {
     super.initState();
-    loadSound();
+    _loadSound();
   }
 
   /// Load the sound.
-  Future<void> loadSound() async {
+  Future<void> _loadSound() async {
     final h = await context.playSound(widget.sound);
     if (mounted) {
-      handle = h;
+      _handle = h;
     } else {
-      await h?.stop();
+      unawaited(h?.stop());
     }
   }
 
@@ -47,7 +49,7 @@ class PlaySoundState extends State<PlaySound> {
   @override
   void dispose() {
     super.dispose();
-    handle?.stop();
+    _handle?.stop();
   }
 
   /// Build a widget.

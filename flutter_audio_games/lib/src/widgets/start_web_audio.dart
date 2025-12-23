@@ -25,13 +25,13 @@ Widget buildStartWebAudioButton(
           onPressed: () async {
             final audio = SoLoud.instance;
             if (!audio.isInitialized) {
-              final scope = context.soLoudScope;
+              final sourceLoader = context.sourceLoader;
               await audio.init(
-                automaticCleanup: scope.automaticCleanup,
-                bufferSize: scope.bufferSize,
-                channels: scope.channels,
-                device: scope.device,
-                sampleRate: scope.sampleRate,
+                automaticCleanup: sourceLoader.automaticCleanup,
+                bufferSize: sourceLoader.bufferSize,
+                channels: sourceLoader.channels,
+                device: sourceLoader.playbackDevice,
+                sampleRate: sourceLoader.sampleRate,
               );
             }
             onDone();

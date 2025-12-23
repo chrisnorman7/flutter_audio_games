@@ -33,7 +33,7 @@ extension BuildContextX on BuildContext {
   SoLoud get soLoud => SoLoud.instance;
 
   /// Get a so loud scope state.
-  SoLoudScopeState get soLoudScope => SoLoudScope.of(this);
+  SoLoudScopeProvider get soLoudScope => SoLoudScope.of(this);
 
   /// Get the source loader attached to this context.
   SourceLoader get sourceLoader => soLoudScope.sourceLoader;

@@ -1,5 +1,4 @@
 import 'package:backstreets_widgets/typedefs.dart';
-import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
@@ -49,41 +48,59 @@ class AmbiancesBuilder extends StatefulWidget {
 
 /// State for [AmbiancesBuilder].
 class AmbiancesBuilderState extends State<AmbiancesBuilder> {
+  /// An error object.
+  Object? _error;
+
+  /// A stack trace.
+  StackTrace? _stackTrace;
+
+  /// Whether the ambiances have loaded yet.
+  late bool _loaded;
+
   /// The ambiance handles.
   late final List<SoundHandle> handles;
-
-  /// The future to use.
-  late final Future<void> _future;
 
   /// Initialise state.
   @override
   void initState() {
     super.initState();
     handles = [];
-    _future = loadAmbiances();
+    _loaded = false;
+    loadAmbiances();
   }
 
   /// Load the ambiances.
   Future<void> loadAmbiances() async {
-    for (final handle in handles) {
-      await handle.stop();
-    }
-    handles.clear();
-    final fadeInTime = widget.fadeInTime;
-    for (final ambiance in widget.ambiances) {
-      if (mounted) {
-        final handle = await context.playSound(
-          ambiance.copyWith(
-            volume: fadeInTime == null ? null : widget.fadeFrom,
-          ),
-        );
+    try {
+      for (final handle in handles) {
+        await handle.stop();
+      }
+      handles.clear();
+      final fadeInTime = widget.fadeInTime;
+      for (final ambiance in widget.ambiances) {
         if (mounted) {
-          handle.maybeFade(fadeTime: fadeInTime, to: ambiance.volume);
-          handles.add(handle);
-        } else {
-          await handle?.stop();
+          final handle = await context.playSound(
+            ambiance.copyWith(
+              volume: fadeInTime == null ? null : widget.fadeFrom,
+            ),
+          );
+          if (mounted) {
+            handle.maybeFade(fadeTime: fadeInTime, to: ambiance.volume);
+            handles.add(handle);
+          } else {
+            await handle?.stop();
+          }
         }
       }
+      setState(() {
+        _loaded = true;
+      });
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e, s) {
+      setState(() {
+        _error = e;
+        _stackTrace = s;
+      });
     }
   }
 
@@ -99,14 +116,14 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => SimpleFutureBuilder(
-    future: _future,
-    done: (final context, final value) => widget.builder(context, handles),
-    loading: widget.loading,
-    error: widget.error,
-    key: ValueKey(
-      // ignore: lines_longer_than_80_chars
-      'AmbiancesBuilder-${widget.ambiances.map((final a) => a.internalUri).join(',')}',
-    ),
-  );
+  Widget build(final BuildContext context) {
+    final error = _error;
+    if (error != null) {
+      return widget.error(error, _stackTrace);
+    }
+    if (_loaded) {
+      return widget.builder(context, handles);
+    }
+    return widget.loading();
+  }
 }

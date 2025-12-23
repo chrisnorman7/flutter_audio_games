@@ -1,5 +1,12 @@
 # Changes
 
+## 0.51.0
+
+- Stopped using `SimpleFutureBuilder`.
+- Updated `backstreets_widgets`.
+- Rename `Inherited*` to `*Provider`.
+- Make `SoLoudScope.maybeOf` return a `SoLoudScopeProvider`.
+
 ## 0.50.3
 
 - Upgraded `backstreets_widgets`.
