@@ -22,25 +22,35 @@ class ProtectSounds extends StatefulWidget {
 
 /// State for [ProtectSounds].
 class ProtectSoundsState extends State<ProtectSounds> {
+  /// Whether sounds have been protected.
+  late bool _protected;
+
   /// The source loader to use.
-  late final SourceLoader _sourceLoader;
+  late SourceLoader _sourceLoader;
 
   /// Initialise state.
   @override
   void initState() {
     super.initState();
-    _sourceLoader = context.sourceLoader;
-    widget.sounds.forEach(_sourceLoader.protectSound);
+    _protected = false;
   }
 
   /// Dispose of the widget.
   @override
   void dispose() {
     super.dispose();
-    widget.sounds.forEach(_sourceLoader.unprotectSound);
+    if (_protected) {
+      widget.sounds.forEach(_sourceLoader.unprotectSound);
+    }
   }
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => widget.child;
+  Widget build(final BuildContext context) {
+    _sourceLoader = context.sourceLoader;
+    if (!_protected) {
+      widget.sounds.forEach(_sourceLoader.protectSound);
+    }
+    return widget.child;
+  }
 }

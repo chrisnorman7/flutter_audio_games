@@ -31,6 +31,9 @@ class LoadSounds extends StatefulWidget {
 
 /// State for [LoadSounds].
 class LoadSoundsState extends State<LoadSounds> {
+  /// Whether sounds have started loading.
+  late bool _loading;
+
   /// Whether the sounds have been loaded.
   late bool _loaded;
 
@@ -45,7 +48,7 @@ class LoadSoundsState extends State<LoadSounds> {
   void initState() {
     super.initState();
     _loaded = false;
-    _loadSounds();
+    _loading = false;
   }
 
   /// Build the widget.
@@ -57,6 +60,10 @@ class LoadSoundsState extends State<LoadSounds> {
     } else if (_loaded) {
       return widget.child;
     } else {
+      if (!_loading) {
+        _loading = true;
+        _loadSounds();
+      }
       return widget.loading();
     }
   }

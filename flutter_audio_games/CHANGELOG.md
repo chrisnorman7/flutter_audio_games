@@ -1,5 +1,13 @@
 # Changes
 
+## 0.51.5
+
+- Upgraded `backstreets_widgets`.
+
+## 0.51.4
+
+- Fixed bugs in `initState` methods.
+
 ## 0.51.3
 
 - Don't load music from `initState`.
