@@ -6,6 +6,7 @@
 - Updated `backstreets_widgets`.
 - Rename `Inherited*` to `*Provider`.
 - Make `SoLoudScope.maybeOf` return a `SoLoudScopeProvider`.
+- Move directory sounds since they made ancient assumptions about sound file types and introduced another dependency.
 
 ## 0.50.3
 
