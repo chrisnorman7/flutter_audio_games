@@ -1,5 +1,13 @@
 # Changes
 
+## 0.51.2
+
+- Fix `SoLoudScope`.
+
+## 0.51.1
+
+- Fixed update logic.
+
 ## 0.51.0
 
 - Stopped using `SimpleFutureBuilder`.

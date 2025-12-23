@@ -17,7 +17,7 @@ class SoLoudScopeProvider extends InheritedWidget {
   /// Ensure that [sourceLoader]s match.
   @override
   bool updateShouldNotify(final SoLoudScopeProvider oldWidget) =>
-      oldWidget.sourceLoader == sourceLoader;
+      oldWidget.sourceLoader != sourceLoader;
 }
 
 /// Manage the life cycle of [SoLoud].
@@ -34,6 +34,7 @@ class SoLoudScope extends StatefulWidget {
     this.sampleRate = 44100,
     this.bufferSize = 2048,
     this.channels = Channels.stereo,
+    this.disposeSoLoud = true,
     super.key,
   });
 
@@ -74,6 +75,9 @@ class SoLoudScope extends StatefulWidget {
   /// Passed to [SoLoud.init].
   final Channels channels;
 
+  /// Whether so loud should be disposed when the widget is.
+  final bool disposeSoLoud;
+
   /// Create state for this widget.
   @override
   SoLoudScopeState createState() => SoLoudScopeState();
@@ -103,10 +107,13 @@ class SoLoudScopeState extends State<SoLoudScope> {
   void dispose() {
     super.dispose();
     sourceLoader.disposeUnusedSources();
-    sourceLoader.soLoud.deinit();
+    if (widget.disposeSoLoud && sourceLoader.soLoud.isInitialized) {
+      sourceLoader.soLoud.deinit();
+    }
   }
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => widget.child;
+  Widget build(final BuildContext context) =>
+      SoLoudScopeProvider(sourceLoader: sourceLoader, child: widget.child);
 }
