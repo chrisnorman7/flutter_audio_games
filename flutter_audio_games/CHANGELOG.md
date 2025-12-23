@@ -1,5 +1,9 @@
 # Changes
 
+## 0.51.3
+
+- Don't load music from `initState`.
+
 ## 0.51.2
 
 - Fix `SoLoudScope`.

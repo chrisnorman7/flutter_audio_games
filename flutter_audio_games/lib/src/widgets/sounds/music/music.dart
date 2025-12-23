@@ -81,6 +81,9 @@ class Music extends StatefulWidget {
 
 /// State for [Music].
 class MusicState extends State<Music> with WidgetsBindingObserver {
+  /// Whether the music has been loaded.
+  late bool _musicLoading;
+
   /// An error object.
   Object? _error;
 
@@ -88,21 +91,21 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
   StackTrace? _stackTrace;
 
   /// The playing sound.
-  SoundHandle? handle;
+  SoundHandle? _handle;
 
   /// Whether [fadeOut] has been used.
   late bool _faded;
 
-  /// Fade in [handle].
+  /// Fade in [_handle].
   void fadeIn() {
     _faded = false;
-    handle?.maybeFade(fadeTime: widget.fadeInTime, to: widget.sound.volume);
+    _handle?.maybeFade(fadeTime: widget.fadeInTime, to: widget.sound.volume);
   }
 
-  /// Fade out [handle].
+  /// Fade out [_handle].
   void fadeOut() {
     _faded = true;
-    handle?.maybeFade(fadeTime: widget.fadeOutTime, to: 0.0);
+    _handle?.maybeFade(fadeTime: widget.fadeOutTime, to: 0.0);
   }
 
   /// Load the music.
@@ -114,14 +117,14 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
       final h = await context.playSound(sound);
       if (mounted) {
         setState(() {
-          handle = h;
+          _handle = h;
         });
         if (widget.fadeInTime != null) {
           fadeIn();
         }
       } else {
         await h.stop();
-        handle = null;
+        _handle = null;
       }
       // ignore: avoid_catches_without_on_clauses
     } catch (e, s) {
@@ -136,20 +139,17 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    _musicLoading = false;
     _faded = false;
     WidgetsBinding.instance.addObserver(this);
-    _loadMusic();
   }
 
   /// Dispose of the widget.
   @override
   void dispose() {
     super.dispose();
-    final h = handle;
-    if (h != null) {
-      h.stop(fadeOutTime: widget.fadeOutTime);
-    }
-    handle = null;
+    _handle?.stop(fadeOutTime: widget.fadeOutTime);
+    _handle = null;
     WidgetsBinding.instance.removeObserver(this);
   }
 
@@ -158,9 +158,9 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(final AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
-      handle?.pause();
+      _handle?.pause();
     } else if (state == AppLifecycleState.resumed) {
-      handle?.unpause();
+      _handle?.unpause();
     }
   }
 
@@ -171,19 +171,23 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
     if (error != null) {
       return widget.error(error, _stackTrace);
     }
+    if (!_musicLoading) {
+      _musicLoading = true;
+      _loadMusic();
+    }
     final soLoud = context.soLoud;
-    final h = handle;
-    if (h == null) {
+    final handle = _handle;
+    if (handle == null) {
       return widget.loading();
     }
-    if (h != null && !_faded) {
-      h.volume.value = widget.sound.volume;
+    if (handle != null && !_faded) {
+      handle.volume.value = widget.sound.volume;
     }
     return MusicProvider(
       fadeIn: fadeIn,
       fadeOut: fadeOut,
       setPlaybackPosition: (final position) {
-        final h = handle;
+        final h = _handle;
         if (h != null) {
           soLoud.seek(h, position);
         }
