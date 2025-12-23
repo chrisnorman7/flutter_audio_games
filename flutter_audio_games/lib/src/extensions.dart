@@ -1,6 +1,5 @@
 export 'extensions/audio_source_x.dart';
 export 'extensions/build_context_x.dart';
-export 'extensions/directory_x.dart';
 export 'extensions/file_x.dart';
 export 'extensions/list_x.dart';
 export 'extensions/point_x.dart';
