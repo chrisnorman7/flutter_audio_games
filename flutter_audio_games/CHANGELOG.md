@@ -1,5 +1,9 @@
 # Changes
 
+## 0.51.6
+
+- Fixed an `initState` bug in `PlaySound`.
+
 ## 0.51.5
 
 - Upgraded `backstreets_widgets`.

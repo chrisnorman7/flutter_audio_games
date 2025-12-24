@@ -25,6 +25,9 @@ class PlaySound extends StatefulWidget {
 
 /// State for [PlaySound].
 class PlaySoundState extends State<PlaySound> {
+  /// Whether the sound handle has been loaded.
+  late bool _loaded;
+
   /// The sound handle to use.
   SoundHandle? _handle;
 
@@ -32,7 +35,7 @@ class PlaySoundState extends State<PlaySound> {
   @override
   void initState() {
     super.initState();
-    _loadSound();
+    _loaded = false;
   }
 
   /// Load the sound.
@@ -54,5 +57,10 @@ class PlaySoundState extends State<PlaySound> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => widget.child;
+  Widget build(final BuildContext context) {
+    if (!_loaded) {
+      _loadSound();
+    }
+    return widget.child;
+  }
 }
