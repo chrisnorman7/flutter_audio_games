@@ -1,5 +1,9 @@
 # Changes
 
+## 0.51.7
+
+- Prevent audio game menu select sounds from being triggered twice.
+
 ## 0.51.6
 
 - Fixed an `initState` bug in `PlaySound`.

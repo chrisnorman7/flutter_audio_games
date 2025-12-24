@@ -1,5 +1,6 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:backstreets_widgets/typedefs.dart';
+import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 
@@ -77,7 +78,7 @@ class AudioGameMenu extends StatelessWidget {
         body: MaybeMusic(
           music: musicSound,
           error: error,
-          loading: () => child,
+          loading: LoadingWidget.new,
           fadeInTime: musicFadeInTime,
           fadeOutTime: musicFadeOutTime,
           child: Builder(builder: (final context) => child),
