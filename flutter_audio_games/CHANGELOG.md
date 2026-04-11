@@ -1,5 +1,11 @@
 # Changes
 
+## 0.52.0
+
+- Added `BuildContext.loadAndPlaySound`.
+- Updated the play sound methods to allow for `SoLoud.play` not return a `Future` any more.
+- Updated `flutter_soloud`.
+
 ## 0.51.7
 
 - Prevent audio game menu select sounds from being triggered twice.

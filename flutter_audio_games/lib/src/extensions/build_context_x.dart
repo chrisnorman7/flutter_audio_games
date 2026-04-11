@@ -72,7 +72,7 @@ extension BuildContextX on BuildContext {
     final position = sound.position;
     switch (position) {
       case SoundPositionPanned():
-        handle = await soLoud.play(
+        handle = soLoud.play(
           source,
           looping: sound.looping,
           loopingStartAt: sound.loopingStart,
@@ -81,21 +81,19 @@ extension BuildContextX on BuildContext {
           volume: sound.volume,
         );
       case SoundPosition3d():
-        handle =
-            await soLoud.play3d(
-                source,
-                position.x,
-                position.y,
-                position.z,
-                looping: sound.looping,
-                loopingStartAt: sound.loopingStart,
-                paused: sound.paused,
-                volume: sound.volume,
-                velX: position.velX,
-                velY: position.velY,
-                velZ: position.velZ,
-              )
-              ..setMinMaxDistance(position.minDistance, position.maxDistance);
+        handle = soLoud.play3d(
+          source,
+          position.x,
+          position.y,
+          position.z,
+          looping: sound.looping,
+          loopingStartAt: sound.loopingStart,
+          paused: sound.paused,
+          volume: sound.volume,
+          velX: position.velX,
+          velY: position.velY,
+          velZ: position.velZ,
+        )..setMinMaxDistance(position.minDistance, position.maxDistance);
         handle.setInaudibleBehaviour(
           mustTick: position.tickWhenInaudible,
           kill: position.killWhenInaudible,
@@ -107,6 +105,16 @@ extension BuildContextX on BuildContext {
       handle.scheduleStop(length);
     }
     return handle;
+  }
+
+  /// Load and play [sound].
+  Future<LoadedSound> loadAndPlaySound(final Sound sound) async {
+    late final AudioSource source;
+    final handle = await playSound(
+      sound,
+      onSourceLoad: (final s) => source = s,
+    );
+    return LoadedSound(source: source, handle: handle);
   }
 
   /// Play [sound], if it is not `null`.
@@ -121,6 +129,5 @@ extension BuildContextX on BuildContext {
   }
 
   /// Convert [text] to speech via [soLoud].
-  Future<AudioSource> textToSpeech(final String text) =>
-      soLoud.speechText(text);
+  AudioSource textToSpeech(final String text) => soLoud.speechText(text);
 }
