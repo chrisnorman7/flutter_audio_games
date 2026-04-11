@@ -1,5 +1,9 @@
 # Changes
 
+## 0.52.1
+
+- Upgraded the SDK constraint.
+
 ## 0.52.0
 
 - Added `BuildContext.loadAndPlaySound`.
