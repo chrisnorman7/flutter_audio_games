@@ -6,10 +6,11 @@ class SoundWave extends Sound {
   /// Create an instance.
   const SoundWave({
     required this.waveForm,
-    required this.superWave,
-    required this.scale,
-    required this.detune,
     required super.destroy,
+    this.superWave = false,
+    this.scale = 0.0,
+    this.detune = 0.0,
+    this.frequency = 440.0,
     super.looping,
     super.volume,
     super.loopingStart,
@@ -29,6 +30,9 @@ class SoundWave extends Sound {
 
   /// The detune to use.
   final double detune;
+
+  /// The frequency of the new wave.
+  final double frequency;
 
   /// Copy this instance.
   @override
@@ -64,6 +68,14 @@ class SoundWave extends Sound {
 
   /// Create an audio source.
   @override
-  Future<AudioSource> load() =>
-      SoLoud.instance.loadWaveform(waveForm, superWave, scale, detune);
+  Future<AudioSource> load() async {
+    final source = await SoLoud.instance.loadWaveform(
+      waveForm,
+      superWave,
+      scale,
+      detune,
+    );
+    SoLoud.instance.setWaveformFreq(source, frequency);
+    return source;
+  }
 }

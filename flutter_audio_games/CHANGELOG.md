@@ -1,5 +1,10 @@
 # Changes
 
+## 0.53.0
+
+- Added a `frequency` argument to `SoundWave`.
+- Provided more sensible defaults to the `SoundWave` constructor.
+
 ## 0.52.1
 
 - Upgraded the SDK constraint.
