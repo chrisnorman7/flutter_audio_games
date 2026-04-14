@@ -6,7 +6,7 @@ final class MidiNotes {
   const MidiNotes._();
 
   /// Returns a set of all defined MidiNote constants.
-  static Set<MidiNote> get notes => const {
+  static Set<MidiNote> get notes => {
     c0,
     c0Sharp,
     d0,

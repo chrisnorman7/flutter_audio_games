@@ -36,4 +36,17 @@ class MidiNote {
     final noteName = noteNames[note % 12];
     return '$noteName$octave';
   }
+
+  /// Return the hash code.
+  @override
+  int get hashCode => Object.hash(referencePitch, frequency);
+
+  /// See if [other] matches `this`.
+  @override
+  bool operator ==(Object other) {
+    if (other is MidiNote) {
+      return other.referencePitch == referencePitch && other.note == note;
+    }
+    return super == other;
+  }
 }
