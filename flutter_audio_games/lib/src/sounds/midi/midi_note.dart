@@ -3,15 +3,18 @@ import 'dart:math';
 /// A single MIDI note.
 class MidiNote {
   /// Create an instance.
-  const MidiNote(this.note);
+  const MidiNote(this.note, {this.referencePitch = 440});
 
   /// The note value.
   ///
   /// For example: 60 is c4, 61 is c#4, 62 is d4, etc.
   final int note;
 
+  /// The reference pitch for generating the [frequency] from the [note].
+  final double referencePitch;
+
   /// The frequency of this note.
-  double get frequency => 440.0 * pow(2.0, (note - 69) / 12);
+  double get frequency => referencePitch * pow(2.0, (note - 69) / 12);
 
   /// The name of this note.
   String get name {
