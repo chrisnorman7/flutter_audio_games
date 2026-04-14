@@ -1,5 +1,10 @@
 # Changes
 
+## 0.55.0
+
+- Removed unnecessary parameters from `SoundWave`.
+- Made `SoundWave.internalUri` include `SoundWave.frequency`.
+
 ## 0.54.0
 
 - Upgraded dependencies.

@@ -6,36 +6,32 @@ class SoundWave extends Sound {
   /// Create an instance.
   const SoundWave({
     this.waveForm = WaveForm.sin,
-    super.destroy = false,
     this.superWave = false,
     this.scale = 0.0,
     this.detune = 0.0,
     this.frequency = 440.0,
-    super.looping,
     super.volume,
-    super.loopingStart,
     super.paused,
     super.position,
     super.relativePlaySpeed,
-  });
+  }) : super(destroy: false, looping: true);
 
   /// Create an instance from a [midiNote].
   ///
   /// For example: 60 is middle C, 61 is C#, 62 is D, etc.
-  SoundWave.romMidiNote({
+  SoundWave.fromMidiNote({
     required final MidiNote midiNote,
     this.waveForm = WaveForm.sin,
-    super.destroy = false,
     this.superWave = false,
     this.scale = 0.0,
     this.detune = 0.0,
-    super.looping,
     super.volume,
     super.loopingStart,
     super.paused,
     super.position,
     super.relativePlaySpeed,
-  }) : frequency = midiNote.frequency;
+  }) : frequency = midiNote.frequency,
+       super(destroy: false, looping: true);
 
   /// The type of wave to create.
   final WaveForm waveForm;
@@ -71,10 +67,7 @@ class SoundWave extends Sound {
     superWave: superWave ?? this.superWave,
     scale: scale ?? this.scale,
     detune: detune ?? this.detune,
-    destroy: destroy ?? this.destroy,
     volume: volume ?? this.volume,
-    looping: looping ?? this.looping,
-    loopingStart: loopingStart ?? this.loopingStart,
     position: position ?? this.position,
     paused: paused ?? this.paused,
     relativePlaySpeed: relativePlaySpeed ?? this.relativePlaySpeed,
@@ -82,7 +75,8 @@ class SoundWave extends Sound {
 
   /// Return a string representation of this wave.
   @override
-  String get internalUri => '${waveForm.name}:$superWave:$scale:$detune';
+  String get internalUri =>
+      '${waveForm.name}:$superWave:$scale:$detune:$frequency';
 
   /// Create an audio source.
   @override
