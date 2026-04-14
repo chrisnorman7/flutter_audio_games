@@ -20,6 +20,7 @@ export 'src/extensions.dart';
 export 'src/maths.dart';
 export 'src/moving_direction.dart';
 export 'src/sounds/loaded_sound.dart';
+export 'src/sounds/midi_notes.dart';
 export 'src/sounds/sound_handle_property.dart';
 export 'src/sounds/sound_position.dart';
 export 'src/sounds/sound_types.dart';

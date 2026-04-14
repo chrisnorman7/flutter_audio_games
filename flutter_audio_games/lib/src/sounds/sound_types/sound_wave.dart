@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
@@ -5,8 +7,8 @@ import 'package:flutter_soloud/flutter_soloud.dart';
 class SoundWave extends Sound {
   /// Create an instance.
   const SoundWave({
-    required this.waveForm,
-    required super.destroy,
+    this.waveForm = WaveForm.sin,
+    super.destroy = false,
     this.superWave = false,
     this.scale = 0.0,
     this.detune = 0.0,
@@ -18,6 +20,24 @@ class SoundWave extends Sound {
     super.position,
     super.relativePlaySpeed,
   });
+
+  /// Create an instance from a [midiNote].
+  ///
+  /// For example: 60 is middle C, 61 is C#, 62 is D, etc.
+  SoundWave.romMidiNote({
+    required final int midiNote,
+    this.waveForm = WaveForm.sin,
+    super.destroy = false,
+    this.superWave = false,
+    this.scale = 0.0,
+    this.detune = 0.0,
+    super.looping,
+    super.volume,
+    super.loopingStart,
+    super.paused,
+    super.position,
+    super.relativePlaySpeed,
+  }) : frequency = 440.0 * pow(2, (midiNote - 69) / 12.0);
 
   /// The type of wave to create.
   final WaveForm waveForm;
