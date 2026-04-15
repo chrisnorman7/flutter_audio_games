@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.12.0-210.2.beta
+  sdk: ^3.11.4
 
 dependencies:
   backstreets_widgets: ^0.42.0
