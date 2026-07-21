@@ -6,11 +6,9 @@ class SoundHandleProperty<T> {
   const SoundHandleProperty({
     required this.getValue,
     required this.setValue,
-    required final void Function(T to, Duration time) fade,
-    required final void Function(double from, double to, Duration time)
-    oscillate,
-  }) : _fade = fade,
-       _oscillate = oscillate;
+    required this._fade,
+    required this._oscillate,
+  });
 
   /// The function to call to get [value].
   final T Function() getValue;
