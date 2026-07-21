@@ -64,10 +64,7 @@ extension BuildContextX on BuildContext {
   }
 
   /// Play [sound] from [source].
-  Future<SoundHandle> playSoundSource(
-    final Sound sound,
-    final AudioSource source,
-  ) async {
+  SoundHandle playSoundSource(final Sound sound, final AudioSource source) {
     final SoundHandle handle;
     final position = sound.position;
     switch (position) {
@@ -100,21 +97,14 @@ extension BuildContextX on BuildContext {
         );
     }
     handle.relativePlaySpeed.value = sound.relativePlaySpeed;
-    if (sound.destroy) {
-      final length = source.length;
-      handle.scheduleStop(length);
-    }
     return handle;
   }
 
   /// Load and play [sound].
   Future<LoadedSound> loadAndPlaySound(final Sound sound) async {
     late final AudioSource source;
-    final handle = await playSound(
-      sound,
-      onSourceLoad: (final s) => source = s,
-    );
-    return LoadedSound(source: source, handle: handle);
+    final handle = playSound(sound, onSourceLoad: (final s) => source = s);
+    return LoadedSound(source: source, handle: await handle);
   }
 
   /// Play [sound], if it is not `null`.
