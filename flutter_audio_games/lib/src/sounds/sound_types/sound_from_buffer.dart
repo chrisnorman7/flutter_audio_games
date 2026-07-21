@@ -56,6 +56,10 @@ class SoundFromBuffer extends LoadableSound {
 
   /// Load the [buffer].
   @override
-  Future<AudioSource> load() =>
-      SoLoud.instance.loadMem(path, buffer, mode: loadMode);
+  Future<AudioSource> load() => SoLoud.instance.loadMem(
+    path,
+    buffer,
+    mode: loadMode,
+    autoDispose: destroy,
+  );
 }

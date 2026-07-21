@@ -52,5 +52,5 @@ class SoundFromFile extends LoadableSound {
   /// Load [file].
   @override
   Future<AudioSource> load() =>
-      SoLoud.instance.loadFile(file.path, mode: loadMode);
+      SoLoud.instance.loadFile(file.path, mode: loadMode, autoDispose: destroy);
 }

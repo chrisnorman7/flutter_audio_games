@@ -39,6 +39,7 @@ class SoundFromAssetSpan extends SoundFromAsset {
       internalUri,
       buffer.buffer.asUint8List(offset, length),
       mode: loadMode,
+      autoDispose: destroy,
     );
   }
 

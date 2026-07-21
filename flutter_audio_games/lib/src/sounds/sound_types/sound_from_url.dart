@@ -55,6 +55,10 @@ class SoundFromUrl extends LoadableSound {
 
   /// Load [url].
   @override
-  Future<AudioSource> load() =>
-      SoLoud.instance.loadUrl(url, httpClient: client, mode: loadMode);
+  Future<AudioSource> load() => SoLoud.instance.loadUrl(
+    url,
+    httpClient: client,
+    mode: loadMode,
+    autoDispose: destroy,
+  );
 }

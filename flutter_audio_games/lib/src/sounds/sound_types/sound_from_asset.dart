@@ -60,5 +60,6 @@ class SoundFromAsset extends LoadableSound {
     assetKey,
     assetBundle: assetBundle,
     mode: loadMode,
+    autoDispose: destroy,
   );
 }
