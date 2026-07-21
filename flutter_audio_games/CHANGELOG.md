@@ -1,5 +1,12 @@
 # Changes
 
+## 0.56.0
+
+- Updated `flutter_soloud`.
+- Upgraded both the SDK constraint and the minimum Flutter version.
+- Made `BuildContext.playSoundSource` synchronous.
+- Start using `Sound.destroy` when creating sound sources.
+
 ## 0.55.0
 
 - Removed unnecessary parameters from `SoundWave`.
