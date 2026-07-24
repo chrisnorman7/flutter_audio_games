@@ -1,5 +1,9 @@
 # Changes
 
+## 0.57.0
+
+- Expose `PlaySoundSemanticsState.handle`.
+
 ## 0.56.0
 
 - Updated `flutter_soloud`.
