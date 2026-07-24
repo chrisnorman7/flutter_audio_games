@@ -54,8 +54,10 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   /// The current state of the player.
   late _PossibleStates _state;
 
+  SoundHandle? _handle;
+
   /// The sound handle to use.
-  SoundHandle? handle;
+  SoundHandle? get handle => _handle;
 
   /// Initialise state.
   @override
@@ -113,7 +115,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
     _state = _PossibleStates.loading;
     final h = await context.playSound(widget.sound);
     if (mounted) {
-      handle = h;
+      _handle = h;
       _state = _PossibleStates.playing;
       await context.findAncestorStateOfType<PlaySoundSemanticsState>()?._play();
     } else {
@@ -127,10 +129,10 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   /// If [recurse] is `true`, then this method will attempt to go up the tree
   /// and call [_stop] on the next [PlaySoundSemanticsState] instance.
   Future<void> _stop({final bool recurse = true}) async {
-    final h = handle;
+    final h = _handle;
     if (h != null) {
       _state = _PossibleStates.nothing;
-      handle = null;
+      _handle = null;
       await h.stop();
     }
     if (recurse && mounted) {
