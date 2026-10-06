@@ -20,7 +20,7 @@ class SoundWave extends Sound {
   ///
   /// For example: 60 is middle C, 61 is C#, 62 is D, etc.
   SoundWave.fromMidiNote({
-    required final MidiNote midiNote,
+    required MidiNote midiNote,
     this.waveForm = WaveForm.sin,
     this.superWave = false,
     this.scale = 0.0,
@@ -51,17 +51,17 @@ class SoundWave extends Sound {
   /// Copy this instance.
   @override
   SoundWave copyWith({
-    final WaveForm? waveForm,
-    final bool? superWave,
-    final double? scale,
-    final double? detune,
-    final bool? destroy,
-    final double? volume,
-    final bool? looping,
-    final Duration? loopingStart,
-    final SoundPosition? position,
-    final bool? paused,
-    final double? relativePlaySpeed,
+    WaveForm? waveForm,
+    bool? superWave,
+    double? scale,
+    double? detune,
+    bool? destroy,
+    double? volume,
+    bool? looping,
+    Duration? loopingStart,
+    SoundPosition? position,
+    bool? paused,
+    double? relativePlaySpeed,
   }) => SoundWave(
     waveForm: waveForm ?? this.waveForm,
     superWave: superWave ?? this.superWave,

@@ -22,15 +22,15 @@ class AssetSpan {
 
   /// Convert this instance to a sound.
   SoundFromAssetSpan asSound({
-    required final bool destroy,
-    final double volume = 0.7,
-    final AssetBundle? assetBundle,
-    final bool looping = false,
-    final LoadMode loadMode = LoadMode.memory,
-    final Duration loopingStart = Duration.zero,
-    final bool paused = false,
-    final SoundPosition position = unpanned,
-    final double relativePlaySpeed = 1.0,
+    required bool destroy,
+    double volume = 0.7,
+    AssetBundle? assetBundle,
+    bool looping = false,
+    LoadMode loadMode = LoadMode.memory,
+    Duration loopingStart = Duration.zero,
+    bool paused = false,
+    SoundPosition position = unpanned,
+    double relativePlaySpeed = 1.0,
   }) => SoundFromAssetSpan(
     assetKey: assetKey,
     offset: offset,

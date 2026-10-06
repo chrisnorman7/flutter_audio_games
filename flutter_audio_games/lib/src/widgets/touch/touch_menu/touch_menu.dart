@@ -142,9 +142,10 @@ class TouchMenuState extends State<TouchMenu> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
-    final texts =
-        widget.menuItems.map((final menuItem) => Text(menuItem.title)).toList();
+  Widget build(BuildContext context) {
+    final texts = widget.menuItems
+        .map((menuItem) => Text(menuItem.title))
+        .toList();
     final musicSound = widget.music;
     final child = GameShortcuts(
       shortcuts: [
@@ -157,12 +158,12 @@ class TouchMenuState extends State<TouchMenu> {
         GameShortcut(
           title: 'Move up in the menu',
           shortcut: widget.upShortcut,
-          onStart: (final innerContext) => moveUp(),
+          onStart: (innerContext) => moveUp(),
         ),
         GameShortcut(
           title: 'Move down in the menu',
           shortcut: widget.downShortcut,
-          onStart: (final innerContext) => moveDown(),
+          onStart: (innerContext) => moveDown(),
         ),
         GameShortcut(
           title: 'Activate the current menu item',
@@ -177,7 +178,7 @@ class TouchMenuState extends State<TouchMenu> {
       ],
       child: Material(
         child: OrientationBuilder(
-          builder: (final orientationContext, final orientation) {
+          builder: (orientationContext, orientation) {
             final size = MediaQuery.of(orientationContext).size;
             final ruler = size.longestSide;
             return Semantics(
@@ -200,7 +201,7 @@ class TouchMenuState extends State<TouchMenu> {
                   },
                   TouchMenuArea(
                     onDoubleTap: () => activateItem(orientationContext),
-                    onPan: (final point) {
+                    onPan: (point) {
                       final double coordinate;
                       switch (orientation) {
                         case Orientation.portrait:
@@ -209,8 +210,8 @@ class TouchMenuState extends State<TouchMenu> {
                           coordinate = point.x;
                       }
                       final scale = coordinate / ruler;
-                      final index =
-                          (scale * (widget.menuItems.length - 1)).round();
+                      final index = (scale * (widget.menuItems.length - 1))
+                          .round();
                       setCurrentMenuItem(index);
                     },
                   ),
@@ -222,25 +223,24 @@ class TouchMenuState extends State<TouchMenu> {
       ),
     );
     return ProtectSounds(
-      sounds:
-          [
-            ...widget.menuItems.map((final menuItem) => menuItem.earcon),
-            widget.selectItemSound,
-            widget.activateItemSound,
-          ].whereType<Sound>().toList(),
+      sounds: [
+        ...widget.menuItems.map((menuItem) => menuItem.earcon),
+        widget.selectItemSound,
+        widget.activateItemSound,
+      ].whereType<Sound>().toList(),
       child: MaybeMusic(
         music: musicSound,
         fadeInTime: widget.musicFadeInTime,
         fadeOutTime: widget.musicFadeOutTime,
         error: widget.error,
         loading: () => child,
-        child: Builder(builder: (final context) => child),
+        child: Builder(builder: (context) => child),
       ),
     );
   }
 
   /// Activate the current menu item.
-  void activateItem(final BuildContext innerContext) {
+  void activateItem(BuildContext innerContext) {
     if (menuItemIndex < 0) {
       return;
     }
@@ -250,7 +250,7 @@ class TouchMenuState extends State<TouchMenu> {
   }
 
   /// Change the current menu item.
-  Future<void> setCurrentMenuItem(final int index) async {
+  Future<void> setCurrentMenuItem(int index) async {
     if (index != menuItemIndex) {
       stopSounds();
       menuItemIndex = index;

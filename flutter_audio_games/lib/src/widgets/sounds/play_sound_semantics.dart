@@ -75,12 +75,12 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => FocusableActionDetector(
+  Widget build(BuildContext context) => FocusableActionDetector(
     enabled: false,
     autofocus: widget.autofocus,
     descendantsAreFocusable: widget.descendantsAreFocusable,
     descendantsAreTraversable: widget.descendantsAreTraversable,
-    onFocusChange: (final value) {
+    onFocusChange: (value) {
       if (value) {
         _restart();
       } else {
@@ -89,13 +89,13 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
     },
     child: MouseRegion(
       child: widget.child,
-      onEnter: (final _) {
+      onEnter: (_) {
         if (_state == _PossibleStates.nothing ||
             _state == _PossibleStates.playing) {
           _restart();
         }
       },
-      onExit: (final _) {
+      onExit: (_) {
         _stop();
       },
     ),
@@ -128,7 +128,7 @@ class PlaySoundSemanticsState extends State<PlaySoundSemantics> {
   ///
   /// If [recurse] is `true`, then this method will attempt to go up the tree
   /// and call [_stop] on the next [PlaySoundSemanticsState] instance.
-  Future<void> _stop({final bool recurse = true}) async {
+  Future<void> _stop({bool recurse = true}) async {
     final h = _handle;
     if (h != null) {
       _state = _PossibleStates.nothing;

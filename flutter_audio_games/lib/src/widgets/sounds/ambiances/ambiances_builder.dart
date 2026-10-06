@@ -116,7 +116,7 @@ class AmbiancesBuilderState extends State<AmbiancesBuilder> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final error = _error;
     if (error != null) {
       return widget.error(error, _stackTrace);

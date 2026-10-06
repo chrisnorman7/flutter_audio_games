@@ -46,7 +46,7 @@ class ProtectSoundsState extends State<ProtectSounds> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     _sourceLoader = context.sourceLoader;
     if (!_protected) {
       widget.sounds.forEach(_sourceLoader.protectSound);

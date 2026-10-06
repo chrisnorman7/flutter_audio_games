@@ -15,14 +15,14 @@ class _TestWidget extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     getSourceLoader(SoLoudScope.maybeOf(context)?.sourceLoader);
     return Text(data);
   }
 }
 
 void main() {
-  testWidgets('SoLoudScope', (final tester) async {
+  testWidgets('SoLoudScope', (tester) async {
     SourceLoader? loader;
     const data = 'Hello, world.';
     await tester.pumpWidget(
@@ -33,7 +33,7 @@ void main() {
             title: 'Testing',
             body: _TestWidget(
               data: data,
-              getSourceLoader: (final value) => loader = value,
+              getSourceLoader: (value) => loader = value,
             ),
           ),
         ),

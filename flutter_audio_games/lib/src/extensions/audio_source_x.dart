@@ -14,27 +14,27 @@ extension AudioSourceX on AudioSource {
   Duration get length => SoLoud.instance.getLength(this);
 
   /// Set the waveform for this source.
-  set waveform(final WaveForm newWaveform) =>
+  set waveform(WaveForm newWaveform) =>
       SoLoud.instance.setWaveform(this, newWaveform);
 
   /// Set the waveform detune for this sound.
-  set waveformDetune(final double detune) =>
+  set waveformDetune(double detune) =>
       SoLoud.instance.setWaveformDetune(this, detune);
 
   /// Set the waveform frequency.
-  set waveformFreq(final double frequency) =>
+  set waveformFreq(double frequency) =>
       SoLoud.instance.setWaveformFreq(this, frequency);
 
   /// Set the waveform scale.
-  set waveformScale(final double scale) =>
+  set waveformScale(double scale) =>
       SoLoud.instance.setWaveformScale(this, scale);
 
   /// Set whether this source represents a super wave.
-  set superwave(final bool superwave) =>
+  set superwave(bool superwave) =>
       SoLoud.instance.setWaveformSuperWave(this, superwave);
 
   /// Add PCM audio data to the stream.
-  void addAudioDataStream(final Uint8List audioChunk) =>
+  void addAudioDataStream(Uint8List audioChunk) =>
       SoLoud.instance.addAudioDataStream(this, audioChunk);
 
   /// Get the current buffer size in bytes of this sound.

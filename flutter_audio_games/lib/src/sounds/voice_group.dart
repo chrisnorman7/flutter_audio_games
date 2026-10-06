@@ -12,7 +12,7 @@ class VoiceGroup {
   SoLoud get soLoud => SoLoud.instance;
 
   /// Add [voiceHandles] to this voice group.
-  void addVoices(final List<SoundHandle> voiceHandles) =>
+  void addVoices(List<SoundHandle> voiceHandles) =>
       soLoud.addVoicesToGroup(handle, voiceHandles);
 
   /// Destroy this voice group.

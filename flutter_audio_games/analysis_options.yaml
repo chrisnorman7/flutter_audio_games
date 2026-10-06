@@ -4,10 +4,9 @@ analyzer:
     strict-casts: true
     strict-inference: true
     strict-raw-types: true
-  plugins:
-    - custom_lint
   exclude:
     - lib/src/json/**.g.dart
+    - build/**
 linter:
   rules:
     - always_declare_return_types
@@ -23,7 +22,6 @@ linter:
     - avoid_field_initializers_in_const_classes
     - avoid_init_to_null
     - avoid_positional_boolean_parameters
-    - avoid_private_typedef_functions
     - avoid_print
     - avoid_redundant_argument_values
     - avoid_relative_lib_imports
@@ -68,8 +66,6 @@ linter:
     - non_constant_identifier_names
     - noop_primitive_operations
     - null_check_on_nullable_type_parameter
-    - one_member_abstracts
-    - only_throw_errors
     - omit_local_variable_types
     - overridden_fields
     - package_names
@@ -115,7 +111,6 @@ linter:
     - tighten_type_of_initializing_formals
     - type_annotate_public_apis
     - unawaited_futures
-    - unnecessary_await_in_return
     - unnecessary_constructor_name
     - unnecessary_lambdas
     - unnecessary_late

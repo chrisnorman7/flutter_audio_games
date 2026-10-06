@@ -27,16 +27,16 @@ class SoundFromBuffer extends LoadableSound {
 
   @override
   SoundFromBuffer copyWith({
-    final String? path,
-    final Uint8List? buffer,
-    final LoadMode? loadMode,
-    final bool? destroy,
-    final double? volume,
-    final bool? looping,
-    final Duration? loopingStart,
-    final SoundPosition? position,
-    final bool? paused,
-    final double? relativePlaySpeed,
+    String? path,
+    Uint8List? buffer,
+    LoadMode? loadMode,
+    bool? destroy,
+    double? volume,
+    bool? looping,
+    Duration? loopingStart,
+    SoundPosition? position,
+    bool? paused,
+    double? relativePlaySpeed,
   }) => SoundFromBuffer(
     path: path ?? this.path,
     buffer: buffer ?? this.buffer,

@@ -57,7 +57,7 @@ class PlaySoundState extends State<PlaySound> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     if (!_loaded) {
       _loadSound();
     }

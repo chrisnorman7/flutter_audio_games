@@ -30,7 +30,7 @@ class MusicProvider extends InheritedWidget {
 
   /// Whether to notify listeners.
   @override
-  bool updateShouldNotify(final MusicProvider oldWidget) =>
+  bool updateShouldNotify(MusicProvider oldWidget) =>
       fadeIn != oldWidget.fadeIn ||
       fadeOut != oldWidget.fadeOut ||
       setPlaybackPosition != oldWidget.setPlaybackPosition;
@@ -50,11 +50,11 @@ class Music extends StatefulWidget {
   });
 
   /// Possibly return an instance from higher up the widget tree.
-  static MusicProvider? maybeOf(final BuildContext context) =>
+  static MusicProvider? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<MusicProvider>();
 
   /// Return an instance from higher up the widget tree.
-  static MusicProvider of(final BuildContext context) => maybeOf(context)!;
+  static MusicProvider of(BuildContext context) => maybeOf(context)!;
 
   /// The loaded sound.
   final Sound sound;
@@ -155,7 +155,7 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
 
   /// Pause and resume music.
   @override
-  void didChangeAppLifecycleState(final AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.paused) {
       _handle?.pause();
@@ -166,7 +166,7 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final error = _error;
     if (error != null) {
       return widget.error(error, _stackTrace);
@@ -186,7 +186,7 @@ class MusicState extends State<Music> with WidgetsBindingObserver {
     return MusicProvider(
       fadeIn: fadeIn,
       fadeOut: fadeOut,
-      setPlaybackPosition: (final position) {
+      setPlaybackPosition: (position) {
         final h = _handle;
         if (h != null) {
           soLoud.seek(h, position);

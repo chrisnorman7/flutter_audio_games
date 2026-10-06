@@ -57,9 +57,9 @@ class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) => FocusableActionDetector(
+  Widget build(BuildContext context) => FocusableActionDetector(
     enabled: false,
-    onFocusChange: (final value) {
+    onFocusChange: (value) {
       if (value && !_playing) {
         _playing = true;
         _restart();
@@ -70,13 +70,13 @@ class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
     },
     child: MouseRegion(
       child: widget.child,
-      onEnter: (final _) {
+      onEnter: (_) {
         if (!_playing) {
           _playing = true;
           _restart();
         }
       },
-      onExit: (final _) {
+      onExit: (_) {
         if (_playing) {
           _playing = false;
           _stop();
@@ -87,7 +87,7 @@ class PlaySoundsSemanticsState extends State<PlaySoundsSemantics> {
 
   void _restart() {
     _timer?.cancel();
-    _timer = Timer.periodic(widget.interval, (final timer) async {
+    _timer = Timer.periodic(widget.interval, (timer) async {
       final handle = await context.playRandomSound(widget.sounds);
       await _soundHandle?.stop();
       _soundHandle = handle;

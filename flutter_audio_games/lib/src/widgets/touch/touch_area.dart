@@ -31,7 +31,7 @@ class TouchArea extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => Expanded(
+  Widget build(BuildContext context) => Expanded(
     child: Semantics(
       excludeSemantics: true,
       inMutuallyExclusiveGroup: true,
@@ -39,8 +39,8 @@ class TouchArea extends StatelessWidget {
       child: Stack(
         children: [
           GestureDetector(
-            onPanDown: (final details) => onTouch.call(TouchAreaEvent.touch),
-            onPanEnd: (final details) => onTouch.call(TouchAreaEvent.release),
+            onPanDown: (details) => onTouch.call(TouchAreaEvent.touch),
+            onPanEnd: (details) => onTouch.call(TouchAreaEvent.release),
           ),
           IgnorePointer(child: child ?? Text(description)),
         ],

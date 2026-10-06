@@ -9,15 +9,15 @@ extension StringX on String {
   /// If you want to turn a [List] of [String]s into a [List] of
   /// [SoundFromAsset]s, use the [ListStringX.asSoundList] method.
   SoundFromAsset asSound({
-    required final bool destroy,
-    final AssetBundle? assetBundle,
-    final LoadMode loadMode = LoadMode.memory,
-    final double volume = 0.7,
-    final bool looping = false,
-    final Duration loopingStart = Duration.zero,
-    final SoundPosition position = unpanned,
-    final bool paused = false,
-    final double relativePlaySpeed = 1.0,
+    required bool destroy,
+    AssetBundle? assetBundle,
+    LoadMode loadMode = LoadMode.memory,
+    double volume = 0.7,
+    bool looping = false,
+    Duration loopingStart = Duration.zero,
+    SoundPosition position = unpanned,
+    bool paused = false,
+    double relativePlaySpeed = 1.0,
   }) => SoundFromAsset(
     assetKey: this,
     destroy: destroy,

@@ -29,16 +29,15 @@ class AudioGameMenuListView extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => ProtectSounds(
+  Widget build(BuildContext context) => ProtectSounds(
     sounds: [selectItemSound, activateItemSound].whereType<Sound>().toList(),
     child: ListView.builder(
-      itemBuilder:
-          (final context, final index) => AudioGameMenuItemListTile(
-            menuItem: menuItems[index],
-            selectSound: selectItemSound,
-            activateSound: activateItemSound,
-            autofocus: index == 0,
-          ),
+      itemBuilder: (context, index) => AudioGameMenuItemListTile(
+        menuItem: menuItems[index],
+        selectSound: selectItemSound,
+        activateSound: activateItemSound,
+        autofocus: index == 0,
+      ),
       itemCount: menuItems.length,
       shrinkWrap: true,
     ),

@@ -36,7 +36,7 @@ class TouchSurfaceBuilder extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => GameShortcuts(
+  Widget build(BuildContext context) => GameShortcuts(
     shortcuts: [
       for (final commandList in commands) ...commandList,
       ...extraShortcuts,
@@ -58,7 +58,7 @@ class TouchSurfaceBuilder extends StatelessWidget {
                   for (final command in row)
                     TouchArea(
                       description: command.title,
-                      onTouch: (final event) {
+                      onTouch: (event) {
                         switch (event) {
                           case TouchAreaEvent.touch:
                             command.onStart?.call(context);

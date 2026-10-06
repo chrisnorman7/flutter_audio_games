@@ -64,7 +64,7 @@ class AudioGameMenu extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final musicSound = music;
     final child = AudioGameMenuListView(
       menuItems: menuItems,
@@ -81,7 +81,7 @@ class AudioGameMenu extends StatelessWidget {
           loading: LoadingWidget.new,
           fadeInTime: musicFadeInTime,
           fadeOutTime: musicFadeOutTime,
-          child: Builder(builder: (final context) => child),
+          child: Builder(builder: (context) => child),
         ),
       ),
     );

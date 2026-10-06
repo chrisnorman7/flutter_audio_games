@@ -45,20 +45,17 @@ class TouchSurface extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => GameShortcuts(
-    shortcuts:
-        areaShortcuts.entries.map((final entry) {
-          final shortcut = entry.key;
-          final point = entry.value;
-          return GameShortcut(
-            title: areaDescriptions[point] ?? '${point.x}, ${point.y}',
-            shortcut: shortcut,
-            onStart:
-                (final innerContext) => onTouch(point, TouchAreaEvent.touch),
-            onStop:
-                (final innerContext) => onTouch(point, TouchAreaEvent.release),
-          );
-        }).toList(),
+  Widget build(BuildContext context) => GameShortcuts(
+    shortcuts: areaShortcuts.entries.map((entry) {
+      final shortcut = entry.key;
+      final point = entry.value;
+      return GameShortcut(
+        title: areaDescriptions[point] ?? '${point.x}, ${point.y}',
+        shortcut: shortcut,
+        onStart: (innerContext) => onTouch(point, TouchAreaEvent.touch),
+        onStop: (innerContext) => onTouch(point, TouchAreaEvent.release),
+      );
+    }).toList(),
     child: PopScope(
       canPop: canPop,
       child: Material(
@@ -73,7 +70,7 @@ class TouchSurface extends StatelessWidget {
                     for (var x = 0; x < columns; x++)
                       TouchArea(
                         description: areaDescriptions[Point(x, y)] ?? '$x, $y',
-                        onTouch: (final event) {
+                        onTouch: (event) {
                           final point = Point(x, y);
                           onTouch(point, event);
                         },

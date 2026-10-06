@@ -6,7 +6,7 @@ import 'package:logging/logging.dart';
 class SourceLoader {
   /// Create an instance.
   SourceLoader({
-    final String loggerName = 'SourceLoader',
+    String loggerName = 'SourceLoader',
     this.playbackDevice,
     this.automaticCleanup = false,
     this.sampleRate = 44100,
@@ -48,7 +48,7 @@ class SourceLoader {
   SoLoud get soLoud => SoLoud.instance;
 
   /// Load [sound] into memory.
-  Future<AudioSource> loadSound(final Sound sound) async {
+  Future<AudioSource> loadSound(Sound sound) async {
     final uri = sound.internalUri;
     logger.info('Loading $uri.');
     final s = _sources[uri];
@@ -80,7 +80,7 @@ class SourceLoader {
   }
 
   /// Dispose of a single [sound].
-  Future<void> disposeSound(final Sound sound) async {
+  Future<void> disposeSound(Sound sound) async {
     final uri = sound.internalUri;
     logger.info('Disposing of sound $uri.');
     _sounds.remove(sound);
@@ -101,7 +101,7 @@ class SourceLoader {
   ///
   /// If [count] is not `null`, then no more than [count] sources will be
   /// disposed.
-  Future<void> disposeUnusedSources({final int? count}) async {
+  Future<void> disposeUnusedSources({int? count}) async {
     logger.info('Disposing of unused sources.');
     var disposed = 0;
     for (final sound in List<Sound>.from(_sounds)) {
@@ -130,7 +130,7 @@ class SourceLoader {
   ///   of it.
   /// - Protecting [sound] *will not* prevent [disposeSound] from disposing of
   ///   it.
-  void protectSound(final Sound sound) {
+  void protectSound(Sound sound) {
     final uri = sound.internalUri;
     logger.info('Protecting sound $uri.');
     _protectedSounds.add(uri);
@@ -140,7 +140,7 @@ class SourceLoader {
   ///
   /// Once [sound] has been unprotected, it will once again be disposed by
   /// [disposeUnusedSources] at the proper time.
-  void unprotectSound(final Sound sound) {
+  void unprotectSound(Sound sound) {
     final uri = sound.internalUri;
     logger.info('Unprotecting sound $uri.');
     _protectedSounds.remove(uri);

@@ -26,16 +26,16 @@ class SoundFromUrl extends LoadableSound {
 
   @override
   SoundFromUrl copyWith({
-    final String? url,
-    final Client? client,
-    final LoadMode? loadMode,
-    final bool? destroy,
-    final double? volume,
-    final bool? looping,
-    final Duration? loopingStart,
-    final SoundPosition? position,
-    final bool? paused,
-    final double? relativePlaySpeed,
+    String? url,
+    Client? client,
+    LoadMode? loadMode,
+    bool? destroy,
+    double? volume,
+    bool? looping,
+    Duration? loopingStart,
+    SoundPosition? position,
+    bool? paused,
+    double? relativePlaySpeed,
   }) => SoundFromUrl(
     url: url ?? this.url,
     destroy: destroy ?? this.destroy,

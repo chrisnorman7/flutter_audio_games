@@ -19,7 +19,7 @@ class MaybePlaySoundSemantics extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final s = sound;
     if (s == null) {
       return child;

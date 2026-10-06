@@ -147,11 +147,11 @@ class SideScrollerState extends State<SideScroller> {
   }
 
   /// Returns the difference between `start.x`, and `end.x`.
-  int distanceBetween(final Point<int> start, final Point<int> end) =>
+  int distanceBetween(Point<int> start, Point<int> end) =>
       max(start.x, end.x) - min(start.x, end.x);
 
   /// Get a suitable pan for a sound at [position].
-  double getSoundPan(final Point<int> position) {
+  double getSoundPan(Point<int> position) {
     if (position.x == coordinates.x) {
       return 0.0;
     }
@@ -173,7 +173,7 @@ class SideScrollerState extends State<SideScroller> {
   }
 
   /// Get a volume suitable for playing [sound] at [position].
-  double getSoundVolume(final Sound sound, final Point<int> position) {
+  double getSoundVolume(Sound sound, Point<int> position) {
     if (position.x == coordinates.x) {
       return sound.volume;
     }
@@ -227,10 +227,10 @@ class SideScrollerState extends State<SideScroller> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     if (!_initSoundsCalled) {
       initSounds().then(
-        (final _) => setState(() {
+        (_) => setState(() {
           _initSoundsCalled = true;
         }),
       );
@@ -242,33 +242,32 @@ class SideScrollerState extends State<SideScroller> {
       GameShortcut(
         title: 'Move left',
         shortcut: widget.movePlayerLeftKey,
-        onStart: (final innerContext) =>
+        onStart: (innerContext) =>
             startPlayerMoving(SideScrollerDirection.left),
-        onStop: (final innerContext) => stopPlayerMoving(),
+        onStop: (innerContext) => stopPlayerMoving(),
       ),
       GameShortcut(
         title: 'Move right',
         shortcut: widget.movePlayerRightKey,
-        onStart: (final innerContext) =>
+        onStart: (innerContext) =>
             startPlayerMoving(SideScrollerDirection.right),
-        onStop: (final innerContext) => stopPlayerMoving(),
+        onStop: (innerContext) => stopPlayerMoving(),
       ),
       GameShortcut(
         title: 'Jump',
         shortcut: widget.playerJumpKey,
-        onStart: (final innerContext) =>
+        onStart: (innerContext) =>
             startPlayerMoving(SideScrollerDirection.jump),
-        onStop: (final innerContext) => stopPlayerMoving(),
+        onStop: (innerContext) => stopPlayerMoving(),
       ),
       GameShortcut(
         title: 'Activate the current surface',
         shortcut: widget.playerActivateKey,
-        onStart: (final innerContext) =>
-            currentSurface.onPlayerActivate?.call(this),
+        onStart: (innerContext) => currentSurface.onPlayerActivate?.call(this),
       ),
     ];
     return TimedCommands(
-      builder: (final context, final state) {
+      builder: (context, state) {
         _timedCommandsState = state;
         state.registerCommand(_movePlayer, currentSurface.playerMoveSpeed);
         final direction = playerMovingDirection;
@@ -288,7 +287,7 @@ class SideScrollerState extends State<SideScroller> {
   ///
   /// This method should be called in response to the player wanting to move
   /// themselves.
-  void startPlayerMoving(final SideScrollerDirection direction) {
+  void startPlayerMoving(SideScrollerDirection direction) {
     playerMovingDirection = direction;
     _timedCommandsState.startCommand(_movePlayer);
   }
@@ -359,22 +358,18 @@ class SideScrollerState extends State<SideScroller> {
   }
 
   /// Get the coordinates for [object].
-  Point<int> getObjectCoordinates(final SideScrollerSurfaceObject object) {
+  Point<int> getObjectCoordinates(SideScrollerSurfaceObject object) {
     assert(_objects.contains(object), 'Object ${object.name} was not found.');
     return _objectCoordinates[_objects.indexOf(object)];
   }
 
   /// Move [object] to the new [position].
-  void moveObject(
-    final SideScrollerSurfaceObject object,
-    final Point<int> position,
-  ) {
+  void moveObject(SideScrollerSurfaceObject object, Point<int> position) {
     assert(_objects.contains(object), 'Object ${object.name} was not found.');
     _objectCoordinates[_objects.indexOf(object)] = position;
     adjustSounds();
   }
 
   /// Get the surface at [position].
-  SideScrollerSurface getSurfaceAt(final Point<int> position) =>
-      tiles[position.x];
+  SideScrollerSurface getSurfaceAt(Point<int> position) => tiles[position.x];
 }

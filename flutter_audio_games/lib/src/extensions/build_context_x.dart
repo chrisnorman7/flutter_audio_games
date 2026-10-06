@@ -17,8 +17,8 @@ extension BuildContextX on BuildContext {
   /// If [restartMusic] is `true`, then the playback position will be reset
   /// before fading back in.
   Future<void> fadeMusicAndPushWidget(
-    final WidgetBuilder builder, {
-    final bool restartMusic = true,
+    WidgetBuilder builder, {
+    bool restartMusic = true,
   }) async {
     Music.maybeOf(this)?.fadeOut();
     await Navigator.push(this, MaterialPageRoute<void>(builder: builder));
@@ -43,8 +43,8 @@ extension BuildContextX on BuildContext {
   /// If [onSourceLoad] is not `null`, it will be called with the result of
   /// loading the random sound from the [sourceLoader].
   Future<SoundHandle> playRandomSound(
-    final List<Sound> soundList, {
-    final OnSourceLoad? onSourceLoad,
+    List<Sound> soundList, {
+    OnSourceLoad? onSourceLoad,
   }) {
     final sound = soundList.randomElement();
     return playSound(sound, onSourceLoad: onSourceLoad);
@@ -55,8 +55,8 @@ extension BuildContextX on BuildContext {
   /// If [onSourceLoad] is not `null`, it will be called with the result of
   /// loading [sound] from the [sourceLoader].
   Future<SoundHandle> playSound(
-    final Sound sound, {
-    final OnSourceLoad? onSourceLoad,
+    Sound sound, {
+    OnSourceLoad? onSourceLoad,
   }) async {
     final source = await sourceLoader.loadSound(sound);
     await onSourceLoad?.call(source);
@@ -64,7 +64,7 @@ extension BuildContextX on BuildContext {
   }
 
   /// Play [sound] from [source].
-  SoundHandle playSoundSource(final Sound sound, final AudioSource source) {
+  SoundHandle playSoundSource(Sound sound, AudioSource source) {
     final SoundHandle handle;
     final position = sound.position;
     switch (position) {
@@ -78,32 +78,34 @@ extension BuildContextX on BuildContext {
           volume: sound.volume,
         );
       case SoundPosition3d():
-        handle = soLoud.play3d(
-          source,
-          position.x,
-          position.y,
-          position.z,
-          looping: sound.looping,
-          loopingStartAt: sound.loopingStart,
-          paused: sound.paused,
-          volume: sound.volume,
-          velX: position.velX,
-          velY: position.velY,
-          velZ: position.velZ,
-        )..setMinMaxDistance(position.minDistance, position.maxDistance);
-        handle.setInaudibleBehaviour(
-          mustTick: position.tickWhenInaudible,
-          kill: position.killWhenInaudible,
-        );
+        handle =
+            soLoud.play3d(
+                source,
+                position.x,
+                position.y,
+                position.z,
+                looping: sound.looping,
+                loopingStartAt: sound.loopingStart,
+                paused: sound.paused,
+                volume: sound.volume,
+                velX: position.velX,
+                velY: position.velY,
+                velZ: position.velZ,
+              )
+              ..setMinMaxDistance(position.minDistance, position.maxDistance)
+              ..setInaudibleBehaviour(
+                mustTick: position.tickWhenInaudible,
+                kill: position.killWhenInaudible,
+              );
     }
     handle.relativePlaySpeed.value = sound.relativePlaySpeed;
     return handle;
   }
 
   /// Load and play [sound].
-  Future<LoadedSound> loadAndPlaySound(final Sound sound) async {
+  Future<LoadedSound> loadAndPlaySound(Sound sound) async {
     late final AudioSource source;
-    final handle = playSound(sound, onSourceLoad: (final s) => source = s);
+    final handle = playSound(sound, onSourceLoad: (s) => source = s);
     return LoadedSound(source: source, handle: await handle);
   }
 
@@ -111,7 +113,7 @@ extension BuildContextX on BuildContext {
   ///
   /// If [sound] is `null`, `null` will be returned. Otherwise, a valid
   /// [SoundHandle] will be returned.
-  Future<SoundHandle?> maybePlaySound(final Sound? sound) {
+  Future<SoundHandle?> maybePlaySound(Sound? sound) {
     if (sound == null) {
       return Future.value();
     }
@@ -119,5 +121,5 @@ extension BuildContextX on BuildContext {
   }
 
   /// Convert [text] to speech via [soLoud].
-  AudioSource textToSpeech(final String text) => soLoud.speechText(text);
+  AudioSource textToSpeech(String text) => soLoud.speechText(text);
 }

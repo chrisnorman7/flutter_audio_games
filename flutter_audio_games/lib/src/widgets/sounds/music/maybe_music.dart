@@ -37,7 +37,7 @@ class MaybeMusic extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final sound = music;
     if (sound != null) {
       return Music(

@@ -43,9 +43,9 @@ class VolumeListTile extends StatelessWidget {
 
   /// Build the widget.
   @override
-  Widget build(final BuildContext context) => DoubleListTile(
+  Widget build(BuildContext context) => DoubleListTile(
     value: volume,
-    onChanged: (final value) {
+    onChanged: (value) {
       context.playSound(volumeChangeSound.copyWith(volume: value));
       onChanged(value);
     },

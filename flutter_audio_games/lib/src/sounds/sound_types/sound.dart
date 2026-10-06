@@ -43,12 +43,12 @@ abstract class Sound {
 
   /// Return a new copy of this sound with the provided settings.
   Sound copyWith({
-    final bool? destroy,
-    final double? volume,
-    final bool? looping,
-    final Duration? loopingStart,
-    final SoundPosition? position,
-    final bool? paused,
-    final double? relativePlaySpeed,
+    bool? destroy,
+    double? volume,
+    bool? looping,
+    Duration? loopingStart,
+    SoundPosition? position,
+    bool? paused,
+    double? relativePlaySpeed,
   });
 }

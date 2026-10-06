@@ -44,19 +44,18 @@ class SelectPlaybackDeviceState extends State<SelectPlaybackDevice> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final devices = SoLoud.instance.listPlaybackDevices();
     return SimpleScaffold(
       title: widget.title,
       body: ListView.builder(
-        itemBuilder: (final context, final index) {
+        itemBuilder: (context, index) {
           final device = devices[index];
           return ListTile(
             autofocus: index == 0,
-            selected:
-                (currentDevice == null)
-                    ? device.isDefault
-                    : device.id == currentDevice!.id,
+            selected: (currentDevice == null)
+                ? device.isDefault
+                : device.id == currentDevice!.id,
             title: Text(
               '${device.name}${device.isDefault ? widget.defaultString : ""}',
             ),

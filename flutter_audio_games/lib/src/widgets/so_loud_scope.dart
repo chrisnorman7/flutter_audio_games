@@ -16,7 +16,7 @@ class SoLoudScopeProvider extends InheritedWidget {
 
   /// Ensure that [sourceLoader]s match.
   @override
-  bool updateShouldNotify(final SoLoudScopeProvider oldWidget) =>
+  bool updateShouldNotify(SoLoudScopeProvider oldWidget) =>
       oldWidget.sourceLoader != sourceLoader;
 }
 
@@ -39,11 +39,11 @@ class SoLoudScope extends StatefulWidget {
   });
 
   /// Get the nearest state or `null`.
-  static SoLoudScopeProvider? maybeOf(final BuildContext context) =>
+  static SoLoudScopeProvider? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<SoLoudScopeProvider>();
 
   /// Get the nearest state.
-  static SoLoudScopeProvider of(final BuildContext context) {
+  static SoLoudScopeProvider of(BuildContext context) {
     final scope = maybeOf(context);
     if (scope == null) {
       throw StateError(
@@ -114,6 +114,6 @@ class SoLoudScopeState extends State<SoLoudScope> {
 
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) =>
+  Widget build(BuildContext context) =>
       SoLoudScopeProvider(sourceLoader: sourceLoader, child: widget.child);
 }

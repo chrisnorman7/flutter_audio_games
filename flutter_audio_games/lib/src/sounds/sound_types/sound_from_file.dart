@@ -24,15 +24,15 @@ class SoundFromFile extends LoadableSound {
   /// Allow sounds to be copied.
   @override
   SoundFromFile copyWith({
-    final File? file,
-    final LoadMode? loadMode,
-    final bool? destroy,
-    final double? volume,
-    final bool? looping,
-    final Duration? loopingStart,
-    final SoundPosition? position,
-    final bool? paused,
-    final double? relativePlaySpeed,
+    File? file,
+    LoadMode? loadMode,
+    bool? destroy,
+    double? volume,
+    bool? looping,
+    Duration? loopingStart,
+    SoundPosition? position,
+    bool? paused,
+    double? relativePlaySpeed,
   }) => SoundFromFile(
     file: file ?? this.file,
     destroy: destroy ?? this.destroy,

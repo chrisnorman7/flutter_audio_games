@@ -7,14 +7,14 @@ import 'package:flutter_soloud/flutter_soloud.dart';
 extension FileX on File {
   /// Create a sound from `this` file.
   SoundFromFile asSound({
-    required final bool destroy,
-    final double volume = 0.7,
-    final bool looping = false,
-    final Duration loopingStart = Duration.zero,
-    final SoundPosition position = unpanned,
-    final bool paused = false,
-    final LoadMode loadMode = LoadMode.memory,
-    final double relativePlaySpeed = 1.0,
+    required bool destroy,
+    double volume = 0.7,
+    bool looping = false,
+    Duration loopingStart = Duration.zero,
+    SoundPosition position = unpanned,
+    bool paused = false,
+    LoadMode loadMode = LoadMode.memory,
+    double relativePlaySpeed = 1.0,
   }) => SoundFromFile(
     file: this,
     destroy: destroy,

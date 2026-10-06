@@ -6,7 +6,7 @@ import 'package:flutter_soloud/flutter_soloud.dart';
 /// Useful methods.
 extension SoLoudX on SoLoud {
   /// Set the listener orientation from [angle].
-  void set3dListenerOrientation(final double angle) {
+  void set3dListenerOrientation(double angle) {
     final rads = angleToRad(angle);
     final x = cos(rads);
     final y = sin(rads);

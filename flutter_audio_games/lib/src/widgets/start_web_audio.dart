@@ -5,43 +5,43 @@ import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 /// The type of a function which builds a button for starting web audio.
-typedef WebAudioButtonBuilder =
-    Widget Function(BuildContext context, VoidCallback onDone);
+typedef WebAudioButtonBuilder = Widget Function(
+  BuildContext context,
+  VoidCallback onDone,
+);
 
 /// Build a button for starting web audio.
 ///
 /// This function relies on a [SoLoudScope] being somewhere in the widget tree.
-Widget buildStartWebAudioButton(
-  final BuildContext context,
-  final VoidCallback onDone,
-) => SimpleScaffold(
-  title: 'Start Audio',
-  body: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Center(
-        child: TextButton(
-          autofocus: true,
-          onPressed: () async {
-            final audio = SoLoud.instance;
-            if (!audio.isInitialized) {
-              final sourceLoader = context.sourceLoader;
-              await audio.init(
-                automaticCleanup: sourceLoader.automaticCleanup,
-                bufferSize: sourceLoader.bufferSize,
-                channels: sourceLoader.channels,
-                device: sourceLoader.playbackDevice,
-                sampleRate: sourceLoader.sampleRate,
-              );
-            }
-            onDone();
-          },
-          child: const Text('Start audio'),
-        ),
+Widget buildStartWebAudioButton(BuildContext context, VoidCallback onDone) =>
+    SimpleScaffold(
+      title: 'Start Audio',
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: TextButton(
+              autofocus: true,
+              onPressed: () async {
+                final audio = SoLoud.instance;
+                if (!audio.isInitialized) {
+                  final sourceLoader = context.sourceLoader;
+                  await audio.init(
+                    automaticCleanup: sourceLoader.automaticCleanup,
+                    bufferSize: sourceLoader.bufferSize,
+                    channels: sourceLoader.channels,
+                    device: sourceLoader.playbackDevice,
+                    sampleRate: sourceLoader.sampleRate,
+                  );
+                }
+                onDone();
+              },
+              child: const Text('Start audio'),
+            ),
+          ),
+        ],
       ),
-    ],
-  ),
-);
+    );
 
 /// A widget which shows a button for starting web audio.
 ///
@@ -68,7 +68,7 @@ class StartWebAudio extends StatefulWidget {
 class StartWebAudioState extends State<StartWebAudio> {
   /// Build a widget.
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     if (SoLoud.instance.isInitialized || !kIsWeb) {
       return widget.child;
     }
