@@ -13,4 +13,10 @@ extension SoLoudX on SoLoud {
     const z = -1.0;
     set3dListenerAt(x, y, z);
   }
+
+  /// The speed of sound used for 3D audio effects.
+  double get soundSpeed3d => get3dSoundSpeed();
+
+  /// Set the speed of sound used for 3D audio effects.
+  set soundSpeed3d(double speed) => set3dSoundSpeed(speed);
 }

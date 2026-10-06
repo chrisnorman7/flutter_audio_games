@@ -184,4 +184,40 @@ extension SoundHandleX on SoundHandle {
   /// Set the inaudible behaviour for this sound handle.
   void setInaudibleBehaviour({bool mustTick = false, bool kill = false}) =>
       SoLoud.instance.setInaudibleBehavior(this, mustTick, kill);
+
+  /// The source that owns this handle, if it is still loaded.
+  AudioSource? get audioSource => SoLoud.instance.findAudioSourceByHandle(this);
+
+  /// The current stream time of this handle.
+  Duration get streamTime => SoLoud.instance.getStreamTime(this);
+
+  /// Set the number of samples to delay before playback.
+  set delaySamples(int samples) =>
+      SoLoud.instance.setDelaySamples(this, samples);
+
+  /// The exclusive loop end point, or `null` for the source's natural end.
+  Duration? get loopEndPoint => SoLoud.instance.getLoopEndPoint(this);
+
+  /// Set or clear the exclusive loop end point.
+  set loopEndPoint(Duration? time) =>
+      SoLoud.instance.setLoopEndPoint(this, time);
+
+  /// Whether this voice group currently has no voices.
+  bool get isVoiceGroupEmpty => SoLoud.instance.isVoiceGroupEmpty(this);
+
+  /// Add [voiceHandles] to this voice group.
+  void addVoicesToGroup(List<SoundHandle> voiceHandles) =>
+      SoLoud.instance.addVoicesToGroup(this, voiceHandles);
+
+  /// Deallocate this voice group without stopping its voices.
+  void destroyVoiceGroup() => SoLoud.instance.destroyVoiceGroup(this);
+
+  /// Schedule a volume fade at an absolute engine time.
+  void fadeScheduled(
+    Duration atTime,
+    double to,
+    Duration time, {
+    bool thenStop = false,
+  }) =>
+      SoLoud.instance.fadeScheduled(this, atTime, to, time, thenStop: thenStop);
 }

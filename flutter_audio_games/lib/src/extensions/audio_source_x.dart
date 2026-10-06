@@ -37,6 +37,37 @@ extension AudioSourceX on AudioSource {
   void addAudioDataStream(Uint8List audioChunk) =>
       SoLoud.instance.addAudioDataStream(this, audioChunk);
 
+  /// Add encoded audio data to a pull-buffer stream.
+  PlayerErrors addPullBufferDataStream(
+    Uint8List audioChunk, {
+    int offset = 0,
+  }) =>
+      SoLoud.instance.addPullBufferDataStream(this, audioChunk, offset: offset);
+
+  /// The current decoded time range of this pull-buffer stream.
+  ({Duration endTime, PlayerErrors error, Duration startTime})
+  get pullBufferTimeRange => SoLoud.instance.getPullBufferTimeRange(this);
+
+  /// The time consumed by this released-buffer stream.
+  Duration get streamTimeConsumed =>
+      SoLoud.instance.getStreamTimeConsumed(this);
+
+  /// Whether this source is still loaded.
+  bool get isValid => SoLoud.instance.isValidAudioSource(this);
+
+  /// Reset this buffered audio stream.
+  void resetBufferStream() => SoLoud.instance.resetBufferStream(this);
+
+  /// Reset this pull-buffer stream.
+  void resetPullBufferStream() => SoLoud.instance.resetPullBufferStream(this);
+
+  /// Set the ICY metadata interval for this stream.
+  void setBufferIcyMetaInt(int icyMetaInt) =>
+      SoLoud.instance.setBufferIcyMetaInt(this, icyMetaInt);
+
+  /// Mark this stream as having no more data.
+  void setDataIsEnded() => SoLoud.instance.setDataIsEnded(this);
+
   /// Get the current buffer size in bytes of this sound.
   int get size => SoLoud.instance.getBufferSize(this);
 }
