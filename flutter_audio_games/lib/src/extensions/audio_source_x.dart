@@ -37,17 +37,6 @@ extension AudioSourceX on AudioSource {
   void addAudioDataStream(Uint8List audioChunk) =>
       SoLoud.instance.addAudioDataStream(this, audioChunk);
 
-  /// Add encoded audio data to a pull-buffer stream.
-  PlayerErrors addPullBufferDataStream(
-    Uint8List audioChunk, {
-    int offset = 0,
-  }) =>
-      SoLoud.instance.addPullBufferDataStream(this, audioChunk, offset: offset);
-
-  /// The current decoded time range of this pull-buffer stream.
-  ({Duration endTime, PlayerErrors error, Duration startTime})
-  get pullBufferTimeRange => SoLoud.instance.getPullBufferTimeRange(this);
-
   /// The time consumed by this released-buffer stream.
   Duration get streamTimeConsumed =>
       SoLoud.instance.getStreamTimeConsumed(this);

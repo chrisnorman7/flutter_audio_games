@@ -1,5 +1,9 @@
 # Changes
 
+## 0.58.1
+
+- Removed some faulty AI-generated code.
+
 ## 0.57.0
 
 - Expose `PlaySoundSemanticsState.handle`.
