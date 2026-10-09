@@ -1,5 +1,9 @@
 # Changes
 
+## 0.58.2
+
+- Upgraded `backstreets_widgets`.
+
 ## 0.58.1
 
 - Removed some faulty AI-generated code.
