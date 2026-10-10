@@ -1,8 +1,8 @@
 import 'package:backstreets_widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/src/widgets/touch/touch_surface_builder/touch_surface_builder.dart'
     show TouchSurfaceBuilder;
 import 'package:flutter_audio_games/touch.dart' show TouchSurfaceBuilder;
+import 'package:material_ui/material_ui.dart';
 
 /// A command in a [TouchSurfaceBuilder].
 class TouchSurfaceBuilderCommand extends GameShortcut {

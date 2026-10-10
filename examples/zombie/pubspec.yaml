@@ -20,6 +20,7 @@ dependencies:
   time: ^2.1.5
   url_launcher: ^6.3.0
 
+  material_ui: any
 dev_dependencies:
   build_runner: ^2.4.11
   custom_lint: ^0.7.0

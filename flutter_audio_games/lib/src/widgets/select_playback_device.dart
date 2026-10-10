@@ -1,6 +1,6 @@
 import 'package:backstreets_widgets/screens.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A screen for selecting a new [SoLoud] playback device.
 class SelectPlaybackDevice extends StatefulWidget {

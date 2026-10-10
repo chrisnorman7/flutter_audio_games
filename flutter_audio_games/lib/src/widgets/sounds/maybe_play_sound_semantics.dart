@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A widget which uses [PlaySoundSemantics] to play [sound] if [sound] is not
 /// `null`.

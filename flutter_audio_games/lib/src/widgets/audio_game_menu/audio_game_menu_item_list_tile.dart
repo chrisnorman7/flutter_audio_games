@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A [ListTile] for use in an [AudioGameMenu] widget.
 class AudioGameMenuItemListTile extends StatelessWidget {

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A [Sound] loaded from [assetKey].
 class SoundFromAsset extends LoadableSound {

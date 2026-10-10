@@ -1,5 +1,11 @@
 # Changes
 
+## 0.58.4
+
+- Upgraded to `material_ui`.
+- Upgraded `backstreets_widgets`.
+- Upgraded `flutter_soloud`.
+
 ## 0.58.3
 
 - Small fix in `set3dListenerOrientation`.

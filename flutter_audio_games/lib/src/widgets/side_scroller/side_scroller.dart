@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:backstreets_widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A widget for showing a side scroller.
 class SideScroller extends StatefulWidget {

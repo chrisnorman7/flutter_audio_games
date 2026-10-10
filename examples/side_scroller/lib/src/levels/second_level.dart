@@ -1,5 +1,5 @@
 import 'package:backstreets_widgets/screens.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 import '../../gen/assets.gen.dart';

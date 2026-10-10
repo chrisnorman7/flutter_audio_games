@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A widget which protects a list of [sounds] from being disposed for the
 /// duration of its life.

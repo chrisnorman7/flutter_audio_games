@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 import 'src/main_menu.dart';

@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 
 /// The type of side scroller move functions for players.
-typedef SideScrollerSurfaceAction =
-    FutureOr<void> Function(SideScrollerState state);
+typedef SideScrollerSurfaceAction = FutureOr<void> Function(
+  SideScrollerState state,
+);
 
 /// A surface in a [SideScroller] level.
 class SideScrollerSurface {

@@ -1,8 +1,8 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:backstreets_widgets/typedefs.dart';
 import 'package:backstreets_widgets/widgets.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A menu in an audio game.
 class AudioGameMenu extends StatelessWidget {
