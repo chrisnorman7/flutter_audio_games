@@ -1,17 +1,15 @@
 import 'dart:math';
 
-import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
 
 /// Useful methods.
 extension SoLoudX on SoLoud {
-  /// Set the listener orientation from [angle].
-  void set3dListenerOrientation(double angle) {
-    final rads = angleToRad(angle);
-    final x = cos(rads);
-    final y = sin(rads);
-    const z = -1.0;
-    set3dListenerAt(x, y, z);
+  /// Set the listener orientation from angle [degrees].
+  void set3dListenerOrientation(double degrees) {
+    final radians = degrees * pi / 180;
+
+    set3dListenerAt(sin(radians), cos(radians), 0);
+    set3dListenerUp(0, 0, 1);
   }
 
   /// The speed of sound used for 3D audio effects.

@@ -1,5 +1,9 @@
 # Changes
 
+## 0.58.3
+
+- Small fix in `set3dListenerOrientation`.
+
 ## 0.58.2
 
 - Upgraded `backstreets_widgets`.
