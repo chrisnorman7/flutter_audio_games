@@ -1,5 +1,9 @@
 # Changes
 
+## 0.59.0
+
+- Fixed a bug in `AudioGameMenu`.
+
 ## 0.58.4
 
 - Upgraded to `material_ui`.

@@ -1,6 +1,5 @@
 import 'package:backstreets_widgets/screens.dart';
 import 'package:backstreets_widgets/typedefs.dart';
-import 'package:backstreets_widgets/widgets.dart';
 import 'package:flutter_audio_games/flutter_audio_games.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -11,6 +10,7 @@ class AudioGameMenu extends StatelessWidget {
     required this.title,
     required this.menuItems,
     this.error = ErrorScreen.withPositional,
+    this.loading = LoadingScreen.new,
     this.music,
     this.selectItemSound,
     this.activateItemSound,
@@ -29,6 +29,9 @@ class AudioGameMenu extends StatelessWidget {
 
   /// The function to call to show an error widget.
   final ErrorWidgetCallback error;
+
+  /// The function to call to show a loading widget.
+  final Widget Function() loading;
 
   /// The music to play for this menu.
   ///
@@ -66,11 +69,6 @@ class AudioGameMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final musicSound = music;
-    final child = AudioGameMenuListView(
-      menuItems: menuItems,
-      selectItemSound: selectItemSound,
-      activateItemSound: activateItemSound,
-    );
     return ProtectSounds(
       sounds: [music].whereType<Sound>().toList(),
       child: SimpleScaffold(
@@ -78,10 +76,16 @@ class AudioGameMenu extends StatelessWidget {
         body: MaybeMusic(
           music: musicSound,
           error: error,
-          loading: LoadingWidget.new,
+          loading: loading,
           fadeInTime: musicFadeInTime,
           fadeOutTime: musicFadeOutTime,
-          child: Builder(builder: (context) => child),
+          child: Builder(
+            builder: (context) => AudioGameMenuListView(
+              menuItems: menuItems,
+              selectItemSound: selectItemSound,
+              activateItemSound: activateItemSound,
+            ),
+          ),
         ),
       ),
     );
